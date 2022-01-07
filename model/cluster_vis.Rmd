@@ -15,8 +15,30 @@ b_res <- read_csv(here("processed_rt_task_data.csv"))
 ```
 
 # preprocess behavioral results 
+```{r}
+b_res_print
+```
+
 
 ```{r}
+b_res_print <- b_res %>% 
+  mutate(sequence_scheme = case_when(
+    deviant_position == 2 ~ "BDBBBB", 
+    deviant_position == 4 ~ "BBBDBB", 
+    deviant_position == 6 ~ "BBBBBD", 
+    TRUE ~ "BBBBBB", 
+  ), 
+  sequence_scheme_print = case_when(
+    sequence_scheme == "BBBBBB" ~ "No Deviant", 
+    sequence_scheme == "BDBBBB" ~ "Deviant at 2nd Trial", 
+    sequence_scheme == "BBBDBB" ~ "Deviant at 4th Trial", 
+    sequence_scheme == "BBBBBD" ~ "Deviant at Last Trial"
+  )) %>% 
+  separate(block_type, into = c("complexity", "similarity"), sep = "_")
+
+# calculate smean.cl.b
+
+
 b_res_summary <- b_res %>% 
   mutate(sequence_scheme = case_when(
     deviant_position == 2 ~ "BDBBBB", 
@@ -73,17 +95,25 @@ sim_b_res <- sim_res_sum %>%
 
 ## behavioral results 
 
+
+
+
 ```{r}
-b_res_summary %>% 
-  ggplot(aes(x = trial_number, y = log_trial_looking_time, color = complexity)) + 
-  stat_summary(fun.data = "mean_cl_boot", geom = "pointrange", position = position_dodge(width = .5)) + 
-  stat_summary(fun.data = "mean_cl_boot", geom = "line", position = position_dodge(width = .5)) + 
+b_res_print %>% 
+  ggplot(aes(x=trial_number, y=log(trial_looking_time), color = complexity)) + 
+   stat_summary(fun.data = "mean_cl_boot", position = position_dodge(width = .2)) + 
+   stat_summary(fun.data = "mean_cl_boot", geom = "line", position = position_dodge(width = .2))+
+  #geom_smooth(method = "lm", 
+  #            formula = y ~ I(exp(1)**(-x)), se = FALSE) + 
+  facet_wrap(~sequence_scheme_print) +
   scale_x_continuous(breaks = seq(1, 6, 1)) + 
-  facet_wrap(~sequence_scheme) + 
-  ylab("Looking time per trial (log)") + 
-  xlab("Trial number") + 
-  theme_classic() + 
-  labs(title = "adult data")
+  #langcog::theme_mikabr() +
+  theme_classic()+
+  langcog::scale_color_solarized(name = "Trial Complexity",labels = c("Complex", "Simple")) + 
+  theme(legend.position = "bottom") + 
+  ylab("log Looking time (seconds)") + 
+  xlab("Trial Number")
+
 ```
 
 
@@ -93,22 +123,33 @@ b_res_summary %>%
 (select the best parameters?)
 ```{r}
 sim_res_sum %>% 
+  mutate(
+     sequence_scheme_print = case_when(
+    sequence_scheme == "BBBBBB" ~ "No Deviant", 
+    sequence_scheme == "BDBBBB" ~ "Deviant at 2nd Trial", 
+    sequence_scheme == "BBBDBB" ~ "Deviant at 4th Trial", 
+    sequence_scheme == "BBBBBD" ~ "Deviant at Last Trial")
+  ) %>% 
   filter(params_info == "ae_1_be_10_ap_1_bp_30_np_0.05_wEIG_0.01") %>% 
   ggplot(aes(x = trial_number, y = log_trial_sim_res, color = complexity)) + 
-  stat_summary(fun.data = "mean_cl_boot", geom = "pointrange", position = position_dodge(width = .5)) + 
-  stat_summary(fun.data = "mean_cl_boot", geom = "line", position = position_dodge(width = .5)) + 
-  facet_wrap(~sequence_scheme) + 
+  stat_summary(fun.data = "mean_cl_boot", geom = "pointrange",position = position_dodge(width = .2)) + 
+  stat_summary(fun.data = "mean_cl_boot", geom = "line", position = position_dodge(width = .2)) + 
+  facet_wrap(~sequence_scheme_print) + 
   ylab("Sample per trial (log)") + 
   xlab("Trial number") + 
   theme_classic() + 
-  labs(title = "model results: parameter info")
+  labs(title = "model results: parameter info") + 
+  langcog::scale_color_solarized(name = "Trial Complexity",labels = c("Complex", "Simple"))  +
+  theme(legend.position = "bottom") 
+
+
 ```
 
 # transform model results to match mean and standard deviation 
 
 ```{r}
 sim_b_res %>% 
-  group_by(params_info, sequence_scheme_print) %>% 
+  group_by(params_info) %>% 
   summarise(
     mean_log_trial_sim_res = mean(log_trial_sim_res),  # m1
     sd_log_trial_sim_res = sd(log_trial_sim_res), # s1
@@ -118,7 +159,7 @@ sim_b_res %>%
   mutate(
     multiply_const = sd_log_trial_looking_time / sd_log_trial_sim_res # s2/s1
   ) %>% 
-  left_join(sim_b_res, by = c("params_info", "sequence_scheme_print")) %>% 
+  left_join(sim_b_res, by = c("params_info")) %>% 
   # currently just looking at one set of parameter
   filter(params_info == "ae_1_be_10_ap_1_bp_30_np_0.05_wEIG_0.01") %>% 
   mutate(
@@ -143,6 +184,96 @@ sim_b_res %>%
   labs(title = "model results: parameter info")
 ```
 
+```{r}
+
+# scaled with average of the average 
+scaled_model_res <- sim_b_res %>% 
+  group_by(params_info) %>% 
+  summarise(
+    mean_log_trial_sim_res = mean(log_trial_sim_res),  # m1
+    sd_log_trial_sim_res = sd(log_trial_sim_res), # s1
+    mean_log_trial_looking_time = mean(log_trial_looking_time), # m2
+    sd_log_trial_looking_time = sd(log_trial_looking_time) # s2
+  ) %>% 
+  mutate(
+    multiply_const = sd_log_trial_looking_time / sd_log_trial_sim_res # s2/s1
+  ) %>% 
+  left_join(sim_b_res, by = c("params_info")) %>% 
+  # currently just looking at one set of parameter
+  filter(params_info == "ae_1_be_10_ap_1_bp_30_np_0.05_wEIG_0.01") %>% 
+  mutate(
+    scaled_log_trial_sim_res = mean_log_trial_looking_time + (log_trial_sim_res - mean_log_trial_sim_res) * multiply_const
+  ) %>% 
+  pivot_longer(cols = c("log_trial_looking_time", "scaled_log_trial_sim_res"), 
+               names_to = "res_type", 
+               values_to = "res") %>% 
+  mutate(
+    `Result Type` = case_when(
+      res_type == "log_trial_looking_time" ~ "Behavioral Results", 
+      res_type == "scaled_log_trial_sim_res" ~ "Scaled Model Results",
+    )
+  ) %>% 
+  filter(`Result Type` == "Scaled Model Results") 
+```
+
+```{r}
+b_res_print
+```
+
+
+```{r}
+scaled_model_res <- b_res_print %>% 
+  left_join(sim_res_sum %>% filter(params_info == "ae_1_be_10_ap_1_bp_25_np_0.05_wEIG_0.01"), by = c("trial_number", "complexity", "sequence_scheme")) %>% 
+  group_by(params_info) %>% 
+  summarise(
+    mean_log_trial_sim_res = mean(log_trial_sim_res),  # m1
+    sd_log_trial_sim_res = sd(log_trial_sim_res), # s1
+    mean_log_trial_looking_time = mean(log(trial_looking_time)), # m2
+    sd_log_trial_looking_time = sd(log(trial_looking_time)) # s2
+  ) %>% 
+  left_join(sim_b_res, by = "params_info") %>% 
+  mutate(
+    multiply_const = sd_log_trial_looking_time / sd_log_trial_sim_res # s2/s1
+  ) %>% 
+  mutate(
+    scaled_log_trial_sim_res = mean_log_trial_looking_time + (log_trial_sim_res - mean_log_trial_sim_res) * multiply_const
+  ) 
+  
+```
+
+```{r}
+b_res_print
+scaled_model_res
+
+```
+
+
+```{r}
+b_res_print %>% 
+  ggplot(aes(x=trial_number, y=log(trial_looking_time), color = complexity)) + 
+   stat_summary(fun.data = "mean_cl_boot", position = position_dodge(width = .2)) + 
+   stat_summary(fun.data = "mean_cl_boot", geom = "line", position = position_dodge(width = .2))+
+   geom_point(data = scaled_model_res, mapping = aes(x = trial_number, y = scaled_log_trial_sim_res, color = complexity)) + 
+  geom_line(data = scaled_model_res, mapping = aes(x = trial_number, y = scaled_log_trial_sim_res, color = complexity), linetype = "dashed") + 
+  #stat_summary(data = scaled_model_res, 
+   #            mapping = (aes(x = trial_number, y = scaled_log_trial_sim_res, color = complexity)), 
+    #           fun.data = "mean_cl_boot", position = position_dodge(width = .2)) + 
+  #stat_summary(data = scaled_model_res, 
+  #             mapping = (aes(x = trial_number, y = scaled_log_trial_sim_res, color = complexity)), 
+   #            fun.data = "mean_cl_boot", geom = "line", position = position_dodge(width = .2)) + 
+  #geom_smooth(method = "lm", 
+  #            formula = y ~ I(exp(1)**(-x)), se = FALSE) + 
+  facet_wrap(~sequence_scheme_print) +
+  scale_x_continuous(breaks = seq(1, 6, 1)) + 
+  #langcog::theme_mikabr() +
+  theme_classic()+
+  #langcog::scale_color_solarized(name = "Trial Complexity",labels = c("Complex", "Simple")) + 
+  theme(legend.position = "bottom") + 
+  ylab("log Looking time (seconds)") + 
+  xlab("Trial Number")  + 
+  labs(lineshape = "legend")
+```
+
 
 
 ## correlation between samples and RT 
@@ -156,8 +287,10 @@ sim_b_res %>%
   scale_y_log10() + 
   geom_point()  + 
   geom_smooth(method = "lm") + 
-  theme_classic() + 
-  facet_wrap(~sequence_scheme)
+  ylab("Looking time (log)") + 
+  xlab("Simulation Results (log)")  + 
+  theme_classic() #+ 
+  #facet_wrap(~sequence_scheme)
 ```
 
 ## separting deviant and background? 
