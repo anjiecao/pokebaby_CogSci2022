@@ -1,0 +1,93 @@
+---
+title: "How to Make a Proceedings Paper Submission"
+bibliography: library.bib
+csl: apa6.csl
+document-params: "10pt, letterpaper"
+
+author-information: > 
+    \author{{\large \bf Morton Ann Gernsbacher (MAG@Macc.Wisc.Edu)} \\ Department of Psychology, 1202 W. Johnson Street \\ Madison, WI 53706 USA
+    \AND {\large \bf Sharon J.~Derry (SDJ@Macc.Wisc.Edu)} \\ Department of Educational Psychology, 1025 W. Johnson Street \\ Madison, WI 53706 USA}
+
+abstract: >
+    Include no author information in the initial submission, to facilitate
+    blind review.  The abstract should be one paragraph, indented 1/8 inch on both sides,
+    in 9~point font with single spacing. The heading 'Abstract'
+    should be 10~point, bold, centered, with one line of space below
+    it. This one-paragraph abstract section is required only for standard
+    six page proceedings papers. Following the abstract should be a blank
+    line, followed by the header 'Keywords' and a list of
+    descriptive keywords separated by semicolons, all in 9~point font, as
+    shown below.
+    
+keywords: >
+    Add your choice of indexing terms or keywords; kindly use a semi-colon; between each term.
+    
+output: cogsci2016::cogsci_paper
+#final-submission: \cogscifinalcopy
+---
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(fig.width=3, fig.height=3, fig.crop = F, 
+                      fig.pos = "tb", fig.path='figs/',
+                      echo=F, warning=F, cache=F, 
+                      message=F, sanitize = T)
+```
+
+```{r, libraries}
+library(tidyverse)
+library(here)
+
+library(png)
+library(grid)
+library(ggplot2)
+library(xtable)
+```
+
+
+
+# Introduction 
+
+```{r child = "01_introduction.Rmd"}
+```
+
+# Experiment 
+
+```{r child = "02_experiment.Rmd"}
+```
+
+
+# Model  
+
+```{r child = "03_model.Rmd"}
+```
+
+
+# General Discussion  
+
+```{r child = "04_general_discussion.Rmd"}
+```
+
+
+<!--# Acknowledgements
+
+Place acknowledgments (including funding information) in a section at
+the end of the paper.
+-->
+
+# References 
+
+```{r}
+# References will be generated automatically by Pandoc and included here.
+# The following code is some latex to format the bibliography. Do not remove it.
+```
+
+# References 
+
+```{r}
+# References will be generated automatically by Pandoc and included here.
+# The following code is some latex to format the bibliography. Do not remove it.
+```
+
+\setlength{\parindent}{-0.1in} 
+\setlength{\leftskip}{0.125in}
+\noindent
