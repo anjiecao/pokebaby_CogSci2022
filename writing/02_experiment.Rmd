@@ -2,10 +2,13 @@
 output: pdf_document
 ---
 
-```{r}
+```{r include = FALSE}
+# loading data 
 all_d <- read_csv(here("experiment/01_merged_data/merged_data.csv"))
 d <- read_csv(here("experiment/02_processed_data/processed_rt_task_data.csv"))
-prolific <- read_csv(here("experiment"))
+prolific <- read_csv(here("experiment/prolific.csv"))
+exclusion_d <- read_csv(here("experiment/p_level_exclusion.csv"))
+
 ```
 
 
@@ -13,8 +16,6 @@ prolific <- read_csv(here("experiment"))
 ## Methods 
 
 ### Participants
-
-
 
 
 
@@ -35,17 +36,25 @@ age_mean <- round(mean(all_age), 2)
 age_sd <- round(sd(all_age), 2)
 
 ## conditions before exclusion 
+all_conditions <- all_d %>% 
+  filter(stimulus_type %in% c("curiousity", "memory_test", "math_question")) %>% 
+  distinct(subject, stimulus_type) %>% 
+  group_by(stimulus_type) %>% 
+  summarise(n = n())
 
 ## participants excluded for irregular reaction time 
-
-## participants excluded for different tasks 
+exclude_n <- length(unique(exclusion_d$sbj))
 
 ## final included participants 
+sample_n <- d %>% 
+  distinct(subject, task_type) %>% 
+  group_by(task_type) %>% 
+  summarise(n = n())
 ```
 
 
 
-We recruited `r total_participants`` participants (Age range: M = ;) on Prolific. They were randomly assigned to one of the three conditions of the experiment (Curiosity: N =; Memory: N = ; Math: N =; ). Participants were excluded if they showed irregular reaction times (N = ???) or their responses in the filler tasks indicates low engagement with the experiment (Curiosity: N =; Memory: N = ; Math: N =; ). All exclusion criteria were pre-registered. The final sample included N participants (Curiosity N = ; Memory: N =; Math: N =).
+We recruited `r total_participants` participants (Age *M* = `r age_mean`; *SD* = `r age_sd`) on Prolific. They were randomly assigned to one of the three conditions of the experiment (Curiosity: *N* = `r filter(all_conditions, stimulus_type == "curiousity")$n`; Memory: *N* = `r filter(all_conditions, stimulus_type == "memory_test")$n`; Math: *N* = `r filter(all_conditions, stimulus_type == "math_question")$n`). Participants were excluded if they showed irregular reaction times or their responses in the filler tasks indicates low engagement with the experiment. All exclusion criteria were pre-registered. The final sample included N participants (Curiosity *N* = `r filter(sample_n, task_type == "curiosity")$n`; Memory: *N* = `r filter(sample_n, task_type == "memory")$n`; Math: N = *N* = `r filter(sample_n, task_type == "math")$n`).
 
 
 ### Procedure
@@ -76,9 +85,55 @@ The sample size, methods, and main analyses were all pre-registered and are avai
 
 ### Evaluating the Paradigm 
 
+
+
+```{r}
+#preregistration: log(looking time) ~ I((exp(1)**(-trial_number))) * item_type * trial_complexity + (trial_number * item_type * trial_complexity|subject)
+
+# didn't converge 
+#model_0 <- lme4::lmer(log(trial_looking_time) ~ I(exp(1)**(-trial_number)) * trial_type * block_type + (trial_number * trial_type * block_type | subject),data = d)
+
+model_1 <- lmerTest::lmer(log(trial_looking_time) ~ I(exp(1)**(-trial_number)) * trial_type * block_type + (1 | subject), data = d)
+summary(model_1)
+
+```
+
+
 Three criteria were selected to evaluate whether the paradigms successfully captured the characteristic looking time patterns observed in infant literature: habituation (the decrease in looking time for a stimulus with repeated presentations), dishabituation (the increase in looking time to a new stimulus after habituated to one stimulus), and complexity effect (longer looking time for perceptually more complex stimuli). To evaluate the phenomenon quantitatively, we ran a linear mixed effects model with maximal random effect structure. [DESCRIBE THE MODEL]. [REPORT THE MODEL RESULTS]
 
 ### Order Effect 
+
+```{r}
+# for each participants 
+background_trials <- d %>% 
+  filter(is.na(deviant_position)) %>% 
+  filter(trial_number %in% c(2, 4, 6)) %>% 
+  select(subject, block_type, trial_number, trial_looking_time) %>% 
+  rename(background_looking_time = trial_looking_time)
+
+dishab_d <- d %>% 
+  filter(deviant_position == trial_number) %>% 
+  left_join(background_trials, by = c("subject", "block_type", "trial_number")) %>% 
+  mutate(dishab_magnitude = trial_looking_time - background_looking_time)
+
+ggplot(dishab_d, 
+       aes(x = trial_number, y = dishab_magnitude)) + 
+  stat_summary(fun.data = "mean_cl_boot")
+
+# didn't converge 
+model_0 <- lmerTest::lmer(
+  dishab_magnitude ~ trial_number * block_type + (trial_number * block_type | subject), 
+  data = dishab_d
+)
+
+model_1 <- lmerTest::lmer(
+  dishab_magnitude ~ trial_number  + (1 | subject), 
+  data = dishab_d
+)
+summary(model_1)
+```
+
+
 
 While visualizing the data, we unexpectedly found that the position in which the deviant trial appeared in the sequence had an effect on the shape of the habituation and dishabituation curves. To explore this phenomenon quantitatively, we operationalized the magnitude of dishabituation as the difference between the looking time at the deviant trial minus the background trial at the same position. Then, we fit a mixed effect model with the position of deviant as fixed effect and [???] as a random effect. We found that the position was a significant predictor of the magnitude of dishabituation (looking time at the deviant trial minus the background trial at the same position). Deviant trials that appeared last elicited the strongest dishabituation effect (M = ; SD:, ), followed by the deviant trials appeared fourth (M, SD), with the deviant trial on the second showing the smallest amount of dishabituation (M, SD). 
 
