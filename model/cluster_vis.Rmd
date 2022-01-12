@@ -11,9 +11,9 @@ library(here)
 source(here("helper/simulation_results_processing.R"))
 
 
-sim_res <- readRDS(here("sim_res/01_param_search_sim.RDS"))
+sim_res <- readRDS(here("sim_res/02_param_search_sim.RDS"))
 kl_sim_res <- readRDS(here("sim_res/KL_tidy_sim.RDS"))
-s_sim_res <- readRDS(here("sim_res/Surprisal_tidy_sim.RDS"))
+s_sim_res <- readRDS(here("sim_res/02_Surprisal_tidy_sim.RDS"))
 
 #sim_res <- readRDS(here("tidy_sim_res"))
 b_res <- read_csv(here("processed_rt_task_data.csv"))
@@ -77,7 +77,7 @@ s_res_sum <- summarise_tidy_sim_res(s_res_print)
 # currently just looking at one set of parameter (the best set)
 scaled_model_res <- scale_model_results(b_res_print, sim_res_print, best_params = "ae_1_be_10_ap_1_bp_8_np_0.05_wEIG_0.008")
 scaled_kl_model_res <- scale_model_results(b_res_print, kl_res_print, best_params = "ae_1_be_10_ap_1_bp_5_np_0.05_wEIG_0.005")
-scaled_s_model_res <- scale_model_results(b_res_print, s_res_print, best_params = "ae_1_be_10_ap_1_bp_5_np_0.05_wEIG_0.005")
+scaled_s_model_res <- scale_model_results(b_res_print, s_res_print, best_params = "ae_1_be_10_ap_1_bp_4_np_0.07_wEIG_8")
 
 ```
 
