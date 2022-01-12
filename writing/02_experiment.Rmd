@@ -4,7 +4,7 @@ output: pdf_document
 
 ```{r}
 all_d <- read_csv(here("experiment/01_merged_data/merged_data.csv"))
-d <- read_csv(here("experiment/02_processed_data.csv"))
+d <- read_csv(here("experiment/02_processed_data/processed_rt_task_data.csv"))
 prolific <- read_csv(here("experiment"))
 ```
 

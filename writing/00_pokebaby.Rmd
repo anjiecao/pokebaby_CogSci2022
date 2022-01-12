@@ -52,7 +52,7 @@ library(xtable)
 
 # Experiment 
 
-```{r child = "02_experiment.Rmd"}
+``` {r child = "02_experiment.Rmd"}
 ```
 
 
