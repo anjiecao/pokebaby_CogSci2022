@@ -50,9 +50,9 @@ library(xtable)
 ```{r child = "01_introduction.Rmd"}
 ```
 
-# Experiment 
+# Experiment  
 
-``` {r child = "02_experiment.Rmd"}
+```{r child = "02_experiment.Rmd"}
 ```
 
 
