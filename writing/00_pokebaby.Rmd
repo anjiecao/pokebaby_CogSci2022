@@ -36,12 +36,15 @@ knitr::opts_chunk$set(fig.width=3, fig.height=3, fig.crop = F,
 ```{r, libraries}
 library(tidyverse)
 library(here)
+library(lmerTest)
+library(lme4)
 
 library(png)
 library(grid)
 library(ggplot2)
 library(xtable)
 ```
+
 
 
 
