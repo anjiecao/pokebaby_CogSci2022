@@ -1,25 +1,48 @@
 # ------------------ tidy up raw simulation results  ------------------ #
 tidy_up_raw_simulation_results <- function(df, im_type){
-  tidy_df <- df %>% 
-    mutate(
-      trial_number = stimulus_idx, 
-      log_sample_n = log(sample_n),
-      sequence_scheme =  sub(".*_", "", stim_info),
-      stimuli_rep = str_replace(stim_info, paste0("_", "ss_", sequence_scheme), ""), 
-      complexity = case_when(
-        stimuli_rep == "nf_6_of_1" ~ "simple", 
-        stimuli_rep == "nf_6_of_3" ~ "complex"
-      ), 
-      sequence_scheme_print = case_when(
-        sequence_scheme == "BBBBBB" ~ "No Deviant", 
-        sequence_scheme == "BDBBBB" ~ "Deviant at 2nd Trial", 
-        sequence_scheme == "BBBDBB" ~ "Deviant at 4th Trial", 
-        sequence_scheme == "BBBBBD" ~ "Deviant at Last Trial")
-    ) %>% 
-    ungroup() %>% 
-    select(params_info, complexity, trial_number, sequence_scheme, sequence_scheme_print, sample_n, log_sample_n) %>% 
-    mutate(im_type = im_type)
   
+  if(im_type == "basic"){
+    tidy_df <- df %>% 
+      rowwise() %>% 
+      mutate(
+        log_surprisal = log(surprisal), 
+        log_kl = log(kl),
+        complexity = case_when(
+          grepl("nf_6_of_1",stim_info) ~ "simple", 
+          grepl("nf_6_of_3", stim_info) ~ "complex"
+        ), 
+        sequence_scheme_print = case_when(
+          sequence_scheme == "BBBBBB" ~ "No Deviant", 
+          sequence_scheme == "BDBBBB" ~ "Deviant at 2nd Trial", 
+          sequence_scheme == "BBBDBB" ~ "Deviant at 4th Trial", 
+          sequence_scheme == "BBBBBD" ~ "Deviant at Last Trial")
+      ) %>% 
+      ungroup() %>% 
+      select(params_info, complexity, trial_number, sequence_scheme, sequence_scheme_print,surprisal, log_surprisal, kl, log_kl)
+    
+    
+  }else{
+    tidy_df <- df %>% 
+      mutate(
+        trial_number = stimulus_idx, 
+        log_sample_n = log(sample_n),
+        sequence_scheme =  sub(".*_", "", stim_info),
+        stimuli_rep = str_replace(stim_info, paste0("_", "ss_", sequence_scheme), ""), 
+        complexity = case_when(
+          stimuli_rep == "nf_6_of_1" ~ "simple", 
+          stimuli_rep == "nf_6_of_3" ~ "complex"
+        ), 
+        sequence_scheme_print = case_when(
+          sequence_scheme == "BBBBBB" ~ "No Deviant", 
+          sequence_scheme == "BDBBBB" ~ "Deviant at 2nd Trial", 
+          sequence_scheme == "BBBDBB" ~ "Deviant at 4th Trial", 
+          sequence_scheme == "BBBBBD" ~ "Deviant at Last Trial")
+      ) %>% 
+      ungroup() %>% 
+      select(params_info, complexity, trial_number, sequence_scheme, sequence_scheme_print, sample_n, log_sample_n) %>% 
+      mutate(im_type = im_type)
+
+  }
    return (tidy_df)
 }
 
@@ -41,6 +64,7 @@ summarise_tidy_sim_res <- function(tidy_df){
 
 
 # ------------------ scaling the model results to match mean and sd of the behavioral results according to the best fit parameters   ------------------  #
+
 scale_model_results <- function(behavioral_df, sim_df, best_params){
   scaled_sim_df <- behavioral_df %>% 
     left_join(sim_df %>% filter(params_info == best_params), by = c("trial_number", "complexity", "sequence_scheme", "sequence_scheme_print")) %>% 
@@ -64,6 +88,31 @@ scale_model_results <- function(behavioral_df, sim_df, best_params){
   return(scaled_sim_df)
 }
 
+# a slightly different version of scaling for the basic model; 
+# since it doesn't have trial level variation, scaling based on all the mean and sd of the summary as well 
+scale_basic_model <- function(behavioral_df, sim_df, best_params){
+  scaled_sim_df <- sim_df %>% 
+    filter(params_info == best_params) %>% 
+    left_join(behavioral_df, by = c("trial_number", "complexity", "sequence_scheme", "sequence_scheme_print")) %>% 
+    group_by(params_info) %>% 
+    summarise(
+      
+      mean_log_surprisal = mean(log_surprisal), 
+      sd_log_surprisal = sd(log_surprisal), 
+      mean_log_kl = mean(log_kl), 
+      sd_log_kl = sd(log_kl),
+      
+      mean_log_trial_looking_time = mean(log(trial_looking_time)), 
+      sd_log_trial_looking_time = sd(log(trial_looking_time))
+    ) %>% 
+      left_join(behavioral_sim_df, by = "params_info") %>% 
+    mutate(
+      scaled_log_surprisal = mean_log_trial_looking_time + (log_surprisal - mean_log_surprisal) * (sd_log_trial_looking_time / sd_log_surprisal), 
+      scaled_log_kl =  mean_log_trial_looking_time + (log_kl - mean_log_kl) * (sd_log_trial_looking_time / sd_log_kl)
+    )
+  
+  return(scaled_sim_df)
+}
 
 
 
@@ -73,14 +122,54 @@ calculate_correlation <- function(sim_b_df){
     ungroup() %>% 
     nest_by(params_info) 
   
-  d$perason_corr <- unlist(map(d$data, function(x){
-    pearson_r <- cor(x$trial_sim_res, x$trial_looking_time, method = "pearson")
+  d$r <- unlist(map(d$data, function(x){
+    r <- cor(x$trial_sim_res, x$trial_looking_time, method = "pearson")
   }))
-  d$perason_corr_in_log <- unlist(map(d$data, function(x){
-    pearson_r_in_log <- cor(x$log_trial_sim_res, x$log_trial_looking_time, method = "pearson")
+  d$r_in_log <- unlist(map(d$data, function(x){
+    r_in_log <- cor(x$log_trial_sim_res, x$log_trial_looking_time, method = "pearson")
   }))
   
   
   d %>% 
-    arrange(-perason_corr_in_log)
+    arrange(-r_in_log)
 }
+
+# ------------------ calculate correlation for the basic results  ------------------  #
+calculate_correlation_for_basic_model <- function(basic_sim_d_df, best_for){
+  d <- basic_sim_d_df %>% 
+    nest_by(params_info)
+  
+  
+  d$kl_r <- unlist(map(d$data, function(x){
+    r <- cor(x$trial_looking_time, x$kl, method = "pearson")
+  }))
+  
+  d$kl_r_log <- unlist(map(d$data, function(x){
+    r <- cor(x$log_trial_looking_time, log(x$kl), method = "pearson")
+  }))
+  
+  
+  d$surprisal_r <- unlist(map(d$data, function(x){
+    r <- cor(x$trial_looking_time, x$surprisal, method = "pearson")
+  }))
+  
+  d$surprisal_r_log <- unlist(map(d$data, function(x){
+    r <- cor(x$log_trial_looking_time, log(x$surprisal), method = "pearson")
+  }))
+  
+  if(best_for == "KL"){
+    return (
+      d %>% 
+        arrange(-kl_r_log)
+    )
+  }else if(best_for == "surprisal"){
+    return (
+      d %>% 
+        arrange(-surprisal_r_log)
+    )
+  }
+  
+  
+}
+
+

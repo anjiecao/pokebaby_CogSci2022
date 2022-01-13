@@ -10,10 +10,11 @@ library(tidyverse)
 library(here)
 source(here("helper/simulation_results_processing.R"))
 
+basic_res <- readRDS(here("sim_res/01_basic_params.RDS"))
 
-sim_res <- readRDS(here("sim_res/02_param_search_sim.RDS"))
-kl_sim_res <- readRDS(here("sim_res/KL_tidy_sim.RDS"))
-s_sim_res <- readRDS(here("sim_res/02_Surprisal_tidy_sim.RDS"))
+sim_res <- readRDS(here("sim_res/03_param_search_sim.RDS"))
+kl_sim_res <- readRDS(here("sim_res/01_KL_tidy_sim.RDS"))
+s_sim_res <- readRDS(here("sim_res/03_Surprisal_tidy_sim.RDS"))
 
 #sim_res <- readRDS(here("tidy_sim_res"))
 b_res <- read_csv(here("processed_rt_task_data.csv"))
@@ -61,32 +62,24 @@ b_res_summary
 
 ```{r}
 # tidy up the simulation results for visualization 
+basic_res_print <- tidy_up_raw_simulation_results(basic_res, im_type = "basic")
 sim_res_print <- tidy_up_raw_simulation_results(sim_res, im_type = "EIG") 
 kl_res_print <- tidy_up_raw_simulation_results(kl_sim_res, im_type = "KL")
 s_res_print <- tidy_up_raw_simulation_results(s_sim_res, im_type = "surprisal")
 
 # summarizing the results to be compared with the behavioral data 
+# no need to summarise the basic because it is already at the trial level 
 sim_res_sum <- summarise_tidy_sim_res(sim_res_print)
 kl_res_sum <- summarise_tidy_sim_res(kl_res_print)
 s_res_sum <- summarise_tidy_sim_res(s_res_print)
 ```
 
-# scaling model results
-
-```{r}
-# currently just looking at one set of parameter (the best set)
-scaled_model_res <- scale_model_results(b_res_print, sim_res_print, best_params = "ae_1_be_10_ap_1_bp_8_np_0.05_wEIG_0.008")
-scaled_kl_model_res <- scale_model_results(b_res_print, kl_res_print, best_params = "ae_1_be_10_ap_1_bp_5_np_0.05_wEIG_0.005")
-scaled_s_model_res <- scale_model_results(b_res_print, s_res_print, best_params = "ae_1_be_10_ap_1_bp_4_np_0.07_wEIG_8")
-
-```
-
-
-
-
 # put summary together 
 
 ```{r}
+basic_sim_b_res <- basic_res_print %>% 
+  left_join(b_res_summary, c("trial_number", "sequence_scheme", "sequence_scheme_print", "complexity"))
+
 sim_b_res <- sim_res_sum %>% 
   left_join(b_res_summary, by = c("trial_number", "sequence_scheme", "sequence_scheme_print", "complexity")) 
 
@@ -96,6 +89,45 @@ kl_sim_b_res <- kl_res_sum %>%
 s_sim_b_res <- s_res_sum %>% 
   left_join(b_res_summary, by = c("trial_number", "sequence_scheme", "sequence_scheme_print", "complexity"))
 ```
+
+
+# select the best parameter for scaling 
+
+```{r}
+
+df_basic_r_kl <- calculate_correlation_for_basic_model(basic_sim_b_res, best_for = "KL")
+df_basic_r_surprisal <- calculate_correlation_for_basic_model(basic_sim_b_res, best_for = "surprisal")
+
+df_eig_r <- calculate_correlation(sim_b_res)
+df_kl_r <- calculate_correlation(kl_sim_b_res)
+df_s_r <- calculate_correlation(s_sim_b_res)
+
+df_basic_r_kl
+df_basic_r_surprisal
+df_eig_r
+df_kl_r
+df_s_r
+```
+
+
+
+# scaling model results
+
+```{r}
+# currently just looking at one set of parameter (the best set)
+# maybe we don't want to scale the basic model either, because sd = 0? or do we just apply a constant to match the mean? 
+scaled_basic_sim_b_res <- scale_basic_model(b_res_print, basic_res_print, best_params = "ap_1_bp_2")
+
+scaled_model_res <- scale_model_results(b_res_print, sim_res_print, best_params = "ae_1_be_10_ap_1_bp_4_np_0.065_wEIG_0.01")
+scaled_kl_model_res <- scale_model_results(b_res_print, kl_res_print, best_params = "ae_1_be_10_ap_1_bp_5_np_0.055_wEIG_0.006")
+scaled_s_model_res <- scale_model_results(b_res_print, s_res_print, best_params = "ae_1_be_10_ap_1_bp_3_np_0.07_wEIG_8")
+
+```
+
+
+
+
+
 
 # Visualization 
 
@@ -125,10 +157,143 @@ b_res_print %>%
 
 ## model results 
 
+### basic model 
+
+```{r}
+scaled_basic_sim_b_res %>% 
+  pivot_longer(cols = c("scaled_log_surprisal", "scaled_log_kl"), 
+               names_to = "im_type", 
+               values_to = "im_value") %>% 
+  mutate(
+    im_type_print = case_when(
+      im_type == "scaled_log_surprisal" ~ "Surprisal", 
+      im_type == "scaled_log_kl" ~ "KL"
+    )
+  ) %>% 
+  ggplot(aes(x = trial_number, y = im_value, color = complexity)) + 
+  geom_point() + 
+  geom_line() + 
+  facet_grid(im_type_print~sequence_scheme) + 
+  ylab("Scaled Information Theoretic Measurement (log)") + 
+  xlab("Trial number") + 
+  theme_classic() + 
+  labs(title = "Basic Model Comparison") + 
+  langcog::scale_color_solarized(name = "Trial Complexity",labels = c("Complex", "Simple"))  +
+  theme(legend.position = "bottom") 
+
+scaled_basic_sim_b_res %>% 
+  pivot_longer(cols = c("scaled_log_surprisal", "scaled_log_kl"), 
+               names_to = "im_type", 
+               values_to = "im_value") %>% 
+  mutate(
+    `Information Theoretic Measurements` = case_when(
+      im_type == "scaled_log_surprisal" ~ "Surprisal", 
+      im_type == "scaled_log_kl" ~ "KL"
+    )
+  ) %>% 
+  ggplot(aes(x = trial_number, y = im_value, shape = `Information Theoretic Measurements`, linetype = `Information Theoretic Measurements`, color = complexity)) + 
+  geom_point() + 
+  geom_line() + 
+  facet_wrap(~sequence_scheme) + 
+  ylab("Scaled Information Theoretic Measurement (log)") + 
+  xlab("Trial number") + 
+  theme_classic() + 
+  labs(title = "Basic Model Comparison") + 
+  langcog::scale_color_solarized(name = "Trial Complexity",labels = c("Complex", "Simple"))  +
+  theme(legend.position = "bottom") 
+```
+
+### basic model with behavioral results 
+
+```{r}
+scaled_basic_sim_b_res
+```
+
+
+
+```{r}
+scaled_basic_sim_b_res %>% 
+  pivot_longer(cols = c("scaled_log_surprisal", "scaled_log_kl"), 
+               names_to = "im_type", 
+               values_to = "im_value") %>% 
+  mutate(
+    im_type_print = case_when(
+      im_type == "scaled_log_surprisal" ~ "Surprisal", 
+      im_type == "scaled_log_kl" ~ "KL"
+    )
+  ) %>% 
+  ggplot(aes(x = log_trial_looking_time, y = im_value, color = im_type_print)) + 
+  geom_point() +
+  geom_smooth(method = "lm") + 
+  theme_classic() + 
+  langcog::scale_color_solarized(name = "Information Theoretic Measurement",labels = c("KL", "Surprisal"))  +
+  theme(legend.position = "bottom") + 
+  ylab("Scaled Information Theoretic Measurement (log)") + 
+  xlab("Trial Looking Time (log)")
+```
+
+
+
+```{r}
+# get KL 
+scaled_basic_sim_b_res %>% 
+  rename(res_val = scaled_log_kl) %>% 
+  select(complexity, trial_number, sequence_scheme, sequence_scheme_print, res_val) %>% 
+  mutate(`Result Type` = "Model") %>% 
+  bind_rows(
+    b_res_print %>% rename(res_val = log_trial_looking_time) %>% 
+      select(complexity, trial_number, sequence_scheme, sequence_scheme_print, res_val) %>% 
+      mutate(`Result Type` = "Behavioral")
+  ) %>% 
+   ggplot(aes(x=trial_number, y=res_val, color = complexity, linetype = `Result Type`)) + 
+   stat_summary(fun.data = "mean_cl_boot", position = position_dodge(width = .2)) + 
+   stat_summary(fun.data = "mean_cl_boot",
+                geom = "line", position = position_dodge(width = .2)) +
+  
+   facet_wrap(~sequence_scheme_print) +
+  scale_x_continuous(breaks = seq(1, 6, 1)) + 
+  #langcog::theme_mikabr() +
+  theme_classic()+
+  langcog::scale_color_solarized(name = "Trial Complexity",labels = c("Complex", "Simple")) + 
+  theme(legend.position = "bottom") + 
+  ylab("log Looking time (seconds)") + 
+  xlab("Trial Number") + 
+  labs(subtitle = paste("Basic Model (KL): r = ", round(head(df_basic_r_kl, 1)$kl_r_log, 2)))  
+
+
+scaled_basic_sim_b_res %>% 
+  rename(res_val = scaled_log_surprisal) %>% 
+  select(complexity, trial_number, sequence_scheme, sequence_scheme_print, res_val) %>% 
+  mutate(`Result Type` = "Model") %>% 
+  bind_rows(
+    b_res_print %>% rename(res_val = log_trial_looking_time) %>% 
+      select(complexity, trial_number, sequence_scheme, sequence_scheme_print, res_val) %>% 
+      mutate(`Result Type` = "Behavioral")
+  ) %>% 
+   ggplot(aes(x=trial_number, y=res_val, color = complexity, linetype = `Result Type`)) + 
+   stat_summary(fun.data = "mean_cl_boot", position = position_dodge(width = .2)) + 
+   stat_summary(fun.data = "mean_cl_boot",
+                geom = "line", position = position_dodge(width = .2)) +
+  
+   facet_wrap(~sequence_scheme_print) +
+  scale_x_continuous(breaks = seq(1, 6, 1)) + 
+  #langcog::theme_mikabr() +
+  theme_classic()+
+  langcog::scale_color_solarized(name = "Trial Complexity",labels = c("Complex", "Simple")) + 
+  theme(legend.position = "bottom") + 
+  ylab("log Looking time (seconds)") + 
+  xlab("Trial Number") + 
+  labs(subtitle = paste("Basic Model (Surprisal): r = ", round(head(df_basic_r_surprisal, 1)$surprisal_r_log, 2)))  
+```
+
+
+
+### three measurements separate
+
 ```{r}
 bind_rows(scaled_model_res, scaled_kl_model_res, scaled_s_model_res) %>% 
   filter(!is.na(complexity)) %>% 
-  ggplot(aes(x = trial_number, y = log_sample_n, color = complexity)) + 
+  ggplot(aes(x = trial_number, y = scaled_log_sample_n, color = complexity)) + 
   stat_summary(fun.data = "mean_cl_boot", geom = "pointrange",position = position_dodge(width = .2)) + 
   stat_summary(fun.data = "mean_cl_boot", geom = "line", position = position_dodge(width = .2)) + 
   facet_grid(im_type~sequence_scheme_print, scales = "free") + 
@@ -136,34 +301,51 @@ bind_rows(scaled_model_res, scaled_kl_model_res, scaled_s_model_res) %>%
   ylab("Sample per trial (log)") + 
   xlab("Trial number") + 
   theme_classic() + 
-  labs(title = "model results: parameter info") + 
+  labs(title = "Model Results: Comparaing Measurements") + 
   langcog::scale_color_solarized(name = "Trial Complexity",labels = c("Complex", "Simple"))  +
   theme(legend.position = "bottom") 
 ```
+### three measurements together 
 
-
-(select the best parameters?)
 
 ```{r}
-scaled_model_res %>% 
+basic_sim_b_res 
+```
+
+
+```{r}
+bind_rows(scaled_model_res, scaled_kl_model_res, scaled_s_model_res) %>% 
   filter(!is.na(complexity)) %>% 
-  ggplot(aes(x = trial_number, y = log_sample_n, color = complexity)) + 
+  ggplot(aes(x = trial_number, y = scaled_log_sample_n, color = im_type)) + 
   stat_summary(fun.data = "mean_cl_boot", geom = "pointrange",position = position_dodge(width = .2)) + 
   stat_summary(fun.data = "mean_cl_boot", geom = "line", position = position_dodge(width = .2)) + 
-  facet_wrap(~sequence_scheme_print) + 
+  facet_grid(complexity~sequence_scheme_print, scales = "free") + 
   scale_x_continuous(breaks = seq(1, 6, 1)) + 
   ylab("Sample per trial (log)") + 
   xlab("Trial number") + 
   theme_classic() + 
-  labs(title = "model results: parameter info") + 
-  langcog::scale_color_solarized(name = "Trial Complexity",labels = c("Complex", "Simple"))  +
+  labs(title = "Model Results: Comparing Measurements") + 
+  langcog::scale_color_solarized(name = "Information Theoretic Measurement",labels = c("EIG", "KL", "surprisal"))  +
   theme(legend.position = "bottom") 
-
-
 ```
 
-# transform model results to match mean and standard deviation 
+
+
+(select the best parameters?)
+
+
+
+## transformed model results to match mean and standard deviation 
+
+
+
 ```{r}
+#ig_val <- round(head(df_eig_r, 1)$r_in_log, 2)
+#eig_title <- expression(paste("EIG: ", italic("r"), " = "))
+
+#plot(1:10, main = expression('Mapped territories of different '*italic(C.~austriacus)*' individuals at the Far Gardens coral reef site'))
+
+
 scaled_model_res %>% 
   rename(res_val = scaled_log_sample_n) %>% 
   select(complexity, trial_number, sequence_scheme, sequence_scheme_print, res_val) %>% 
@@ -186,7 +368,7 @@ scaled_model_res %>%
   theme(legend.position = "bottom") + 
   ylab("log Looking time (seconds)") + 
   xlab("Trial Number") + 
-  labs(title= "EIG")
+  labs(subtitle = paste("EIG: r = ", round(head(df_eig_r, 1)$r_in_log, 2)))  
 
 scaled_kl_model_res %>% 
   rename(res_val = scaled_log_sample_n) %>% 
@@ -210,7 +392,7 @@ scaled_kl_model_res %>%
   theme(legend.position = "bottom") + 
   ylab("log Looking time (seconds)") + 
   xlab("Trial Number") + 
-  labs(title= "KL")
+  labs(subtitle = paste("KL: r = ", round(head(df_kl_r, 1)$r_in_log, 2)))  
 
 scaled_s_model_res %>% 
   rename(res_val = scaled_log_sample_n) %>% 
@@ -234,8 +416,9 @@ scaled_s_model_res %>%
   theme(legend.position = "bottom") + 
   ylab("log Looking time (seconds)") + 
   xlab("Trial Number") + 
-  labs(title= "Surprisal")
+  labs(subtitle = paste("Surprisal: r = ", round(head(df_s_r, 1)$r_in_log, 2)))  
 
+  
 ```
 
 
@@ -267,9 +450,13 @@ sim_b_res %>%
 
 ## Calculating perason correlation for each set of parameter (overall)
 ```{r}
-calculate_correlation(sim_b_res)
-calculate_correlation(kl_sim_b_res)
-calculate_correlation(s_sim_b_res)
+df_eig_r <- calculate_correlation(sim_b_res)
+df_kl_r <- calculate_correlation(kl_sim_b_res)
+df_s_r <- calculate_correlation(s_sim_b_res)
+
+df_eig_r
+df_kl_r
+df_s_r
 ```
 
 
