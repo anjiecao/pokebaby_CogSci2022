@@ -45,25 +45,20 @@ library(ggplot2)
 library(xtable)
 ```
 
-
-
-
 # Introduction 
 
 ```{r child = "01_introduction.Rmd"}
 ```
 
+# Models  
+
+```{r child = "02_model.Rmd"}
+```
+
 # Experiment  
 
-```{r child = "02_experiment.Rmd"}
+```{r child = "03_experiment.Rmd"}
 ```
-
-
-# Model  
-
-```{r child = "03_model.Rmd"}
-```
-
 
 # General Discussion  
 
