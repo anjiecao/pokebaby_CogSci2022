@@ -1,0 +1,122 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+
+We formalized the learning problem that participants face in our
+experiments as a form of Bayesian concept learning (Tenenbaum, 1999;
+Goodman, 2006), represented graphically in Fig. X. The goal is to learn
+a concept \(theta\), which is a set of probabilities for independent
+binary features \(\theta_{1,2,..,n}\), where n is the number of
+features. Over the course of a block, the learner receives information
+about \(\theta\) by observing exemplars \(y\): instantiations of
+\(\bar{\theta}\), where each feature \(y_{1,2,..,n}\) is either on or
+off. Each feature \(\theta_i\) and its corresponding exemplar \(y_i\)
+form a Beta-Bernoulli process: \begin{eqnarray}
+p(\theta_i) \sim Beta(\alpha_i,\beta_i) \\
+p(y_i|\theta_i) \sim Bernoulli(\theta_i)
+\end{eqnarray} Since the features are independent, this relationship
+holds for the entire concept \(\theta\). However, to model the time
+course of attention, we do not want to assume that information is
+encoded perfectly and instantaneously. Instead, we suggest that
+participants gather repeated noisy samples \(\bar{z}\) from the
+exemplars. For any sample \(z\) from an exemplar \(y\) there is a small
+probability \(\epsilon\) to misperceive the feature as off when it was
+actually on, and vice versa. Therefore, by making noisy observations
+\(\bar{z}\), the learner obtains information about the true identity of
+the exemplar \(y\), and by extension, about the concept \(\bar{theta}\).
+By Bayes' rule: \begin{eqnarray}
+P(\theta|\bar{z}) &= p(\bar{z}|y) p(y|\theta) p(\theta) / p(\bar{z})
+\end{eqnarray} where \(p(\bar{z}|y_i)\) is fully described by
+\(\epsilon\), and \(p(y|\theta)\) by Bernoulli processes as in Eq. 2.
+
+\begin{figure}[H]
+
+{\centering \includegraphics{03_model_files/figure-latex/image-1} 
+
+}
+
+\caption{Graphical representation of our model. Circles indicate random variables. The squares indicate fixed model parameters.}\label{fig:image}
+\end{figure}
+
+Like in our experiment, the learner's task is to decide when to stop
+sampling. If they do so rationally, then they should anchor their
+sampling behavior to the expected information gain (EIG) of the next
+sample. We compute EIG by weighing the information gain from each
+possible next observation by the probability of that observation. We
+defined information gain as the KL-divergence between the hypothetical
+posterior after observing a sample \(z_{t+1}\) and the current
+posterior: \begin{eqnarray}
+EIG(z_{t+1}) = \sum_{z_{t+1} \in [0,1]} p(z_{t+1}|\theta_t) * KL(\theta_{t+1}, p(\theta_t))
+\end{eqnarray} Finally, to get actual sampling behavior from the model,
+it has to convert EIG into a binary decision about whether continue
+looking at the current sample, or to advance to the next trial. The
+model does so using a luce choice between the EIG from the next sample
+and a constant EIG from looking away. \begin{eqnarray}
+p(look) = \frac{EIG(z_{t+1})}{EIG(z_{t+1})+EIG(world)}
+\end{eqnarray} We also studied the behavior of the model when replacing
+EIG with other linking hypotheses, such as surprisal (the probability of
+a given \(z\) under the \(P(\theta_t)\)) and KL-divergence between the
+posterior \(p(\theta_t)\) and the prior \(p(\theta_{t-1})\).
+
+\end{document}
