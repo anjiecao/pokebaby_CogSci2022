@@ -61,7 +61,20 @@ summarise_tidy_sim_res <- function(tidy_df){
   return(tidy_sim_res_sum)
 }
 
+# ------------------ tidy up a  scaled summary results  ------------------ #
 
+summarise_scaled_tidy_sim_res <- function(scaled_tidy_df){
+  
+  scaled_tidy_sim_res_sum <- scaled_tidy_df %>% 
+    group_by(im_type, params_info, complexity, trial_number, sequence_scheme, sequence_scheme_print) %>% 
+    summarise(
+      mean_scaled_log_sample = mean(scaled_log_sample_n)
+    ) %>% 
+    filter(!is.na(complexity)) %>% 
+    select(im_type, params_info, complexity, trial_number, sequence_scheme, sequence_scheme_print, mean_scaled_log_sample)
+  return(scaled_tidy_sim_res_sum)
+
+  }
 
 # ------------------ scaling the model results to match mean and sd of the behavioral results according to the best fit parameters   ------------------  #
 
@@ -129,6 +142,34 @@ calculate_correlation <- function(sim_b_df){
     r_in_log <- cor(x$log_trial_sim_res, x$log_trial_looking_time, method = "pearson")
   }))
   
+  d$rmse <- unlist(map(d$data, function(x){
+    rmse_log <- Metrics::rmse(x$trial_looking_time, x$trial_sim_res)
+  }))
+  
+  d$rmse_in_log <- unlist(map(d$data, function(x){
+    rmse_log <- Metrics::rmse(x$log_trial_looking_time, x$log_trial_sim_res)
+  }))
+  
+  d %>% 
+    arrange(-r_in_log)
+}
+
+# ------------------ calculate correlation between behavioral and simulation results after scaling for the best parameter ------------------  #
+
+calculate_scaled_correlation <- function(sim_b_df){
+  d <- sim_b_df %>% 
+    ungroup() %>% 
+    nest_by(params_info) 
+  
+  
+  d$r_in_log <- unlist(map(d$data, function(x){
+    r_in_log <- cor(x$mean_scaled_log_sample, x$log_trial_looking_time, method = "pearson")
+  }))
+  
+ 
+  d$rmse_in_log <- unlist(map(d$data, function(x){
+    rmse_log <- Metrics::rmse(x$log_trial_looking_time, x$mean_scaled_log_sample)
+  }))
   
   d %>% 
     arrange(-r_in_log)
@@ -169,6 +210,34 @@ calculate_correlation_for_basic_model <- function(basic_sim_d_df, best_for){
     )
   }
   
+}
+
+calculate_correlation_for_scaled_basic_model <- function(basic_sim_d_df){
+  d <- basic_sim_d_df %>% 
+    nest_by(params_info)
+  
+  
+ 
+  d$kl_r_log <- unlist(map(d$data, function(x){
+    r <- cor(x$log_trial_looking_time, log(x$scaled_log_kl), method = "pearson")
+  }))
+  
+  
+  d$surprisal_r_log <- unlist(map(d$data, function(x){
+    r <- cor(x$log_trial_looking_time, x$scaled_log_surprisal, method = "pearson")
+  }))
+  
+  d$kl_rmse_log <- unlist(map(d$data, function(x){
+    rmse_log <- Metrics::rmse(x$log_trial_looking_time, x$scaled_log_kl)
+  }))
+  
+  d$surprisal_rmse_log <- unlist(map(d$data, function(x){
+    rmse_log <- Metrics::rmse(x$log_trial_looking_time, x$scaled_log_surprisal)
+  }))
+  
+  
+  
+  return (d)
   
 }
 
