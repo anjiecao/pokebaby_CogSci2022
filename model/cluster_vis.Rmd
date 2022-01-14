@@ -8,6 +8,7 @@ output: html_document
 ```{r}
 library(tidyverse)
 library(here)
+library(Metrics)
 source(here("helper/simulation_results_processing.R"))
 
 basic_res <- readRDS(here("sim_res/01_basic_params.RDS"))
@@ -102,8 +103,7 @@ df_eig_r <- calculate_correlation(sim_b_res)
 df_kl_r <- calculate_correlation(kl_sim_b_res)
 df_s_r <- calculate_correlation(s_sim_b_res)
 
-df_basic_r_kl
-df_basic_r_surprisal
+
 df_eig_r
 df_kl_r
 df_s_r
@@ -115,7 +115,6 @@ df_s_r
 
 ```{r}
 # currently just looking at one set of parameter (the best set)
-# maybe we don't want to scale the basic model either, because sd = 0? or do we just apply a constant to match the mean? 
 scaled_basic_sim_b_res <- scale_basic_model(b_res_print, basic_res_print, best_params = "ap_1_bp_2")
 
 scaled_model_res <- scale_model_results(b_res_print, sim_res_print, best_params = "ae_1_be_10_ap_1_bp_4_np_0.065_wEIG_0.01")
@@ -124,6 +123,43 @@ scaled_s_model_res <- scale_model_results(b_res_print, s_res_print, best_params 
 
 ```
 
+# then create new tidy dataframe with scaled results 
+
+```{r}
+#scaled_basic_sim_b_res still no needs to summarise this because it is already trial based 
+
+scaled_sim_res_sum <- summarise_scaled_tidy_sim_res(scaled_model_res)
+scaled_kl_res_sum <- summarise_scaled_tidy_sim_res(scaled_kl_model_res)
+scaled_s_res_sum <- summarise_scaled_tidy_sim_res(scaled_s_model_res)
+
+
+
+
+
+sim_b_res <- scaled_sim_res_sum %>% 
+  left_join(b_res_summary, by = c("trial_number", "sequence_scheme", "sequence_scheme_print", "complexity")) 
+
+kl_sim_b_res <- scaled_kl_res_sum %>% 
+  left_join(b_res_summary, by = c("trial_number", "sequence_scheme", "sequence_scheme_print", "complexity"))
+
+s_sim_b_res <- scaled_s_res_sum %>% 
+  left_join(b_res_summary, by = c("trial_number", "sequence_scheme", "sequence_scheme_print", "complexity"))
+```
+
+
+```{r}
+
+calculate_correlation_for_scaled_basic_model(scaled_basic_sim_b_res)
+
+
+df_eig_r <- calculate_scaled_correlation(sim_b_res)
+df_kl_r <- calculate_scaled_correlation(kl_sim_b_res)
+df_s_r <- calculate_scaled_correlation(s_sim_b_res)
+
+df_eig_r
+df_kl_r
+df_s_r
+```
 
 
 
@@ -173,7 +209,7 @@ scaled_basic_sim_b_res %>%
   ggplot(aes(x = trial_number, y = im_value, color = complexity)) + 
   geom_point() + 
   geom_line() + 
-  facet_grid(im_type_print~sequence_scheme) + 
+  facet_grid(im_type_print~sequence_scheme_print) + 
   ylab("Scaled Information Theoretic Measurement (log)") + 
   xlab("Trial number") + 
   theme_classic() + 
