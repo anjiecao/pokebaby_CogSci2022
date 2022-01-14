@@ -81,6 +81,107 @@ between each term.
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
+\hypertarget{models}{%
+\section{Models}\label{models}}
+
+\hypertarget{learning-problem}{%
+\section{Learning problem}\label{learning-problem}}
+
+\hypertarget{discrete-time-model}{%
+\subsection{Discrete Time Model}\label{discrete-time-model}}
+
+We formalized the learning problem that participants face in our
+experiments as a form of Bayesian concept learning (Tenenbaum, 1999;
+Goodman, 2006), represented graphically in Fig. X. The goal is to learn
+a concept \(\theta\), which is a set of probabilities for independent
+binary features \(\theta_{1,2,..,n}\), where n is the number of
+features. Over the course of a block, the learner receives information
+about \(\theta\) by observing exemplars \(y\): instantiations of
+\(\bar{\theta}\), where each feature \(y_{1,2,..,n}\) is either on or
+off. Each feature \(\theta_i\) and its corresponding exemplar \(y_i\)
+form a Beta-Bernoulli process: \begin{eqnarray}
+p(\theta_i) \sim Beta(\alpha_i,\beta_i) \\
+p(y_i|\theta_i) \sim Bernoulli(\theta_i)
+\end{eqnarray} Since the features are independent, this relationship
+holds for the entire concept \(\theta\). In previous work, two
+information-theoretic quantities, surprisal and Kullback-Leibler (KL)
+divergence, resulting from the stimulus were shown to be linked to
+looking behavior (Kidd et al., 2012; Poli et al., 2020). Surprisal,
+calculated as \(-log(p(y|\theta))\), intuitively refers to how
+surprising a stimulus \(y\) is given the model's beliefs about
+\(\theta\) - the intuition that surprising events should result in
+longer looking times has served as a foundational assumption in
+developmental psychology. KL-divergence measures how much a model needs
+to change to accommodate a new stimulus \(y\). If an observation causes
+a large change, we speculated that a proportionally long looking time is
+necesssary to integrate the new information.
+
+\hypertarget{continuous-time-model}{%
+\subsection{Continuous Time Model}\label{continuous-time-model}}
+
+However, to model the time course of attention, we did not want to
+assume that stimuli are encoded perfectly and instantaneously. Instead,
+we suggest that participants gather repeated noisy samples \(\bar{z}\)
+from the exemplars. For any sample \(z\) from an exemplar \(y\) there is
+a small probability \(\epsilon\) to misperceive the feature as off when
+it was actually on, and vice versa. Therefore, by making noisy
+observations \(\bar{z}\), the learner obtains information about the true
+identity of the exemplar \(y\), and by extension, about the concept
+\(\bar{theta}\). By Bayes' rule: \begin{eqnarray}
+P(\theta|\bar{z}) &= p(\bar{z}|y) p(y|\theta) p(\theta) / p(\bar{z})
+\end{eqnarray} where \(p(\bar{z}|y_i)\) is fully described by
+\(\epsilon\), and \(p(y|\theta)\) by Bernoulli processes as in Eq. 2.
+
+\begin{CodeChunk}
+\begin{figure}[H]
+
+{\centering \includegraphics{figs/image-1} 
+
+}
+
+\caption[Graphical representation of our model]{Graphical representation of our model. Circles indicate random variables. The squares indicate fixed model parameters.}\label{fig:image}
+\end{figure}
+\end{CodeChunk}
+
+\#Sampling The formulation of the model in continuous time allows us to
+do two things: First, we can explicitly model the learner's decision on
+when to stop sampling by asking the model to decide, after every sample
+\(z\), whether it wants to continue sampling from the same stimulus or
+not. This is in contrast to the discrete time models presented here and
+in previous work (Kidd et al., 2012; Poli et al., 2020), where one has
+to resort to correlating information-theoretic measures to looking data,
+rather than generating it. Second, a consequence of making a decision at
+every time step allows us to study the behavior of another
+information-theoretic measure: the expected information gain (EIG). EIG
+is commonly used in rational analyses of information-seeking behavior -
+that is to assess whether information-seeking is optimal with respect to
+the learning task (Oaksford \& Chater, ; Gureckis, ). Importantly, EIG
+is a forward-looking measure that considers the potential for learning
+from the next sample. Since discrete time models operate on the level of
+a whole stimulus, rather than individual samples, EIG would look forward
+to the next stimulus in these models, rather than the next sample, and
+therefore not be able to capture the decision of whether to keep
+looking. EIG to describe looking time is therefore only possible in the
+continuous time models.
+
+We compute EIG by weighing the information gain from each possible next
+observation by the probability of that observation. We defined
+information gain as the KL-divergence between the hypothetical posterior
+after observing a sample \(z_{t+1}\) and the current posterior:
+\begin{eqnarray}
+EIG(z_{t+1}) = \sum_{z_{t+1} \in [0,1]} p(z_{t+1}|\theta_t) * KL(\theta_{t+1}, p(\theta_t))
+\end{eqnarray} Finally, to get actual sampling behavior from the model,
+it has to convert EIG into a binary decision about whether continue
+looking at the current sample, or to advance to the next trial. The
+model does so using a luce choice between the EIG from the next sample
+and a constant EIG from looking away. \begin{eqnarray}
+p(look) = \frac{EIG(z_{t+1})}{EIG(z_{t+1})+EIG(world)}
+\end{eqnarray} We also studied the behavior of the model when replacing
+EIG with continuous time versions of the other linking hypotheses,
+surprisal (the probability of a given \(z\) under the \(P(\theta_t)\))
+and KL-divergence between the posterior \(p(\theta_t)\) and the prior
+\(p(\theta_{t-1})\).
+
 \hypertarget{experiment}{%
 \section{Experiment}\label{experiment}}
 
@@ -90,14 +191,14 @@ between each term.
 \hypertarget{participants}{%
 \subsubsection{Participants}\label{participants}}
 
-We recruited 449` participants (Age range: M = ;) on Prolific. They were
-randomly assigned to one of the three conditions of the experiment
-(Curiosity: N =; Memory: N = ; Math: N =; ). Participants were excluded
-if they showed irregular reaction times (N = ???) or their responses in
-the filler tasks indicates low engagement with the experiment
-(Curiosity: N =; Memory: N = ; Math: N =; ). All exclusion criteria were
-pre-registered. The final sample included N participants (Curiosity N =
-; Memory: N =; Math: N =).
+We recruited 449 participants (Age \emph{M} = 30.83; \emph{SD} = 17.44)
+on Prolific. They were randomly assigned to one of the three conditions
+of the experiment (Curiosity: \emph{N} = 156; Memory: \emph{N} = 137;
+Math: \emph{N} = 156). Participants were excluded if they showed
+irregular reaction times or their responses in the filler tasks
+indicates low engagement with the experiment. All exclusion criteria
+were pre-registered. The final sample included N participants (Curiosity
+\emph{N} = 143; Memory: \emph{N} = 98; Math: N = \emph{N} = 139).
 
 \hypertarget{procedure}{%
 \subsubsection{Procedure}\label{procedure}}
@@ -170,6 +271,104 @@ dissimilar to one another (M = ; SD = ).
 \hypertarget{evaluating-the-paradigm}{%
 \subsubsection{Evaluating the Paradigm}\label{evaluating-the-paradigm}}
 
+\begin{CodeChunk}
+\begin{CodeOutput}
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: log(trial_looking_time) ~ I(exp(1)^(-trial_number)) * trial_type *  
+    block_type + (1 | subject)
+   Data: d
+
+REML criterion at convergence: 37415.2
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.7455 -0.6692 -0.0499  0.5968  5.4843 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ subject  (Intercept) 0.2752   0.5246  
+ Residual             0.4250   0.6519  
+Number of obs: 18198, groups:  subject, 380
+
+Fixed effects:
+                                                                          Estimate
+(Intercept)                                                              7.531e+00
+I(exp(1)^(-trial_number))                                                2.125e+00
+trial_typedeviant                                                        6.252e-01
+block_typesimple_dissimilar                                             -5.175e-02
+I(exp(1)^(-trial_number)):trial_typedeviant                             -2.226e+00
+I(exp(1)^(-trial_number)):block_typesimple_dissimilar                   -4.028e-01
+trial_typedeviant:block_typesimple_dissimilar                           -1.899e-01
+I(exp(1)^(-trial_number)):trial_typedeviant:block_typesimple_dissimilar  5.833e-01
+                                                                        Std. Error
+(Intercept)                                                              2.843e-02
+I(exp(1)^(-trial_number))                                                5.415e-02
+trial_typedeviant                                                        2.737e-02
+block_typesimple_dissimilar                                              1.299e-02
+I(exp(1)^(-trial_number)):trial_typedeviant                              3.310e-01
+I(exp(1)^(-trial_number)):block_typesimple_dissimilar                    7.652e-02
+trial_typedeviant:block_typesimple_dissimilar                            3.865e-02
+I(exp(1)^(-trial_number)):trial_typedeviant:block_typesimple_dissimilar  4.679e-01
+                                                                                df
+(Intercept)                                                              4.432e+02
+I(exp(1)^(-trial_number))                                                1.781e+04
+trial_typedeviant                                                        1.781e+04
+block_typesimple_dissimilar                                              1.781e+04
+I(exp(1)^(-trial_number)):trial_typedeviant                              1.781e+04
+I(exp(1)^(-trial_number)):block_typesimple_dissimilar                    1.781e+04
+trial_typedeviant:block_typesimple_dissimilar                            1.781e+04
+I(exp(1)^(-trial_number)):trial_typedeviant:block_typesimple_dissimilar  1.781e+04
+                                                                        t value
+(Intercept)                                                             264.857
+I(exp(1)^(-trial_number))                                                39.240
+trial_typedeviant                                                        22.848
+block_typesimple_dissimilar                                              -3.984
+I(exp(1)^(-trial_number)):trial_typedeviant                              -6.724
+I(exp(1)^(-trial_number)):block_typesimple_dissimilar                    -5.264
+trial_typedeviant:block_typesimple_dissimilar                            -4.914
+I(exp(1)^(-trial_number)):trial_typedeviant:block_typesimple_dissimilar   1.247
+                                                                        Pr(>|t|)
+(Intercept)                                                              < 2e-16
+I(exp(1)^(-trial_number))                                                < 2e-16
+trial_typedeviant                                                        < 2e-16
+block_typesimple_dissimilar                                             6.82e-05
+I(exp(1)^(-trial_number)):trial_typedeviant                             1.82e-11
+I(exp(1)^(-trial_number)):block_typesimple_dissimilar                   1.42e-07
+trial_typedeviant:block_typesimple_dissimilar                           9.01e-07
+I(exp(1)^(-trial_number)):trial_typedeviant:block_typesimple_dissimilar    0.212
+                                                                           
+(Intercept)                                                             ***
+I(exp(1)^(-trial_number))                                               ***
+trial_typedeviant                                                       ***
+block_typesimple_dissimilar                                             ***
+I(exp(1)^(-trial_number)):trial_typedeviant                             ***
+I(exp(1)^(-trial_number)):block_typesimple_dissimilar                   ***
+trial_typedeviant:block_typesimple_dissimilar                           ***
+I(exp(1)^(-trial_number)):trial_typedeviant:block_typesimple_dissimilar    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+               (Intr) I(x(1)^(-_)) trl_ty blck__ I(x(1)^(-_)):_ I((1)^(-_)):__
+I(x(1)^(-_))   -0.196                                                         
+trl_typdvnt    -0.108  0.203                                                  
+blck_typsm_    -0.228  0.428        0.237                                     
+I(x(1)^(-_)):_  0.032 -0.164       -0.647 -0.070                              
+I((1)^(-_)):__  0.138 -0.708       -0.144 -0.606  0.116                       
+trl_typd:__     0.077 -0.144       -0.708 -0.336  0.458          0.204        
+I((1)^(-_)):_: -0.023  0.116        0.458  0.099 -0.708         -0.164        
+               tr_:__
+I(x(1)^(-_))         
+trl_typdvnt          
+blck_typsm_          
+I(x(1)^(-_)):_       
+I((1)^(-_)):__       
+trl_typd:__          
+I((1)^(-_)):_: -0.647
+\end{CodeOutput}
+\end{CodeChunk}
+
 Three criteria were selected to evaluate whether the paradigms
 successfully captured the characteristic looking time patterns observed
 in infant literature: habituation (the decrease in looking time for a
@@ -182,6 +381,39 @@ THE MODEL{]}. {[}REPORT THE MODEL RESULTS{]}
 
 \hypertarget{order-effect}{%
 \subsubsection{Order Effect}\label{order-effect}}
+
+\begin{CodeChunk}
+
+\includegraphics{figs/unnamed-chunk-10-1} \begin{CodeOutput}
+Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: dishab_magnitude ~ trial_number + (1 | subject)
+   Data: dishab_d
+
+REML criterion at convergence: 44965.3
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-7.5761 -0.3319 -0.0903  0.2873  7.5993 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ subject  (Intercept)  2450681 1565    
+ Residual             21340805 4620    
+Number of obs: 2272, groups:  subject, 380
+
+Fixed effects:
+             Estimate Std. Error      df t value Pr(>|t|)    
+(Intercept)   1029.26     268.80 2225.33   3.829 0.000132 ***
+trial_number    99.05      59.39 1890.38   1.668 0.095529 .  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr)
+trial_numbr -0.884
+\end{CodeOutput}
+\end{CodeChunk}
 
 While visualizing the data, we unexpectedly found that the position in
 which the deviant trial appeared in the sequence had an effect on the
@@ -200,67 +432,6 @@ dishabituation (M, SD).
 
 \hypertarget{discussion}{%
 \subsection{Discussion}\label{discussion}}
-
-\hypertarget{model}{%
-\section{Model}\label{model}}
-
-We formalized the learning problem that participants face in our
-experiments as a form of Bayesian concept learning (Tenenbaum, 1999;
-Goodman, 2006), represented graphically in Fig. X. The goal is to learn
-a concept \(theta\), which is a set of probabilities for independent
-binary features \(\theta_{1,2,..,n}\), where n is the number of
-features. Over the course of a block, the learner receives information
-about \(\theta\) by observing exemplars \(y\): instantiations of
-\(\bar{\theta}\), where each feature \(y_{1,2,..,n}\) is either on or
-off. Each feature \(\theta_i\) and its corresponding exemplar \(y_i\)
-form a Beta-Bernoulli process: \begin{eqnarray}
-p(\theta_i) \sim Beta(\alpha_i,\beta_i) \\
-p(y_i|\theta_i) \sim Bernoulli(\theta_i)
-\end{eqnarray} Since the features are independent, this relationship
-holds for the entire concept \(\theta\). However, to model the time
-course of attention, we do not want to assume that information is
-encoded perfectly and instantaneously. Instead, we suggest that
-participants gather repeated noisy samples \(\bar{z}\) from the
-exemplars. For any sample \(z\) from an exemplar \(y\) there is a small
-probability \(\epsilon\) to misperceive the feature as off when it was
-actually on, and vice versa. Therefore, by making noisy observations
-\(\bar{z}\), the learner obtains information about the true identity of
-the exemplar \(y\), and by extension, about the concept \(\bar{theta}\).
-By Bayes' rule: \begin{eqnarray}
-P(\theta|\bar{z}) &= p(\bar{z}|y) p(y|\theta) p(\theta) / p(\bar{z})
-\end{eqnarray} where \(p(\bar{z}|y_i)\) is fully described by
-\(\epsilon\), and \(p(y|\theta)\) by Bernoulli processes as in Eq. 2.
-
-\begin{CodeChunk}
-\begin{figure}[H]
-
-{\centering \includegraphics{figs/image-1} 
-
-}
-
-\caption[Graphical representation of our model]{Graphical representation of our model. Circles indicate random variables. The squares indicate fixed model parameters.}\label{fig:image}
-\end{figure}
-\end{CodeChunk}
-
-Like in our experiment, the learner's task is to decide when to stop
-sampling. If they do so rationally, then they should anchor their
-sampling behavior to the expected information gain (EIG) of the next
-sample. We compute EIG by weighing the information gain from each
-possible next observation by the probability of that observation. We
-defined information gain as the KL-divergence between the hypothetical
-posterior after observing a sample \(z_{t+1}\) and the current
-posterior: \begin{eqnarray}
-EIG(z_{t+1}) = \sum_{z_{t+1} \in [0,1]} p(z_{t+1}|\theta_t) * KL(\theta_{t+1}, p(\theta_t))
-\end{eqnarray} Finally, to get actual sampling behavior from the model,
-it has to convert EIG into a binary decision about whether continue
-looking at the current sample, or to advance to the next trial. The
-model does so using a luce choice between the EIG from the next sample
-and a constant EIG from looking away. \begin{eqnarray}
-p(look) = \frac{EIG(z_{t+1})}{EIG(z_{t+1})+EIG(world)}
-\end{eqnarray} We also studied the behavior of the model when replacing
-EIG with other linking hypotheses, such as surprisal (the probability of
-a given \(z\) under the \(P(\theta_t)\)) and KL-divergence between the
-posterior \(p(\theta_t)\) and the prior \(p(\theta_{t-1})\).
 
 \hypertarget{general-discussion}{%
 \section{General Discussion}\label{general-discussion}}
