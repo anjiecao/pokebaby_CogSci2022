@@ -46,7 +46,46 @@ library(grid)
 library(ggplot2)
 library(xtable)
 library(bookdown)
+
+source(here("model/helper/simulation_results_processing.R"))
+
+all_d <- read_csv(here("experiment/01_merged_data/merged_data.csv"))
+d <- read_csv(here("experiment/02_processed_data/processed_rt_task_data.csv"))
+prolific <- read_csv(here("experiment/prolific.csv"))
+exclusion_d <- read_csv(here("experiment/p_level_exclusion.csv"))
+
+
+b_res_print <- d %>% 
+  mutate(sequence_scheme = case_when(
+    deviant_position == 2 ~ "BDBBBB", 
+    deviant_position == 4 ~ "BBBDBB", 
+    deviant_position == 6 ~ "BBBBBD", 
+    TRUE ~ "BBBBBB", 
+  ), 
+  sequence_scheme_print = case_when(
+    sequence_scheme == "BBBBBB" ~ "No Deviant", 
+    sequence_scheme == "BDBBBB" ~ "Deviant at 2nd Trial", 
+    sequence_scheme == "BBBDBB" ~ "Deviant at 4th Trial", 
+    sequence_scheme == "BBBBBD" ~ "Deviant at Last Trial"
+  ), 
+  log_trial_looking_time = log(trial_looking_time)) %>% 
+  separate(block_type, into = c("complexity", "similarity"), sep = "_") %>% 
+  select(subject, complexity, trial_number, 
+         sequence_scheme, sequence_scheme_print, trial_looking_time, log_trial_looking_time)
+
+# calculate smean.cl.b
+
+
+b_res_summary <- b_res_print %>% 
+  group_by(trial_number, sequence_scheme, sequence_scheme_print, complexity) %>%
+  summarise(
+    trial_looking_time = mean(trial_looking_time), 
+    log_trial_looking_time = mean(log_trial_looking_time)
+  ) 
+
 ```
+
+
 
 # Introduction 
 
@@ -63,9 +102,9 @@ library(bookdown)
 ```{r child = "03_experiment.Rmd"}
 ```
 
-# General Discussion  
+# Model comparison 
 
-```{r child = "04_general_discussion.Rmd"}
+```{r child = "04_results_and_discussion.Rmd"}
 ```
 
 

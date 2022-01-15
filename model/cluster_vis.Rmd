@@ -114,14 +114,25 @@ df_s_r
 # scaling model results
 
 ```{r}
-# currently just looking at one set of parameter (the best set)
-scaled_basic_sim_b_res <- scale_basic_model(b_res_print, basic_res_print, best_params = "ap_1_bp_2")
+# scaling basic w/ the trial level summary make sense because the other is also just trial level
+scaled_basic_sim_b_res <- scale_basic_model(b_res_summary, basic_res_print, best_params = "ap_1_bp_2")
 
 scaled_model_res <- scale_model_results(b_res_print, sim_res_print, best_params = "ae_1_be_10_ap_1_bp_4_np_0.065_wEIG_0.01")
 scaled_kl_model_res <- scale_model_results(b_res_print, kl_res_print, best_params = "ae_1_be_10_ap_1_bp_5_np_0.055_wEIG_0.006")
 scaled_s_model_res <- scale_model_results(b_res_print, s_res_print, best_params = "ae_1_be_10_ap_1_bp_3_np_0.07_wEIG_8")
 
 ```
+
+
+# saving the scaled model results 
+
+```{r}
+scaled_continuous_model_res <- bind_rows(scaled_model_res, scaled_kl_model_res, scaled_s_model_res)
+
+saveRDS(scaled_continuous_model_res, here("scaled_continuous_model_res.RDS"))
+saveRDS(scaled_basic_sim_b_res, here("scaled_discrete_model_res.RDS"))
+```
+
 
 # then create new tidy dataframe with scaled results 
 
