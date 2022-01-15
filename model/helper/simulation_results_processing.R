@@ -118,11 +118,12 @@ scale_basic_model <- function(behavioral_df, sim_df, best_params){
       mean_log_trial_looking_time = mean(log(trial_looking_time)), 
       sd_log_trial_looking_time = sd(log(trial_looking_time))
     ) %>% 
-      left_join(behavioral_sim_df, by = "params_info") %>% 
+      left_join(sim_df, by = "params_info") %>% 
     mutate(
       scaled_log_surprisal = mean_log_trial_looking_time + (log_surprisal - mean_log_surprisal) * (sd_log_trial_looking_time / sd_log_surprisal), 
       scaled_log_kl =  mean_log_trial_looking_time + (log_kl - mean_log_kl) * (sd_log_trial_looking_time / sd_log_kl)
-    )
+    ) %>% 
+    left_join(behavioral_df,  by = c("trial_number", "complexity", "sequence_scheme", "sequence_scheme_print"))
   
   return(scaled_sim_df)
 }

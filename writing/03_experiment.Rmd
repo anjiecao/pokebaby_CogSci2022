@@ -11,6 +11,35 @@ d <- read_csv(here("experiment/02_processed_data/processed_rt_task_data.csv"))
 prolific <- read_csv(here("experiment/prolific.csv"))
 exclusion_d <- read_csv(here("experiment/p_level_exclusion.csv"))
 
+
+b_res_print <- d %>% 
+  mutate(sequence_scheme = case_when(
+    deviant_position == 2 ~ "BDBBBB", 
+    deviant_position == 4 ~ "BBBDBB", 
+    deviant_position == 6 ~ "BBBBBD", 
+    TRUE ~ "BBBBBB", 
+  ), 
+  sequence_scheme_print = case_when(
+    sequence_scheme == "BBBBBB" ~ "No Deviant", 
+    sequence_scheme == "BDBBBB" ~ "Deviant at 2nd Trial", 
+    sequence_scheme == "BBBDBB" ~ "Deviant at 4th Trial", 
+    sequence_scheme == "BBBBBD" ~ "Deviant at Last Trial"
+  ), 
+  log_trial_looking_time = log(trial_looking_time)) %>% 
+  separate(block_type, into = c("complexity", "similarity"), sep = "_") %>% 
+  select(subject, complexity, trial_number, 
+         sequence_scheme, sequence_scheme_print, trial_looking_time, log_trial_looking_time)
+
+# calculate smean.cl.b
+
+
+b_res_summary <- b_res_print %>% 
+  group_by(trial_number, sequence_scheme, sequence_scheme_print, complexity) %>%
+  summarise(
+    trial_looking_time = mean(trial_looking_time), 
+    log_trial_looking_time = mean(log_trial_looking_time)
+  ) 
+
 ```
 
 
@@ -21,7 +50,7 @@ exclusion_d <- read_csv(here("experiment/p_level_exclusion.csv"))
 
 
 
-```{r}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 ## total participants 
 total_participants <- length(unique(all_d$subject))
 
@@ -95,7 +124,7 @@ The sample size, methods, and main analyses were all pre-registered and are avai
 
 
 
-```{r}
+```{r include=FALSE}
 #preregistration: log(looking time) ~ I((exp(1)**(-trial_number))) * item_type * trial_complexity + (trial_number * item_type * trial_complexity|subject)
 
 # didn't converge 
@@ -108,42 +137,6 @@ summary(model_1)
 
 
 Three criteria were selected to evaluate whether the paradigms successfully captured the characteristic looking time patterns observed in infant literature: habituation (the decrease in looking time for a stimulus with repeated presentations), dishabituation (the increase in looking time to a new stimulus after habituated to one stimulus), and complexity effect (longer looking time for perceptually more complex stimuli). To evaluate the phenomenon quantitatively, we ran a linear mixed effects model with maximal random effect structure. [DESCRIBE THE MODEL]. [REPORT THE MODEL RESULTS]
-
-### Order Effect 
-
-```{r}
-# for each participants 
-background_trials <- d %>% 
-  filter(is.na(deviant_position)) %>% 
-  filter(trial_number %in% c(2, 4, 6)) %>% 
-  select(subject, block_type, trial_number, trial_looking_time) %>% 
-  rename(background_looking_time = trial_looking_time)
-
-dishab_d <- d %>% 
-  filter(deviant_position == trial_number) %>% 
-  left_join(background_trials, by = c("subject", "block_type", "trial_number")) %>% 
-  mutate(dishab_magnitude = trial_looking_time - background_looking_time)
-
-ggplot(dishab_d, 
-       aes(x = trial_number, y = dishab_magnitude)) + 
-  stat_summary(fun.data = "mean_cl_boot")
-
-# didn't converge 
-# model_0 <- lmerTest::lmer(
-#   dishab_magnitude ~ trial_number * block_type + (trial_number * block_type | subject), 
-#   data = dishab_d
-# )
-
-model_1 <- lmerTest::lmer(
-  dishab_magnitude ~ trial_number  + (1 | subject), 
-  data = dishab_d
-)
-summary(model_1)
-```
-
-
-
-While visualizing the data, we unexpectedly found that the position in which the deviant trial appeared in the sequence had an effect on the shape of the habituation and dishabituation curves. To explore this phenomenon quantitatively, we operationalized the magnitude of dishabituation as the difference between the looking time at the deviant trial minus the background trial at the same position. Then, we fit a mixed effect model with the position of deviant as fixed effect and [???] as a random effect. We found that the position was a significant predictor of the magnitude of dishabituation (looking time at the deviant trial minus the background trial at the same position). Deviant trials that appeared last elicited the strongest dishabituation effect (M = ; SD:, ), followed by the deviant trials appeared fourth (M, SD), with the deviant trial on the second showing the smallest amount of dishabituation (M, SD). 
 
 
 ## Discussion 
