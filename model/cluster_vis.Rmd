@@ -194,7 +194,7 @@ b_res_print %>%
   theme_classic()+
   langcog::scale_color_solarized(name = "Trial Complexity",labels = c("Complex", "Simple")) + 
   theme(legend.position = "bottom") + 
-  ylab("log Looking time (seconds)") + 
+  ylab("log Looking time (ms)") + 
   xlab("Trial Number")
 
 ```

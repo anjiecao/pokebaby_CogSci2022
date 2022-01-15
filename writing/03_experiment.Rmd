@@ -105,10 +105,34 @@ Participants were randomly assigned to one of the three conditions: Curiosity, M
 
 ### Stimuli 
 
+```{r behavioral_result, echo = FALSE, fig.env = "figure", fig.pos = "H", fig.align='center', fig.width=3.5, fig.height=3.5, set.cap.width=T, num.cols.cap=1, fig.cap = "Results of behavioral experiment."}
+
+b_res_print %>% 
+  ggplot(aes(x=trial_number, y=log(trial_looking_time), color = complexity)) + 
+   stat_summary(fun.data = "mean_cl_boot", position = position_dodge(width = .2)) + 
+   stat_summary(fun.data = "mean_cl_boot", geom = "line", position = position_dodge(width = .2))+
+  #geom_smooth(method = "lm", 
+  #            formula = y ~ I(exp(1)**(-x)), se = FALSE) + 
+  facet_wrap(~sequence_scheme_print) +
+  scale_x_continuous(breaks = seq(1, 6, 1)) + 
+  #langcog::theme_mikabr() +
+  theme_classic()+
+  langcog::scale_color_solarized(name = "Trial Complexity",labels = c("Complex", "Simple")) + 
+  theme(legend.position = "bottom") + 
+  ylab("log Looking time (ms)") + 
+  xlab("Trial Number") + 
+  theme(axis.title = element_text(size = 8.5),
+        legend.title = element_text(size = 8.5),
+        legend.text = element_text(size = 8.5))
+```
+
+
 The animated creatures (Fig 1) were created using Spore (a game developed by Maxis in 2008). There were forty creatures in total, half of which have low perceptual complexity (e.g. the creatures do not have limbs, additional body parts, facial features, or textured skin), and half of which have high perceptual complexity (i.e. they do have the aforementioned features). We used the "animated avatar" function in Spore to capture the creatures in motion.
 
 
 ## Results 
+
+
 
 ### Analytic Approach 
 
@@ -121,7 +145,6 @@ The sample size, methods, and main analyses were all pre-registered and are avai
 
 
 ### Evaluating the Paradigm 
-
 
 
 ```{r include=FALSE}
