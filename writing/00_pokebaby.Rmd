@@ -22,7 +22,9 @@ abstract: >
 keywords: >
     Add your choice of indexing terms or keywords; kindly use a semi-colon; between each term.
     
-output: cogsci2016::cogsci_paper
+output: 
+    cogsci2016::cogsci_paper
+
 #final-submission: \cogscifinalcopy
 ---
 
@@ -43,6 +45,7 @@ library(png)
 library(grid)
 library(ggplot2)
 library(xtable)
+library(bookdown)
 ```
 
 # Introduction 

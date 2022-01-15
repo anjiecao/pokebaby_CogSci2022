@@ -1,5 +1,7 @@
 ---
-output: pdf_document
+output:   
+  bookdown::pdf_document2
+
 ---
 
 ```{r include = FALSE}
@@ -61,7 +63,13 @@ We recruited `r total_participants` participants (Age *M* = `r age_mean`; *SD* =
 
 This is a web-based self-paced visual presentation task. Participants were instructed to look at a sequence of animated creatures at their own pace and answer some questions throughout. At the end of the experiment, participants were asked to rate the similarity between pairs of creatures and complexity of creatures they encountered on a 7-point Likert Scale. Each participant saw eight blocks in total, half of which used creatures with high perceptual complexity, and half of which used creatures with low perceptual complexity. On each trial, an animated creature showed up on the screen. participants can press the down arrow to go to the next trial whenever they want after a minimum viewing time of 500 ms.
 
-Each block consisted of six trials. A trial can be either a background trial (B) or a deviant trial (D). A background trial presented a creature repeatedly, and the deviant trial presented a different creature from the background trial in the block. Two creatures in the blocks were matched for visual complexity. There were four sequences of background trials and deviant trials. Each sequence appeared twice, once with high complexity stimuli and once with low complexity stimuli. The deviant trial can appear at either the second (BDBBBB), the fourth (BBBDBB), or the sixth trial (BBBBBD) in the block. Two blocks do not have deviant trials (BBBBBB). The creatures presented in the deviant trials and background trials were matched for complexity. 
+Each block consisted of six trials. A trial can be either a background trial (B) or a deviant trial (D). A background trial presented a creature repeatedly, and the deviant trial presented a different creature from the background trial in the block. Two creatures in the blocks were matched for visual complexity. There were four sequences of background trials and deviant trials. Each sequence appeared twice, once with high complexity stimuli and once with low complexity stimuli. The deviant trial can appear at either the second (BDBBBB), the fourth (BBBDBB), or the sixth trial (BBBBBD) in the block. Two blocks do not have deviant trials (BBBBBB). The creatures presented in the deviant trials and background trials were matched for complexity. An overview of the experimental design can be seen in Figure \@ref(fig:experimental_design).
+
+```{r experimental_design, echo = FALSE, fig.env = "figure", fig.pos = "H", fig.align='center', fig.width=2, fig.height=2, set.cap.width=T, num.cols.cap=1, fig.cap = "Experimental design and examples of simple and complex stimuli. In each block, a deviant could appear on the second, fourth (as depicted here) or sixth trial or not at all. Stimuli within a block were either all simple or all complex."}
+img <- png::readPNG("figs/experimental_design.png")
+grid::grid.raster(img)
+cat("{#fig:experimental_design}")
+```
 
 Participants were randomly assigned to one of the three conditions: Curiosity, Memory, and Math The three conditions only differed in the type of questions asked following each block. In Curiosity condition, participants were asked to rate "How curious are you about the creature?" on a 5-point Likert scale. In Memory condition, a forced-choice recognition question followed each block ("Have you seen this creature before?"). The creature used in the question in both conditions was either a creature presented in the preceding block or a novel creature matched in complexity. In Math condition,  the participants were asked a simple arithmetic question ("What is 5 + 7?") in multiple-choice format. 
 
@@ -121,10 +129,10 @@ ggplot(dishab_d,
   stat_summary(fun.data = "mean_cl_boot")
 
 # didn't converge 
-model_0 <- lmerTest::lmer(
-  dishab_magnitude ~ trial_number * block_type + (trial_number * block_type | subject), 
-  data = dishab_d
-)
+# model_0 <- lmerTest::lmer(
+#   dishab_magnitude ~ trial_number * block_type + (trial_number * block_type | subject), 
+#   data = dishab_d
+# )
 
 model_1 <- lmerTest::lmer(
   dishab_magnitude ~ trial_number  + (1 | subject), 
