@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2022/dev) (preloaded format=pdflatex 2022.1.13)  14 JAN 2022 23:16
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2022/dev) (preloaded format=pdflatex 2022.1.13)  15 JAN 2022 09:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -295,8 +295,7 @@ Package color Info: Driver file: pdftex.def on input line 149.
 File: l3backend-pdftex.def 2022-01-12 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count288
 \l__pdf_internal_box=\box55
-)
-No file 00_pokebaby.aux.
+) (./00_pokebaby.aux)
 \openout1 = `00_pokebaby.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 66.
@@ -337,6 +336,7 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 66.
 LaTeX Info: Redefining \pageref on input line 66.
 LaTeX Info: Redefining \nameref on input line 66.
+(./00_pokebaby.out) (./00_pokebaby.out)
 \@outlinefile=\write4
 \openout4 = `00_pokebaby.out'.
 
@@ -386,28 +386,80 @@ Underfull \vbox (badness 10000) detected at line 69
 
 
 ]
-<figs/plate_diagram-1.pdf, id=13, 144.54pt x 132.495pt>
+<figs/plate_diagram-1.pdf, id=60, 144.54pt x 132.495pt>
 File: figs/plate_diagram-1.pdf Graphic file (type pdf)
 <use figs/plate_diagram-1.pdf>
 Package pdftex.def Info: figs/plate_diagram-1.pdf  used on input line 232.
 (pdftex.def)             Requested size: 144.53963pt x 132.49466pt.
 [2 <./figs/plate_diagram-1.pdf>]
-LaTeX Font Info:    Trying to load font information for OMS+pcr on input line 285.
-(/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omspcr.fd
-File: omspcr.fd 
-)
-LaTeX Font Info:    Font shape `OMS/pcr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 285.
-! Undefined control sequence.
-l.293 \tightlist
-                 
-Here is how much of TeX's memory you used:
- 11565 strings out of 480246
- 185686 string characters out of 5895024
- 479639 words of memory out of 5000000
- 29333 multiletter control sequences out of 15000+600000
- 497741 words of font info for 80 fonts, out of 8000000 for 9000
- 14 hyphenation exceptions out of 8191
- 60i,11n,63p,302b,331s stack positions out of 5000i,500n,10000p,200000b,80000s
+Underfull \hbox (badness 1490) in paragraph at lines 291--299
+ []\OT1/ptm/b/n/10 Participants[] \OT1/ptm/m/n/10 We re-cruited 449 par-tic-i-pants (Age \OT1/ptm/m/it/10 M \OT1/ptm/m/n/10 =
+ []
 
-!  ==> Fatal error occurred, no output PDF file produced!
+<figs/experimental_design-1.pdf, id=86, 144.54pt x 144.54pt>
+File: figs/experimental_design-1.pdf Graphic file (type pdf)
+<use figs/experimental_design-1.pdf>
+Package pdftex.def Info: figs/experimental_design-1.pdf  used on input line 332.
+(pdftex.def)             Requested size: 144.53963pt x 144.53963pt.
+<figs/behavioral_result-1.pdf, id=87, 245.91875pt x 235.88126pt>
+File: figs/behavioral_result-1.pdf Graphic file (type pdf)
+<use figs/behavioral_result-1.pdf>
+Package pdftex.def Info: figs/behavioral_result-1.pdf  used on input line 361.
+(pdftex.def)             Requested size: 245.91814pt x 235.88068pt.
+
+Overfull \hbox (2.00688pt too wide) in paragraph at lines 361--362
+ [][] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[3 <./figs/experimental_design-1.pdf>]
+Underfull \hbox (badness 1803) in paragraph at lines 390--394
+ []\OT1/ptm/b/n/10 Manipulation Check[] \OT1/ptm/m/n/10 The com-plex an-i-mated crea-tures
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+<figs/basic_result-1.pdf, id=109, 268.00125pt x 255.95625pt>
+File: figs/basic_result-1.pdf Graphic file (type pdf)
+<use figs/basic_result-1.pdf>
+Package pdftex.def Info: figs/basic_result-1.pdf  used on input line 440.
+(pdftex.def)             Requested size: 268.00058pt x 255.95561pt.
+
+Overfull \hbox (24.08932pt too wide) in paragraph at lines 440--441
+ [][] 
+ []
+
+[4 <./figs/behavioral_result-1.pdf> <./figs/basic_result-1.pdf>]
+<figs/experiment_res-1.pdf, id=142, 467.7475pt x 215.80624pt>
+File: figs/experiment_res-1.pdf Graphic file (type pdf)
+<use figs/experiment_res-1.pdf>
+Package pdftex.def Info: figs/experiment_res-1.pdf  used on input line 470.
+(pdftex.def)             Requested size: 467.74634pt x 215.80571pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[5] [6
+
+ <./figs/experiment_res-1.pdf>] (./00_pokebaby.aux)
+Package rerunfilecheck Info: File `00_pokebaby.out' has not changed.
+(rerunfilecheck)             Checksum: 3D18035AEB23A757D23AB1130FAF4ADD;1347.
+ ) 
+Here is how much of TeX's memory you used:
+ 11685 strings out of 480246
+ 187910 string characters out of 5895024
+ 482606 words of memory out of 5000000
+ 29389 multiletter control sequences out of 15000+600000
+ 501748 words of font info for 87 fonts, out of 8000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 60i,11n,63p,667b,352s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/Users/caoanjie/Library/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}</Users/caoanjie/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></Users/caoanjie/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></Users/caoanjie/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></Users/caoanjie/Library/TinyTeX/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></Users/caoanjie/Library/TinyTeX/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></Users/caoanjie/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></Users/caoanjie/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></Users/caoanjie/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on 00_pokebaby.pdf (6 pages, 414625 bytes).
+PDF statistics:
+ 221 PDF objects out of 1000 (max. 8388607)
+ 178 compressed objects within 2 object streams
+ 65 named destinations out of 1000 (max. 500000)
+ 122 words of extra memory for PDF output out of 10000 (max. 10000000)
+

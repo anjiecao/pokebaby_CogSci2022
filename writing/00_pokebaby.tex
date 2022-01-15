@@ -282,27 +282,168 @@ the prior \(p(\theta_{t-1})\).
 \hypertarget{experiment}{%
 \section{Experiment}\label{experiment}}
 
-\#\texttt{\{r\ child\ =\ "03\_experiment.Rmd"\}\ \#}
+\hypertarget{methods}{%
+\subsection{Methods}\label{methods}}
+
+\hypertarget{participants}{%
+\subsubsection{Participants}\label{participants}}
+
+We recruited 449 participants (Age \emph{M} = 30.83; \emph{SD} = 17.44)
+on Prolific. They were randomly assigned to one of the three conditions
+of the experiment (Curiosity: \emph{N} = 156; Memory: \emph{N} = 137;
+Math: \emph{N} = 156). Participants were excluded if they showed
+irregular reaction times or their responses in the filler tasks
+indicates low engagement with the experiment. All exclusion criteria
+were pre-registered. The final sample included N participants (Curiosity
+\emph{N} = 143; Memory: \emph{N} = 98; Math: N = \emph{N} = 139).
+
+\hypertarget{procedure}{%
+\subsubsection{Procedure}\label{procedure}}
+
+This is a web-based self-paced visual presentation task. Participants
+were instructed to look at a sequence of animated creatures at their own
+pace and answer some questions throughout. At the end of the experiment,
+participants were asked to rate the similarity between pairs of
+creatures and complexity of creatures they encountered on a 7-point
+Likert Scale. Each participant saw eight blocks in total, half of which
+used creatures with high perceptual complexity, and half of which used
+creatures with low perceptual complexity. On each trial, an animated
+creature showed up on the screen. participants can press the down arrow
+to go to the next trial whenever they want after a minimum viewing time
+of 500 ms.
+
+Each block consisted of six trials. A trial can be either a background
+trial (B) or a deviant trial (D). A background trial presented a
+creature repeatedly, and the deviant trial presented a different
+creature from the background trial in the block. Two creatures in the
+blocks were matched for visual complexity. There were four sequences of
+background trials and deviant trials. Each sequence appeared twice, once
+with high complexity stimuli and once with low complexity stimuli. The
+deviant trial can appear at either the second (BDBBBB), the fourth
+(BBBDBB), or the sixth trial (BBBBBD) in the block. Two blocks do not
+have deviant trials (BBBBBB). The creatures presented in the deviant
+trials and background trials were matched for complexity. An overview of
+the experimental design can be seen in Figure
+@ref(fig:experimental\_design).
+
+\begin{CodeChunk}
+\begin{figure}[H]
+
+{\centering \includegraphics{figs/experimental_design-1} 
+
+}
+
+\caption[Experimental design and examples of simple and complex stimuli]{Experimental design and examples of simple and complex stimuli. In each block, a deviant could appear on the second, fourth (as depicted here) or sixth trial or not at all. Stimuli within a block were either all simple or all complex.}\label{fig:experimental_design}
+\end{figure}
+\begin{CodeOutput}
+{#fig:experimental_design}
+\end{CodeOutput}
+\end{CodeChunk}
+
+Participants were randomly assigned to one of the three conditions:
+Curiosity, Memory, and Math The three conditions only differed in the
+type of questions asked following each block. In Curiosity condition,
+participants were asked to rate ``How curious are you about the
+creature?'' on a 5-point Likert scale. In Memory condition, a
+forced-choice recognition question followed each block (``Have you seen
+this creature before?''). The creature used in the question in both
+conditions was either a creature presented in the preceding block or a
+novel creature matched in complexity. In Math condition, the
+participants were asked a simple arithmetic question (``What is 5 +
+7?'') in multiple-choice format.
+
+\hypertarget{stimuli}{%
+\subsubsection{Stimuli}\label{stimuli}}
+
+\begin{CodeChunk}
+\begin{figure}[H]
+
+{\centering \includegraphics{figs/behavioral_result-1} 
+
+}
+
+\caption[Results of behavioral experiment]{Results of behavioral experiment.}\label{fig:behavioral_result}
+\end{figure}
+\end{CodeChunk}
+
+The animated creatures (Fig 1) were created using Spore (a game
+developed by Maxis in 2008). There were forty creatures in total, half
+of which have low perceptual complexity (e.g.~the creatures do not have
+limbs, additional body parts, facial features, or textured skin), and
+half of which have high perceptual complexity (i.e.~they do have the
+aforementioned features). We used the ``animated avatar'' function in
+Spore to capture the creatures in motion.
+
+\hypertarget{results}{%
+\subsection{Results}\label{results}}
+
+\hypertarget{analytic-approach}{%
+\subsubsection{Analytic Approach}\label{analytic-approach}}
+
+The sample size, methods, and main analyses were all pre-registered and
+are available at {[}LINK{]}. Data and analysis scripts are available at
+{[}LINK{]}.
+
+\hypertarget{manipulation-check}{%
+\subsubsection{Manipulation Check}\label{manipulation-check}}
+
+The complex animated creatures were rated as more perceptually complex
+(M = ; SD = ) than the simple animated creatures (M = ; SD = ). Pairs of
+background creature and deviant creature were rated as moderately
+dissimilar to one another (M = ; SD = ).
+
+\hypertarget{evaluating-the-paradigm}{%
+\subsubsection{Evaluating the Paradigm}\label{evaluating-the-paradigm}}
+
+Three criteria were selected to evaluate whether the paradigms
+successfully captured the characteristic looking time patterns observed
+in infant literature: habituation (the decrease in looking time for a
+stimulus with repeated presentations), dishabituation (the increase in
+looking time to a new stimulus after habituated to one stimulus), and
+complexity effect (longer looking time for perceptually more complex
+stimuli). To evaluate the phenomenon quantitatively, we ran a linear
+mixed effects model with maximal random effect structure. {[}DESCRIBE
+THE MODEL{]}. {[}REPORT THE MODEL RESULTS{]}
+
+\hypertarget{discussion}{%
+\subsection{Discussion}\label{discussion}}
 
 \hypertarget{model-comparison}{%
 \section{Model comparison}\label{model-comparison}}
 
-todo:
-
-\begin{itemize}
-\tightlist
-\item
-  put in the stats
-\item
-  put in the figure
-\item
-  render and see how long
-\item
-  ping gal
-\end{itemize}
-
 \hypertarget{parameter-estimation}{%
 \subsection{Parameter estimation}\label{parameter-estimation}}
+
+We performed an iterative grid search in parameter space for each
+linking hypothesis. We a priori constrained our parameter space on the
+prior beta distribution to have shape parameters that
+\(\alpha_{\theta} > \beta_{\theta}\), which describe the prior beliefs
+as ``more likely to see the absence of a feature than the presence of a
+feature.'' For model 1, we searched for the priors over the concept to
+be learned. The parameter search for the two metrics, surprisal and
+KL-divergence, converged on the same priors (\(\alpha_{\theta}\) =
+1;\(\beta_{\theta}\) = 2). For model 2, we searched for the priors over
+the concept (\(\theta\)), the noise parameter that decides how likely a
+feature would be misperceived (\(\epsilon\)), and the constant EIG from
+the world (\(EIG(world)\)). The prior over the noise parameter was fixed
+for all searches (\(\alpha_{\epsilon}\) = 1;\(\beta_{\epsilon}\) = 10).
+In model 2, different parameters were selected to obtain the best fit to
+the behavioral data (EIG: \(\alpha_{\theta}\) = 1, \(\beta_{\theta}\) =
+4, \(\epsilon\) = 0.065, \(EIG(world)\) = 0.01; KL: \(\alpha_{\theta}\)
+= 1, \(\beta_{\theta}\) = 5, \(\epsilon\) = 0.055, \(EIG(world)\) =
+0.006; Surprisal: \(\alpha_{\theta}\) = 1, \(\beta_{\theta}\) = 3,
+\(\epsilon\) = 0.07, \(EIG(world)\) = 8).
+
+\begin{CodeChunk}
+\begin{figure}[H]
+
+{\centering \includegraphics{figs/basic_result-1} 
+
+}
+
+\caption[Results from the discrete time model]{Results from the discrete time model. The top panels show the trajectories of KL under different sequences, and the bottom panels showw the trajectoreis of surprisal.}\label{fig:basic_result}
+\end{figure}
+\end{CodeChunk}
 
 \hypertarget{model-experiment}{%
 \subsection{Model experiment}\label{model-experiment}}
@@ -323,6 +464,17 @@ model with each of the four sequences once and derived the information
 theoretic measurements. For model 2, we ran each sequence 500 times to
 obtain a reasonably precise estimate on the model's behaviors.
 
+\begin{CodeChunk}
+\begin{figure*}[h!]
+
+{\centering \includegraphics{figs/experiment_res-1} 
+
+}
+
+\caption[Continuous time model using different linking hypotheses provide qualitatively indistinguishable fits to the behavioral data]{Continuous time model using different linking hypotheses provide qualitatively indistinguishable fits to the behavioral data. All model results are log-transformed and adjusted to be at the same scale and intercepts as the log-transformed behavioral data. The solid lines represent human data, and the dotted lines represent the model's results. Red lines indicated results for complex stimuli, and blue lines indicated results for simple stimuli.}\label{fig:experiment_res}
+\end{figure*}
+\end{CodeChunk}
+
 \hypertarget{results-and-discussion}{%
 \subsection{Results and Discussion}\label{results-and-discussion}}
 
@@ -333,10 +485,11 @@ All models' results were adjusted to match behavioral data's scale and
 intercepts for easier comparisons. In model 1, we found that KL provided
 a better fit for the behavioral data than surprisal (Fig X; KL: \emph{r}
 = 0.9; RMSE = 0.39; Surprisal: \emph{r} = 0.74; RMSE = 0.42) In model 2,
-however, we found that the three linking hypotheses were
-indistinguishable in their fits (Fig X; EIG: r, RMSE; KL: r, RMSE;
-Surprisal: r, RMSE). In this section, we discuss the implications of our
-findings and future directions.
+however, we found that the three linking hypotheses were qualitatively
+indistinguishable in their fits (Fig X; EIG: \emph{r} = 0.92, RMSE =
+0.19; KL: \emph{r} = 0.93, RMSE = 0.12; Surprisal: \emph{r} = 0.92, RMSE
+= 0.13). In this section, we discuss the implications of our findings
+and future directions.
 
 First, the result from our discrete model extended the Poli et al
 (2020)'s findings. We showed in a new behavioral dataset that, similar

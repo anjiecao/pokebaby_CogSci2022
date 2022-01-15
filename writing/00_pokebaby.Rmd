@@ -40,6 +40,8 @@ library(tidyverse)
 library(here)
 library(lmerTest)
 library(lme4)
+library(patchwork)
+
 
 library(png)
 library(grid)
@@ -99,12 +101,13 @@ b_res_summary <- b_res_print %>%
 
 # Experiment  
 
+
 ```{r child = "03_experiment.Rmd"}
 ```
 
 # Model comparison 
 
-```{r child = "04_results_and_discussion.Rmd"}
+````{r child = "04_results_and_discussion.Rmd"}
 ```
 
 
