@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2022/dev) (preloaded format=pdflatex 2022.1.14)  14 JAN 2022 12:05
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2022/dev) (preloaded format=pdflatex 2022.1.14)  14 JAN 2022 19:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -313,41 +313,44 @@ File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package color Info: Driver file: pdftex.def on input line 149.
 )
+\cslhangindent=\skip59
+
 (/Users/galraz1/Library/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdftex
 .def
 File: l3backend-pdftex.def 2022-01-12 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count288
 \l__pdf_internal_box=\box55
-) (./00_pokebaby.aux)
+)
+No file 00_pokebaby.aux.
 \openout1 = `00_pokebaby.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for OMS/pzccm/m/n on input line 61.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 66.
+LaTeX Font Info:    ... okay on input line 66.
+LaTeX Font Info:    Checking defaults for OMS/pzccm/m/n on input line 66.
 LaTeX Font Info:    Trying to load font information for OMS+pzccm on input line
- 61.
+ 66.
 (/Users/galraz1/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omspzccm.fd
 File: omspzccm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/pzccm.
 )
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    ... okay on input line 66.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 66.
+LaTeX Font Info:    ... okay on input line 66.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 66.
+LaTeX Font Info:    ... okay on input line 66.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 66.
+LaTeX Font Info:    ... okay on input line 66.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 66.
+LaTeX Font Info:    ... okay on input line 66.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 66.
+LaTeX Font Info:    ... okay on input line 66.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 66.
+LaTeX Font Info:    ... okay on input line 66.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 66.
+LaTeX Font Info:    ... okay on input line 66.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: hyperref package is loaded.
 Package caption Info: End \AtBeginDocument code.
-Package hyperref Info: Link coloring OFF on input line 61.
+Package hyperref Info: Link coloring OFF on input line 66.
 (/Users/galraz1/Library/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
 (/Users/galraz1/Library/TinyTeX/texmf-dist/tex/latex/refcount/refcount.sty
@@ -359,10 +362,9 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count289
 )
-LaTeX Info: Redefining \ref on input line 61.
-LaTeX Info: Redefining \pageref on input line 61.
-LaTeX Info: Redefining \nameref on input line 61.
-(./00_pokebaby.out) (./00_pokebaby.out)
+LaTeX Info: Redefining \ref on input line 66.
+LaTeX Info: Redefining \pageref on input line 66.
+LaTeX Info: Redefining \nameref on input line 66.
 \@outlinefile=\write4
 \openout4 = `00_pokebaby.out'.
 
@@ -385,106 +387,61 @@ LaTeX Info: Redefining \BPBI on input line 129.
 LaTeX Info: Redefining \BHBI on input line 130.
 )
 LaTeX Font Info:    Trying to load font information for OT1+ptmcm on input line
- 64.
+ 69.
 (/Users/galraz1/Library/TinyTeX/texmf-dist/tex/latex/psnfss/ot1ptmcm.fd
 File: ot1ptmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ptmcm.
 )
 LaTeX Font Info:    Trying to load font information for OML+ptmcm on input line
- 64.
+ 69.
 (/Users/galraz1/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omlptmcm.fd
 File: omlptmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OML/ptmcm.
 )
 LaTeX Font Info:    Trying to load font information for OMX+psycm on input line
- 64.
+ 69.
 (/Users/galraz1/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omxpsycm.fd
 File: omxpsycm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/psycm.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 64.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 69.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 64.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 69.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 64.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 64.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 69.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 69.
 
 (/Users/galraz1/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 64.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 69.
 
 (/Users/galraz1/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Underfull \vbox (badness 10000) detected at line 64
+Underfull \vbox (badness 10000) detected at line 69
  []
 
-<figs/image-1.pdf, id=52, 144.54pt x 144.54pt>
-File: figs/image-1.pdf Graphic file (type pdf)
-<use figs/image-1.pdf>
-Package pdftex.def Info: figs/image-1.pdf  used on input line 138.
-(pdftex.def)             Requested size: 144.53963pt x 144.53963pt.
 [1{/Users/galraz1/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
 
- <./figs/image-1.pdf>]
-Underfull \hbox (badness 1490) in paragraph at lines 194--202
- []\OT1/ptm/b/n/10 Participants[] \OT1/ptm/m/n/10 We re-cruited 449 par-tic-i-p
-ants (Age \OT1/ptm/m/it/10 M \OT1/ptm/m/n/10 =
- []
-
-
-Underfull \hbox (badness 1803) in paragraph at lines 266--270
- []\OT1/ptm/b/n/10 Manipulation Check[] \OT1/ptm/m/n/10 The com-plex an-i-mated
- crea-tures
- []
-
-[2]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-Underfull \hbox (badness 1910) in paragraph at lines 372--381
-[]\OT1/ptm/m/n/10 Three cri-te-ria were se-lected to eval-u-ate whether the
- []
-
-<figs/unnamed-chunk-10-1.pdf, id=99, 216.81pt x 216.81pt>
-File: figs/unnamed-chunk-10-1.pdf Graphic file (type pdf)
-<use figs/unnamed-chunk-10-1.pdf>
-Package pdftex.def Info: figs/unnamed-chunk-10-1.pdf  used on input line 387.
-(pdftex.def)             Requested size: 216.80946pt x 216.80946pt.
-
-Overfull \hbox (36.99754pt too wide) in paragraph at lines 387--387
- []\OT1/ptm/b/n/10 Order Ef-fect[] [] 
- []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-[3] [4 <./figs/unnamed-chunk-10-1.pdf>] (./00_pokebaby.aux)
-Package rerunfilecheck Info: File `00_pokebaby.out' has not changed.
-(rerunfilecheck)             Checksum: 6B1F9C020A3E26CFE80F03E27F0C8636;1334.
- ) 
+]
+<figs/plate_diagram-1.pdf, id=13, 144.54pt x 144.54pt>
+File: figs/plate_diagram-1.pdf Graphic file (type pdf)
+<use figs/plate_diagram-1.pdf>
+Package pdftex.def Info: figs/plate_diagram-1.pdf  used on input line 116.
+(pdftex.def)             Requested size: 144.53963pt x 144.53963pt.
+! Missing $ inserted.
+<inserted text> 
+                $
+l.120 ...ate fixed model parameters.}(\#fig:plate_
+                                                  diagram) 
 Here is how much of TeX's memory you used:
- 11630 strings out of 480246
- 186321 string characters out of 5895106
- 487601 words of memory out of 5000000
- 29354 multiletter control sequences out of 15000+600000
- 501748 words of font info for 87 fonts, out of 8000000 for 9000
+ 11517 strings out of 480246
+ 184907 string characters out of 5895106
+ 479639 words of memory out of 5000000
+ 29313 multiletter control sequences out of 15000+600000
+ 490322 words of font info for 67 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 60i,11n,63p,302b,492s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/Users/galraz1/Library/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}</User
-s/galraz1/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
-</Users/galraz1/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10
-.pfb></Users/galraz1/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmsy10.pfb></Users/galraz1/Library/TinyTeX/texmf-dist/fonts/type1/urw/courier/u
-crr8a.pfb></Users/galraz1/Library/TinyTeX/texmf-dist/fonts/type1/urw/symbol/usy
-r.pfb></Users/galraz1/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmb8a.p
-fb></Users/galraz1/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmr8a.pfb>
-</Users/galraz1/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on 00_pokebaby.pdf (4 pages, 195883 bytes).
-PDF statistics:
- 168 PDF objects out of 1000 (max. 8388607)
- 139 compressed objects within 2 object streams
- 48 named destinations out of 1000 (max. 500000)
- 107 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 60i,11n,63p,1445b,331s stack positions out of 5000i,500n,10000p,200000b,80000s
 
+!  ==> Fatal error occurred, no output PDF file produced!
