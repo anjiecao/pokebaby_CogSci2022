@@ -41,7 +41,7 @@ library(here)
 library(lmerTest)
 library(lme4)
 library(patchwork)
-
+library(Metrics)
 
 library(png)
 library(grid)
@@ -107,7 +107,7 @@ b_res_summary <- b_res_print %>%
 
 # Model comparison 
 
-````{r child = "04_results_and_discussion.Rmd"}
+```{r child = "04_results_and_discussion.Rmd"}
 ```
 
 
@@ -116,13 +116,6 @@ b_res_summary <- b_res_print %>%
 Place acknowledgments (including funding information) in a section at
 the end of the paper.
 -->
-
-# References 
-
-```{r}
-# References will be generated automatically by Pandoc and included here.
-# The following code is some latex to format the bibliography. Do not remove it.
-```
 
 # References 
 

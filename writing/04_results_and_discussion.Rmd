@@ -40,7 +40,7 @@ We performed an iterative grid search in parameter space for each linking hypoth
 
 
 
-```{r basic_result, echo = FALSE, fig.env = "figure", fig.pos = "H", fig.align='center', fig.width=3.8, fig.height=3.8, set.cap.width=T, num.cols.cap=1, fig.cap = "Results from the discrete time model. The top panels show the trajectories of KL under different sequences, and the bottom panels showw the trajectoreis of surprisal."}
+```{r basic_result, echo = FALSE, fig.env = "figure", fig.pos = "h", fig.align='center', fig.width=3, fig.height=3, set.cap.width=T, num.cols.cap=1, fig.cap = "Results from the discrete time model. The top panels show the trajectories of KL under different sequences, and the bottom panels showw the trajectoreis of surprisal."}
 
 d_model_res %>% 
   pivot_longer(cols = c("scaled_log_surprisal", "scaled_log_kl"), 
@@ -80,104 +80,106 @@ To model the behavioral experiment, we first represented the stimuli as a vector
 For Model 1, since it’s behavior is non-probabilistic, we presented the model with each of the four sequences once and derived the information theoretic measurements. For model 2, we ran each sequence 500 times to obtain a reasonably precise estimate on the model’s behaviors. 
 
 
-```{r experiment_res, fig.env = "figure*", fig.pos = "h!", fig.width=6.8, fig.height=3.3, fig.align = "center", fig.cap = "Continuous time model using different linking hypotheses provide qualitatively indistinguishable fits to the behavioral data. All model results are log-transformed and adjusted to be at the same scale and intercepts as the log-transformed behavioral data. The solid lines represent human data, and the dotted lines represent the model's results. Red lines indicated results for complex stimuli, and blue lines indicated results for simple stimuli."}
+```{r experiment_res, echo = FALSE, fig.env = "figure*", fig.pos = "h", fig.width=6.6, fig.height=3, fig.align = "center", set.cap.width=T, num.cols.cap=2, fig.cap = "Continuous time model using different linking hypotheses provide qualitatively indistinguishable fits to the behavioral data. All model results are log-transformed and adjusted to be at the same scale and intercepts as the log-transformed behavioral data. The solid lines represent human data, and the dotted lines represent the model's results. Red lines indicated results for complex stimuli, and blue lines indicated results for simple stimuli."}
 
-eig_plot <- c_model_res %>% 
-  filter(im_type == "EIG") %>% 
-  rename(res_val = scaled_log_sample_n) %>% 
-  select(complexity, trial_number, sequence_scheme, sequence_scheme_print, res_val) %>% 
-  mutate(`Result Type` = "Model") %>% 
+point_size = 0.3
+
+eig_plot <- c_model_res %>%
+  filter(im_type == "EIG") %>%
+  rename(res_val = scaled_log_sample_n) %>%
+  select(complexity, trial_number, sequence_scheme, sequence_scheme_print, res_val) %>%
+  mutate(`Result Type` = "Model") %>%
   bind_rows(
-    b_res_print %>% rename(res_val = log_trial_looking_time) %>% 
-      select(complexity, trial_number, sequence_scheme, sequence_scheme_print, res_val) %>% 
+    b_res_print %>% rename(res_val = log_trial_looking_time) %>%
+      select(complexity, trial_number, sequence_scheme, sequence_scheme_print, res_val) %>%
       mutate(`Result Type` = "Behavioral")
-  ) %>% 
-   ggplot(aes(x=trial_number, y=res_val, color = complexity, linetype = `Result Type`)) + 
-   stat_summary(fun.data = "mean_cl_boot", position = position_dodge(width = .2)) + 
+  ) %>%
+   ggplot(aes(x=trial_number, y=res_val, color = complexity, linetype = `Result Type`)) +
+   stat_summary(fun.data = "mean_cl_boot", position = position_dodge(width = .2), fatten = point_size) +
    stat_summary(fun.data = "mean_cl_boot",
                 geom = "line", position = position_dodge(width = .2)) +
-  
+
    facet_wrap(~sequence_scheme_print) +
-  scale_x_continuous(breaks = seq(1, 6, 1)) + 
+  scale_x_continuous(breaks = seq(1, 6, 1)) +
   #langcog::theme_mikabr() +
   theme_classic()+
-  langcog::scale_color_solarized(name = "Trial Complexity",labels = c("Complex", "Simple")) + 
-  labs(title = "EIG")+ 
-  theme(legend.position = "none", 
-        axis.title = element_text(size = 8.5), 
-        axis.title.x = element_blank(), 
-        axis.text.y = element_text(size = 6), 
-        plot.title = element_text(size = 8), 
+  langcog::scale_color_solarized(name = "Trial Complexity",labels = c("Complex", "Simple")) +
+  labs(title = "EIG")+
+  theme(legend.position = "none",
+        axis.title = element_text(size = 8.5),
+        axis.title.x = element_blank(),
+        axis.text.y = element_text(size = 6),
+        plot.title = element_text(size = 8),
          strip.text.x = element_text(size = 5)
-        ) + 
-  ylab("log Looking time (seconds)") #+ 
-  #xlab("Trial Number") 
+        ) +
+  ylab("log Looking time (seconds)") #+
+  #xlab("Trial Number")
 
 kl_plot <- c_model_res %>%
-  filter(im_type == "KL") %>% 
-  rename(res_val = scaled_log_sample_n) %>% 
-  select(complexity, trial_number, sequence_scheme, sequence_scheme_print, res_val) %>% 
-  mutate(`Result Type` = "Model") %>% 
+  filter(im_type == "KL") %>%
+  rename(res_val = scaled_log_sample_n) %>%
+  select(complexity, trial_number, sequence_scheme, sequence_scheme_print, res_val) %>%
+  mutate(`Result Type` = "Model") %>%
   bind_rows(
-    b_res_print %>% rename(res_val = log_trial_looking_time) %>% 
-      select(complexity, trial_number, sequence_scheme, sequence_scheme_print, res_val) %>% 
+    b_res_print %>% rename(res_val = log_trial_looking_time) %>%
+      select(complexity, trial_number, sequence_scheme, sequence_scheme_print, res_val) %>%
       mutate(`Result Type` = "Behavioral")
-  ) %>% 
-   ggplot(aes(x=trial_number, y=res_val, color = complexity, linetype = `Result Type`)) + 
-   stat_summary(fun.data = "mean_cl_boot", position = position_dodge(width = .2)) + 
+  ) %>%
+   ggplot(aes(x=trial_number, y=res_val, color = complexity, linetype = `Result Type`)) +
+   stat_summary(fun.data = "mean_cl_boot", position = position_dodge(width = .2), fatten = point_size) +
    stat_summary(fun.data = "mean_cl_boot",
                 geom = "line", position = position_dodge(width = .2)) +
-  
+
    facet_wrap(~sequence_scheme_print) +
-  scale_x_continuous(breaks = seq(1, 6, 1)) + 
+  scale_x_continuous(breaks = seq(1, 6, 1)) +
   #langcog::theme_mikabr() +
   theme_classic()+
-  langcog::scale_color_solarized(name = "Trial Complexity",labels = c("Complex", "Simple")) + 
-  labs(title = "KL")+ 
-  theme(legend.position = "none", 
-        axis.text.y = element_blank(), 
+  langcog::scale_color_solarized(name = "Trial Complexity",labels = c("Complex", "Simple")) +
+  labs(title = "KL")+
+  theme(legend.position = "none",
+        axis.text.y = element_blank(),
         axis.ticks.y = element_blank(),
-        axis.title = element_blank(), 
+        axis.title = element_blank(),
         legend.title = element_text(size = 8.5),
-        legend.text = element_text(size = 8.5), 
+        legend.text = element_text(size = 8.5),
         plot.title = element_text(size = 8),
         strip.text.x = element_text(size = 5)
-        ) 
-  #ylab("") + 
-  #xlab("Trial Number")  + 
-  
+        )
+  #ylab("") +
+  #xlab("Trial Number")  +
+
 
 surprisal_plot <- c_model_res %>%
-  filter(im_type == "surprisal") %>% 
-  rename(res_val = scaled_log_sample_n) %>% 
-  select(complexity, trial_number, sequence_scheme, sequence_scheme_print, res_val) %>% 
-  mutate(`Result Type` = "Model") %>% 
+  filter(im_type == "surprisal") %>%
+  rename(res_val = scaled_log_sample_n) %>%
+  select(complexity, trial_number, sequence_scheme, sequence_scheme_print, res_val) %>%
+  mutate(`Result Type` = "Model") %>%
   bind_rows(
-    b_res_print %>% rename(res_val = log_trial_looking_time) %>% 
-      select(complexity, trial_number, sequence_scheme, sequence_scheme_print, res_val) %>% 
+    b_res_print %>% rename(res_val = log_trial_looking_time) %>%
+      select(complexity, trial_number, sequence_scheme, sequence_scheme_print, res_val) %>%
       mutate(`Result Type` = "Behavioral")
-  ) %>% 
-   ggplot(aes(x=trial_number, y=res_val, color = complexity, linetype = `Result Type`)) + 
-   stat_summary(fun.data = "mean_cl_boot", position = position_dodge(width = .2)) + 
+  ) %>%
+   ggplot(aes(x=trial_number, y=res_val, color = complexity, linetype = `Result Type`)) +
+   stat_summary(fun.data = "mean_cl_boot", position = position_dodge(width = .2), fatten = point_size) +
    stat_summary(fun.data = "mean_cl_boot",
                 geom = "line", position = position_dodge(width = .2)) +
-  
+
    facet_wrap(~sequence_scheme_print) +
-  scale_x_continuous(breaks = seq(1, 6, 1)) + 
+  scale_x_continuous(breaks = seq(1, 6, 1)) +
   #langcog::theme_mikabr() +
   theme_classic()+
-  langcog::scale_color_solarized(name = "Trial Complexity",labels = c("Complex", "Simple")) + 
+  langcog::scale_color_solarized(name = "Trial Complexity",labels = c("Complex", "Simple")) +
   labs(title = "Surpisal")+
-  theme(legend.position = "right", 
-        axis.text.y = element_blank(), 
+  theme(legend.position = "right",
+        axis.text.y = element_blank(),
         axis.ticks.y = element_blank(),
-        axis.title = element_blank(), 
+        axis.title = element_blank(),
         plot.title = element_text(size = 8),
          legend.title = element_text(size = 6),
-        legend.text = element_text(size =6), 
+        legend.text = element_text(size =6),
          strip.text.x = element_text(size = 5)
-        ) 
-  #xlab("Trial Number") 
+        )
+  #xlab("Trial Number")
 
 eig_plot + kl_plot + surprisal_plot
 ```
@@ -205,14 +207,10 @@ df_compare_kl <- calculate_scaled_correlation(kl_sim_b_res)
 df_compare_surpirsal <- calculate_scaled_correlation(s_sim_b_res)
 ```
 
-
-
-
-
 Both models reproduced the behavioral phenomena qualitatively, showing habituation, dishabituation, and complexity effect. To quantitatively explore the models, we fit the models’ output to the behavioral data. All models’ results were adjusted to match behavioral data’s scale and intercepts for easier comparisons.   In model 1, we found that KL provided a better fit for the behavioral data than surprisal (Fig X; KL: *r* = `r round(df_compare_basic$kl_r_log, 2)`; RMSE = `r round(df_compare_basic$kl_rmse_log, 2)`; Surprisal: *r* = `r round(df_compare_basic$surprisal_r_log, 2)`; RMSE = `r round(df_compare_basic$surprisal_rmse_log, 2)`) In model 2, however, we found that the three linking hypotheses were qualitatively indistinguishable in their fits (Fig X; EIG: *r* = `r round(df_compare_eig$r_in_log, 2)`, RMSE = `r round(df_compare_eig$rmse_in_log, 2)`; KL: *r* = `r round(df_compare_kl$r_in_log, 2)`, RMSE = `r round(df_compare_kl$rmse_in_log, 2)`; Surprisal: *r* = `r round(df_compare_surpirsal$r_in_log, 2)`, RMSE = `r round(df_compare_surpirsal$rmse_in_log, 2)`). In this section, we discuss the implications of our findings and future directions. 
 
 First, the result from our discrete model extended the Poli et al (2020)’s findings. We showed in a new behavioral dataset that, similar to infants, adults’ attention allocation is better predicted by KL divergence than surprisal. This converging finding suggests a developmental continuity on principles guiding information-seeking behaviors. Second, the result from our continuous time model is the first evidence showing that under certain model architecture, surprisal and KL-divergence are good proxies for EIG, a metric that has the distinct advantage of quantitatively characterizing the optimal exploratory behaviors in humans. Tracking EIG can be computationally expensive and psychologically implausible. To calculate EIG, the current model needs to consider all possible combinations of features for the next observation. The proximities of model fits between EIG, KL, and surprisal revealed an opportunity to further optimize learning policies for computational models. Further, it also calls for more investigations on the relationships between different information theoretic metrics’ roles in predicting human behaviors. Our finding is in sharp contrast with previous work that tries to dissociate between different metrics using the same behavioral dataset (Poli, Emily). It would be theoretically interesting to consider under what circumstances do the measurements converge or become dissociable.  Last but not least, although we can not directly compare the two models’ fits quantitatively due to the differences in the number of free parameters, our results still show how models’ architectural differences can lead to different conclusions about the linking hypotheses. In a more psychologically realistic modeling regime, different information theoretic measurements can become indistinguishable. 
 
 There are several limitations to the current work. For our behavioral data, one concern is that our self-paced visual presentation task might not be capturing participants’ intrinsic interests in exploring the stimuli, which raises the question on whether we are actually measuring looking time. We addressed this question by including different filler tasks in-between blocks. No differences in looking time patterns are found across conditions. This suggests that the recorded-behaviors are task demand-independent, which means that they are more likely to reflect participants’ genuine interests in looking at the stimuli. For our models, there are several limitations that require further investigation. The current stimuli representation is rather oversimplified. For example, we did not take into consideration how features can have different degrees of saliency. In addition, the sampling policy’s implementation can be further challenged. The model currently decides between “continuing looking” and “look away”, but one can argue that in the behavioral experiment the participants were deciding between “continuing looking at the current stimulus” and “look at the next stimulus”. Building these more sophisticated assumptions into the model would certainly help us understand looking time better under a rational analysis framework. Nevertheless, our current work suggests that simpler models are capable of explaining key phenomena in looking time change. 
 
-Our ultimate goal is to provide a computational model that can explain the key looking time patterns documented and utilized in infant research: habituation, dishabituation, and complexity effect. We believe these patterns are driven by information-seeking principles that have strong developmental continuities. In the current work, we have shown that information theoretic measurements can be linked to adult looking time patterns. We also compared the two models and found that model architecture has consequences for linking hypotheses. Specifically, in a discrete time model, we found KL is a better predictor than surprisal. But in the continuous time model, three measurements (EIG, KL, and surprisal) become indistinguishable. As we further elaborate on our modeling approach, our ongoing work on infants will eventually help address the developmental trajectories of the mechanisms through which learners decide what to look at , and when to stop looking.
+Our ultimate goal is to provide a computational model that can explain the key looking time patterns documented and utilized in infant research: habituation, dishabituation, and complexity effect. We believe these patterns are driven by information-seeking principles that have strong developmental continuities. In the current work, we have shown that information theoretic measurements can be linked to adult looking time patterns. We also compared the two models and found that model architecture has consequences for linking hypotheses. Specifically, in a discrete time model, we found KL is a better predictor than surprisal. But in the continuous time model, three measurements (EIG, KL, and surprisal) become indistinguishable. As we further elaborate on our modeling approach, our ongoing work on infants will eventually help address the developmental trajectories of the mechanisms through which learners decide what to look at, and when to stop looking.
