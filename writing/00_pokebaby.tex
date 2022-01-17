@@ -88,140 +88,157 @@ between each term.
 
 Whether to keep looking at a current target of attention is one of the
 most fundamental decisions we make, whether we are trying to find our
-way in a busy street or swiping through TikTok. Even young infants are
-tasked with making the decision on selecting what to look at and for how
-long. To look or not to look, this decision that infants make constantly
-has provided developmental researchers an opportunity to investigate
-infants' mental world. Through the use of looking time paradigms,
-researchers are able to make inferences about infants' learning and
-mental representations based on changes in looking time (CITE, CITE,
-CITE). In a typical experiment, infants increasingly decrease their
-looking duration upon seeing repeated stimulus (i.e.~habituation). When
-habituated, infants regain their interests when seeing a novel stimulus
-(i.e.~dishabituation). While both phenomena are well-documented, the
-factors that influence these looking time trajectories remain relatively
-underexplored. A better understanding of what shapes habituation and
-dishabituation is critical given their methodological and theoretical
-significance. The rise and fall in looking time is not only central to
-understanding infants' mental representation, but also shed light on
-principles that guide information-seeking behavior in general.
+way in a busy street or swiping through TikTok. Even young infants
+constantly decide what to look at and for how long. In fact, infant
+research has capitalized on infants' ability to endogenously control
+their attention. Through the use of looking time paradigms, researchers
+have been able to make inferences about infants' learning and mental
+representations from the changes in their looking duration(Aslin, 2007;
+Sim \& Xu, 2019). In a typical experiment, infants decrease their
+looking duration upon seeing repeated stimulus (i.e.~habituation). After
+being habituated, infants' interest will often recover when seeing a
+novel stimulus, relative to the habituation stimulus
+(i.e.~dishabituation). While these phenomena are well-documented, the
+mechanisms underlying them remain poorly understood. A better
+understanding of what shapes habituation and dishabituation is of both
+methodological and theoretical significance. Methodologically, it is
+central to relating behavior to infants' internal representations.
+Theoretically, it would shed light on infants' active role in shaping
+their own learning {[}Smith, Jayaraman, Clerkin, \& Yu (2018);
+raz2020learning{]} and reveal principles that guide human
+information-seeking behavior in general.
 
 Classical theory of infant looking behavior suggests three factors are
 crucial to habituation and dishabituation: complexity, familiarization
-time, and infants' age (Hunter \& Ames, 1988). More perceptually complex
-stimuli take longer time for infants to habituate. Longer
-familiarization time to one stimulus would make infants more likely to
-dishabituate to another stimulus. The older infants are, the more
-efficient they are at information processing, and the faster they are to
-habituate when other factors are controlled for. Together, these three
-factors determine how infants' looking time changes during an
-experiment. Although Hunter \& Ames (1988) is influential, the evidence
-for the theory is weak, with some studies showing mixed results (CITE
-meta analysis). Furthermore, this verbal theory lacks quantitative
-details, and therefore unlikely to offer precise predictions on looking
-time changes based on the different factors.
+time, and infants' age (Hunter \& Ames, 1988): 1) Infants will take
+longer to habituation to complex stimuli, 2) longer familiarization time
+to one stimulus would make infants more likely to dishabituate to
+another stimulus and 3) The older the infants, the faster their
+information processing, and the faster they will habituate. Together,
+these three factors determine how infants' looking time changes during
+an experiment. Although this theory is influential, few empirical work
+has examined these three factors systematically (for exception, see
+Hunter, Ames, \& Koopman, 1983) and the lack of quantitative details in
+the theory has made it impossible to offer precise predictions.
 
-In contrast to verbal theory, computational models offer quantitative
-predictions. More recent work has linked infants' looking behaviors with
-a range of information theoretic measurements derived from models. In
-pioneering work, KPA (CITE) developed a paradigm in which infants are
-shown sequences of events. Infants' look-away probabilities toward the
-stimuli are compared with surprisal, a measure of information content,
-derived from a rational learner model that keeps track of the
-probabilities of each event. The study shows that infants looking
-behaviors can be predicted by surprisal. In particular, they pay most
-attention to event sequences that are neither too high nor too low in
-surprisal. A recent study with a similar paradigm provides an
-alternative linking hypothesis. In Poli et al (2020), another
-information theoretic measurement, Kullback-Leibler divergence, is shown
-to outperform surprisal in predicting infants' looking time. These
-attempts on connecting information theoretic measurements to infants'
-looking time resonate with the emerging literature on curiosity in
-developmental robotics and reinforcement learning (CITE, CITE, CITE).
-Curiosity-driven artificial agents' exploratory behaviors are guided by
-optimizing Expected Information Gain (EIG) (CITE, CITE), a measurement
-that has been shown to be related to information-seeking in human
-children and adults as well (CITE).
+In contrast to the classical verbal theory, recent work has attempted to
+describe infants' looking behaviors through computational modeling. In
+pioneering work, Kidd, Piantadosi, \& Aslin (2012) developed a paradigm
+in which infants are shown sequences of events. Infants' look-away
+probabilities toward the stimuli are compared with surprisal, a measure
+of information content, derived from a rational learner model that keeps
+track of the probabilities of each event. The study shows that infants'
+pay most attention to event sequences that are neither too high nor too
+low in surprisal, resulting in a `Golidlocks' effect of attention. A
+recent study by Poli, Serino, Mars, \& Hunnius (2020) offered an
+alternative linking hypothesis between the model and behavior: the study
+used a similar paradigm and model to show that infants' looking time can
+be predicted by the Kullback-Leibler (KL) divergence. KL measures the
+statistical distance between two probabilities distribution, which
+intuitively tracks `learning progress.' These attempts on connecting
+information theoretic measurements to infants' looking time resonate
+with the emerging literature on curiosity in developmental robotics and
+reinforcement learning (Haber, Mrowca, Fei-Fei, \& Yamins, 2018;
+Oudeyer, Kaplan, \& Hafner, 2007). Curiosity-driven artificial agents'
+exploratory behaviors are guided by optimizing expected information gain
+(EIG), a measurement that has been shown to be related to
+curiosity-driven learning iin human children and adults (Liquin,
+Callaway, \& Lombrozo, 2021).
 
 However, there are several limitations to the existing models. First,
-the current models did not capture the noisy nature of perceptual
-learning (CITE noisy perception?). The rational learner models were
-assumed to acquire perfect representation of each event in the sequence
-(CITE model). This assumption leads to the second limitation: the lack
-of explanation in why a learner would choose to learn a stimulus in the
-first place. Both surprisal and KL-divergence have been presented as
-potential explanations of infants' looking behaviors, yet neither of the
-measurements is mechanistically linked to the models' behaviors. They
-are descriptive in nature, derived from models that track the
-probabilities of the events. Finally, the behavioral data that the
-models were evaluated with came from experimental paradigms that were
-not representatives of infant looking time paradigms. The key phenomena,
-habituation and dishabituation, were not captured. The extent to which
-we can extrapolate current behavior-model fits to understand changes in
-looking time in a typical looking time experiment remains limited.
+current models do not capture the noisy nature of perceptual learning
+(Callaway, Rangel, \& Griffiths, 2021; Kersten, Mamassian, \& Yuille,
+2004). That is, the models were assumed to acquire perfect
+representation of each event in the sequence. This assumption leads to
+the second limitation: While surprisal and KL-divergence have been shown
+to correlate with infants' looking behaviors, current models do not
+provide an account of how these measurements might be linked
+mechanistically to the infants' behavior. That is, while these models
+show that infants might be sensitive to the information-theoretic
+variability in their learning environment, they do not provide an
+account of how they are related to infants' real-time sampling behavior.
+Finally, the event sequence paradigm used to evaluate these models are
+not representative of classical infant looking time paradigms. As the
+key phenomena described in the Hunter \& Ames (1988) theory were not
+captured, the extent to which we can extrapolate current behavior-model
+fits to behavior in a typical looking time experiment remains limited.
 
-Here we present a series of models that can explain patterns in looking
-time. Our Goal is to provide a unifying quantitative account of looking
-behaviors as arising from optimal decision-making over noisy perceptual
-representations (CITE C \& G; drif diffusion). We begin by instantiating
-a version of prior learning models in an independent-trial format (where
-individual stimuli are learned, not sequences of events). We then
-develop a second model that addresses weakness in previous work by a)
-assume the model is accumulating noisy samples from the stimulus, and b)
-assume the model is choosing what to look at depending on the linking
-hypotheses (surprisal, KL-divergence, and EIG). FInally, we evaluate our
-model with adult looking time data collected from a paradigm that
-captures habituation, dishabituation, and complexity effect.
+Here we present steps to overcome these limitations.. Our goal is to
+provide a unifying quantitative account of looking behaviors as arising
+from optimal decision-making over noisy perceptual representations
+(Bitzer, Park, Blankenburg, \& Kiebel, 2014; Callaway et al., 2021). We
+begin by instantiating a version of prior learning models in an
+independent-trial format (where individual stimuli are learned, not
+sequences of events). We then develop a second model that addresses
+weakness in previous work by presenting a model that a) accumulates
+noisy samples from the stimulus, and b) directly chooses what to look at
+using different information-theoretic linking hypotheses (surprisal,
+KL-divergence, and EIG). Finally, we evaluate our model with adult
+looking time data collected from a paradigm that captures habituation,
+dishabituation, and complexity effects.
 
 \hypertarget{models}{%
 \section{Models}\label{models}}
 
-\hypertarget{discrete-time-model}{%
-\subsubsection{Discrete Time Model}\label{discrete-time-model}}
+We reasoned that, at its simplest, habituation occurs when each
+repetition of a stimulus refines the representation of a concept until
+repetitions become ineffectual. Dishabituation then occurs when a
+stimulus deviates from the concept learned during habituation. We
+therefore formalized the learning problem that participants face in a
+simple habituation experiment as a form of Bayesian concept learning
+(Goodman, Tenenbaum, Feldman, \& Griffiths, 2008; Tenenbaum, 1999). The
+goal is to learn a concept \(\theta\), which is a set of probabilities
+for independent binary features \(\theta_{1,2,..,n}\), where n is the
+number of features.
 
-We formalized the learning problem that participants face in our
-experiments as a form of Bayesian concept learning (Goodman, Tenenbaum,
-Feldman, \& Griffiths, 2008; Tenenbaum, 1999), represented graphically
-in Fig. X. The goal is to learn a concept \(\theta\), which is a set of
-probabilities for independent binary features \(\theta_{1,2,..,n}\),
-where n is the number of features. Over the course of a block, the
-learner receives information about \(\theta\) by observing exemplars
-\(y\): instantiations of \(\bar{\theta}\), where each feature
-\(y_{1,2,..,n}\) is either on or off. Each feature \(\theta_i\) and its
-corresponding exemplar \(y_i\) form a Beta-Bernoulli process:
+\hypertarget{model-1-discrete-time-model}{%
+\subsection{Model 1: Discrete Time
+Model}\label{model-1-discrete-time-model}}
+
+In the first model, we assume that the learner receives information
+about \(\theta\) by observing exemplars \(y\): instantiations of
+\(\bar{\theta}\), where each feature \(y_{1,2,..,n}\) is either on or
+off. Each feature \(\theta_i\) and its corresponding exemplar \(y_i\)
+form a Beta-Bernoulli process:
+
 \begin{eqnarray}
 p(\theta_i) \sim Beta(\alpha_i,\beta_i) \\
 p(y_i|\theta_i) \sim Bernoulli(\theta_i)
-\end{eqnarray} Since the features are independent, this relationship
-holds for the entire concept \(\theta\). In previous work, two
-information-theoretic quantities, surprisal and Kullback-Leibler (KL)
-divergence, resulting from the stimulus were shown to be linked to
-looking behavior (Kidd, Piantadosi, \& Aslin, 2012; Poli, Serino, Mars,
-\& Hunnius, 2020). Surprisal, calculated as \(-log(p(y|\theta))\),
-intuitively refers to how surprising a stimulus \(y\) is given the
-model's beliefs about \(\theta\) - the intuition that surprising events
-should result in longer looking times has served as a foundational
-assumption in developmental psychology. KL-divergence measures how much
-a model needs to change to accommodate a new stimulus \(y\), and
-describes a distance between the model before and after an observation,
-in is defined in our case as
+\end{eqnarray}
+
+Since the features are independent, this relationship holds for the
+entire concept \(\theta\). In previous work, two information-theoretic
+quantities, surprisal and Kullback-Leibler (KL) divergence, resulting
+from the stimulus were shown to be linked to looking behavior (Kidd et
+al., 2012; Poli et al., 2020). Surprisal, calculated as
+\(-log(p(y|\theta))\), intuitively refers to how surprising a stimulus
+\(y\) is given the model's beliefs about \(\theta\) - the intuition that
+surprising events should result in longer looking times has served as a
+foundational assumption in developmental psychology. KL-divergence
+measures how much a model needs to change to accommodate a new stimulus
+\(y\), and describes a distance between the model before and after an
+observation, in is defined in our case as
 \(\sum_{x \in X}{p(\theta = x|y)\frac{p(\theta = x|y)}{p(\theta = x)}}\).
 If an observation causes a large change, we speculated that a
 proportionally long looking time is necesssary to integrate the new
 information.
 
-\hypertarget{continuous-time-model}{%
-\subsubsection{Continuous Time Model}\label{continuous-time-model}}
+\hypertarget{model-2-continuous-time-model}{%
+\subsection{Model 2: Continuous Time
+Model}\label{model-2-continuous-time-model}}
 
-However, to model the time course of attention, we did not want to
-assume that stimuli are encoded perfectly and instantaneously. Instead,
-we suggest that participants gather repeated noisy samples \(\bar{z}\)
-from the exemplars. For any sample \(z\) from an exemplar \(y\) there is
-a small probability \(\epsilon\) to misperceive the feature as off when
-it was actually on, and vice versa. Therefore, by making noisy
-observations \(\bar{z}\), the learner obtains information about the true
-identity of the exemplar \(y\), and by extension, about the concept
-\(\bar{theta}\). By Bayes' rule: \begin{eqnarray}
+A limitation of Model 1 is that it assumes that stimuli are encoded
+perfectly and instantaneously. However, to model the precise time course
+of attention, we instead suggest that participants gather repeated noisy
+samples \(\bar{z}\) from the exemplars, instead of directly observing
+them. For any sample \(z\) from an exemplar \(y\) there is a small
+probability \(\epsilon\) to misperceive the feature as off when it was
+actually on, and vice versa.
+
+Therefore, by making noisy observations \(\bar{z}\), the learner obtains
+information about the true identity of the exemplar \(y\), and by
+extension, about the concept \(\bar{theta}\). By Bayes' rule:
+\begin{eqnarray}
 P(\theta|\bar{z}) &= p(\bar{z}|y) p(y|\theta) p(\theta) / p(\bar{z})
 \end{eqnarray} where \(p(\bar{z}|y_i)\) is fully described by
 \(\epsilon\), and \(p(y|\theta)\) by Bernoulli processes as in Eq. 2.
@@ -238,7 +255,7 @@ P(\theta|\bar{z}) &= p(\bar{z}|y) p(y|\theta) p(\theta) / p(\bar{z})
 \end{CodeChunk}
 
 \hypertarget{sampling}{%
-\paragraph{Sampling}\label{sampling}}
+\subsubsection{Sampling}\label{sampling}}
 
 The formulation of the model in continuous time allows us to do two
 things: First, we can explicitly model the learner's decision on when to
@@ -265,9 +282,9 @@ continuous time models.
 We compute EIG by weighing the information gain from each possible next
 observation by the probability of that observation. We defined
 information gain as the KL-divergence between the hypothetical posterior
-after observing a sample \(z_{t+1}\) and the current posterior:
+after observing a future sample \(z_{t+1}\) and the current posterior:
 \begin{eqnarray}
-EIG(z_{t+1}) = \sum_{z_{t+1} \in [0,1]} p(z_{t+1}|\theta_t) * KL(\theta_{t+1}, p(\theta_t))
+EIG(z_{t+1}) = \sum_{z_{t+1} \in [0,1]} p(z_{t+1}|\theta_t) * D_{KL}(\theta_{t+1} || p(\theta_t))
 \end{eqnarray} Finally, to get actual sampling behavior from the model,
 it has to convert EIG into a binary decision about whether continue
 looking at the current sample, or to advance to the next trial. The
@@ -275,55 +292,26 @@ model does so using a luce choice between the EIG from the next sample
 and a constant EIG from looking away. \begin{eqnarray}
 p(look) = \frac{EIG(z_{t+1})}{EIG(z_{t+1})+EIG(world)}
 \end{eqnarray} We also studied the behavior of the model when replacing
-EIG with continuous time versions of the other linking hypotheses,
-surprisal and KL-divergence between the posterior \(p(\theta_t)\) and
-the prior \(p(\theta_{t-1})\).
+EIG with continuous time versions of the linking hypotheses described
+earlier, surprisal and KL-divergence between the posterior
+\(p(\theta_t)\) and the prior \(p(\theta_{t-1})\).
 
 \hypertarget{experiment}{%
 \section{Experiment}\label{experiment}}
 
+To evaluate how well these models can explain looking time changes, we
+developed a stimuli set and an experimental paradigm to reproduce the
+key looking time patterns in adult participants. There are two
+advantages for evaluating models with adult looking time data: 1) it is
+relatively easy to acquire adult looking time data to reach sufficient
+power; 2) adult looking time data can speak to the developmental
+continuities of the principles guiding looking time behaviors.
+
 \hypertarget{methods}{%
 \subsection{Methods}\label{methods}}
 
-\hypertarget{participants}{%
-\subsubsection{Participants}\label{participants}}
-
-We recruited 449 participants (Age \emph{M} = 30.83; \emph{SD} = 17.44)
-on Prolific. They were randomly assigned to one of the three conditions
-of the experiment (Curiosity: \emph{N} = 156; Memory: \emph{N} = 137;
-Math: \emph{N} = 156). Participants were excluded if they showed
-irregular reaction times or their responses in the filler tasks
-indicates low engagement with the experiment. All exclusion criteria
-were pre-registered. The final sample included N participants (Curiosity
-\emph{N} = 143; Memory: \emph{N} = 98; Math: N = \emph{N} = 139).
-
-\hypertarget{procedure}{%
-\subsubsection{Procedure}\label{procedure}}
-
-This is a web-based self-paced visual presentation task. Participants
-were instructed to look at a sequence of animated creatures at their own
-pace and answer some questions throughout. At the end of the experiment,
-participants were asked to rate the similarity between pairs of
-creatures and complexity of creatures they encountered on a 7-point
-Likert Scale. Each participant saw eight blocks in total, half of which
-used creatures with high perceptual complexity, and half of which used
-creatures with low perceptual complexity. On each trial, an animated
-creature showed up on the screen. participants can press the down arrow
-to go to the next trial whenever they want after a minimum viewing time
-of 500 ms.
-
-Each block consisted of six trials. A trial can be either a background
-trial (B) or a deviant trial (D). A background trial presented a
-creature repeatedly, and the deviant trial presented a different
-creature from the background trial in the block. Two creatures in the
-blocks were matched for visual complexity. There were four sequences of
-background trials and deviant trials. Each sequence appeared twice, once
-with high complexity stimuli and once with low complexity stimuli. The
-deviant trial can appear at either the second (BDBBBB), the fourth
-(BBBDBB), or the sixth trial (BBBBBD) in the block. Two blocks do not
-have deviant trials (BBBBBB). The creatures presented in the deviant
-trials and background trials were matched for complexity. An overview of
-the experimental design can be seen in Figure X.
+\hypertarget{stimuli}{%
+\subsubsection{Stimuli}\label{stimuli}}
 
 \begin{CodeChunk}
 \begin{figure}[h]
@@ -336,20 +324,72 @@ the experimental design can be seen in Figure X.
 \end{figure}
 \end{CodeChunk}
 
-Participants were randomly assigned to one of the three conditions:
-Curiosity, Memory, and Math The three conditions only differed in the
-type of questions asked following each block. In Curiosity condition,
-participants were asked to rate ``How curious are you about the
-creature?'' on a 5-point Likert scale. In Memory condition, a
-forced-choice recognition question followed each block (``Have you seen
-this creature before?''). The creature used in the question in both
-conditions was either a creature presented in the preceding block or a
-novel creature matched in complexity. In Math condition, the
-participants were asked a simple arithmetic question (``What is 5 +
-7?'') in multiple-choice format.
+We created the animated creatures using Spore (a game developed by Maxis
+in 2008). There were forty creatures in total, half of which have low
+perceptual complexity (e.g.~the creatures do not have limbs, additional
+body parts, facial features, or textured skin), and half of which have
+high perceptual complexity (i.e.~they do have the aforementioned
+features; see Fig.2 for examples). We used the ``animated avatar''
+function in Spore to capture the creatures in motion.
 
-\hypertarget{stimuli}{%
-\subsubsection{Stimuli}\label{stimuli}}
+\hypertarget{procedure}{%
+\subsubsection{Procedure}\label{procedure}}
+
+The experiment was a web-based, self-paced visual presentation task.
+Participants were instructed to look at a sequence of animated creatures
+at their own pace and answer some questions throughout. On each trial,
+an animated creature showed up on the screen. participants can press the
+down arrow to go to the next trial whenever they want after a minimum
+viewing time of 500 ms.
+
+Each block consisted of six trials. A trial can be either a background
+trial (B) or a deviant trial (D). A background trial presented a
+creature repeatedly, and the deviant trial presented a different
+creature from the background trial in the block. Two creatures in the
+blocks were matched for visual complexity. There were four sequences of
+background trials and deviant trials. Each sequence appeared twice, once
+with high complexity stimuli and once with low complexity stimuli. The
+deviant trial can appear at either the second (BDBBBB), the fourth
+(BBBDBB), or the sixth trial (BBBBBD) in the block. Two blocks do not
+have deviant trials (BBBBBB). The creatures presented in the deviant
+trials and background trials were matched for complexity. Each
+participant saw eight blocks in total, half of which used creatures with
+high perceptual complexity, and half of which used creatures with low
+perceptual complexity.
+
+To test whether behavior was related to task demands, participants were
+randomly assigned to one of the three attention check conditions,
+differing in the type of questions asked following each block:
+Curiosity, Memory, and Math. In the Curiosity condition, participants
+were asked to rate ``How curious are you about the creature?'' on a
+5-point Likert scale. In the Memory condition, a forced-choice
+recognition question followed each block (``Have you seen this creature
+before?''). The creature used in the question in both conditions was
+either a creature presented in the preceding block or a novel creature
+matched in complexity. In the Math condition, the participants were
+asked a simple arithmetic question (``What is 5 + 7?'') in a
+multiple-choice format.
+
+At the end of the eight blocks, participants were asked to rate the
+similarity between pairs of creatures and complexity of creatures they
+encountered on a 7-point Likert Scale. We used responses to these
+questions to make sure our complexity manipulation was successful, and
+check that we successfully controlled for similarity between backgrounds
+and deviants across complexity level
+
+\hypertarget{participants}{%
+\subsubsection{Participants}\label{participants}}
+
+We recruited 449 participants (Age \emph{M} = 30.83; \emph{SD} = 17.44)
+on Prolific. They were randomly assigned to one of the three conditions
+of the experiment (Curiosity: \emph{N} = 156; Memory: \emph{N} = 137;
+Math: \emph{N} = 156). Participants were excluded if they showed
+irregular reaction times or their responses in the filler tasks
+indicates low engagement with the experiment. All exclusion criteria
+were pre-registered. The final sample included 380 participants.
+
+\hypertarget{results}{%
+\subsection{Results}\label{results}}
 
 \begin{CodeChunk}
 \begin{figure}[h]
@@ -361,20 +401,6 @@ participants were asked a simple arithmetic question (``What is 5 +
 \caption[Results of behavioral experiment]{Results of behavioral experiment.}\label{fig:behavioral_result}
 \end{figure}
 \end{CodeChunk}
-
-The animated creatures (Fig 1) were created using Spore (a game
-developed by Maxis in 2008). There were forty creatures in total, half
-of which have low perceptual complexity (e.g.~the creatures do not have
-limbs, additional body parts, facial features, or textured skin), and
-half of which have high perceptual complexity (i.e.~they do have the
-aforementioned features). We used the ``animated avatar'' function in
-Spore to capture the creatures in motion.
-
-\hypertarget{results}{%
-\subsection{Results}\label{results}}
-
-\hypertarget{analytic-approach}{%
-\subsubsection{Analytic Approach}\label{analytic-approach}}
 
 The sample size, methods, and main analyses were all pre-registered and
 are available at {[}LINK{]}. Data and analysis scripts are available at
@@ -397,15 +423,47 @@ in infant literature: habituation (the decrease in looking time for a
 stimulus with repeated presentations), dishabituation (the increase in
 looking time to a new stimulus after habituated to one stimulus), and
 complexity effect (longer looking time for perceptually more complex
-stimuli). To evaluate the phenomenon quantitatively, we ran a linear
-mixed effects model with maximal random effect structure. {[}DESCRIBE
-THE MODEL{]}. {[}REPORT THE MODEL RESULTS{]}
-
-\hypertarget{discussion}{%
-\subsection{Discussion}\label{discussion}}
+stimuli). The visualization of our results suggests that we reproduce
+the phenomena qualitatively (Fig. 3).To evaluate the phenomenon
+quantitatively, we ran a linear mixed effects model with maximal random
+effect structure. The predictor included in the model are a three-way
+interaction term between the trial number on an exponential function,
+the type of trial (background vs.~deviant) and the complexity of the
+stimuli (simple and complex). The model failed to converge, so we pruned
+the model following the preregistered procedure. The final model
+included subject as a random intercept. All predictors except for the
+three-way interaction are significant from the model (all \emph{p}
+\textless{} .001). This provides a quantitative confirmation that our
+paradigm successfully captured the key looking time patterns.
 
 \hypertarget{model-comparison}{%
 \section{Model comparison}\label{model-comparison}}
+
+To evaluate whether our models can provide sufficient explanation to the
+behavioral results, we designed a model experiment to represent the
+behavioral experiments. Then, we searched for the best set of parameters
+that yielded the highest Pearson's correlation between the model results
+and behavioral results. We then compared the model fits within each
+model's different linking hypotheses.
+
+\hypertarget{model-experiment}{%
+\subsection{Model experiment}\label{model-experiment}}
+
+To model the behavioral experiment, we first represented the stimuli as
+a vector of logical values indicating the presence and absence of a
+feature. All stimuli vectors are length 6, with the complex stimuli
+represented as having three \texttt{TRUE} and simple stimuli represented
+as having one \texttt{TRUE}, The rest of the elements are
+\texttt{FALSE}. Individual stimuli are then assembled into sequences to
+reflect the stimuli sequences in the behavioral experiment. For a
+particular sequence, we constructed the deviant stimulus based on the
+background stimulus to make sure that they were always maximally
+different and had the same number of features present.
+
+For Model 1, since it's behavior is non-probabilistic, we presented the
+model with each of the four sequences once and derived the information
+theoretic measurements. For model 2, we ran each sequence 500 times to
+obtain a reasonably precise estimate on the model's behaviors.
 
 \hypertarget{parameter-estimation}{%
 \subsection{Parameter estimation}\label{parameter-estimation}}
@@ -415,7 +473,7 @@ linking hypothesis. We a priori constrained our parameter space on the
 prior beta distribution to have shape parameters that
 \(\alpha_{\theta} > \beta_{\theta}\), which describe the prior beliefs
 as ``more likely to see the absence of a feature than the presence of a
-feature''. For model 1, we searched for the priors over the concept to
+feature.'' For model 1, we searched for the priors over the concept to
 be learned. The parameter search for the two metrics, surprisal and
 KL-divergence, converged on the same priors (\(\alpha_{\theta}\) =
 1;\(\beta_{\theta}\) = 2). For model 2, we searched for the priors over
@@ -440,25 +498,6 @@ the behavioral data (EIG: \(\alpha_{\theta}\) = 1, \(\beta_{\theta}\) =
 \caption[Results from the discrete time model]{Results from the discrete time model. The top panels show the trajectories of KL under different sequences, and the bottom panels showw the trajectoreis of surprisal.}\label{fig:basic_result}
 \end{figure}
 \end{CodeChunk}
-
-\hypertarget{model-experiment}{%
-\subsection{Model experiment}\label{model-experiment}}
-
-To model the behavioral experiment, we first represented the stimuli as
-a vector of logical values indicating the presence and absence of a
-feature. All stimuli vectors are length 6, with the complex stimuli
-represented as having three \texttt{TRUE} and simple stimuli represented
-as having one \texttt{TRUE}, The rest of the elements are
-\texttt{FALSE}. Individual stimuli are then assembled into sequences to
-reflect the stimuli sequences in the behavioral experiment. For a
-particular sequence, we constructed the deviant stimulus based on the
-background stimulus to make sure that they were always maximally
-different and had the same number of features present.
-
-For Model 1, since it's behavior is non-probabilistic, we presented the
-model with each of the four sequences once and derived the information
-theoretic measurements. For model 2, we ran each sequence 500 times to
-obtain a reasonably precise estimate on the model's behaviors.
 
 \begin{CodeChunk}
 \begin{figure*}[h]
@@ -487,56 +526,51 @@ indistinguishable in their fits (Fig X; EIG: \emph{r} = 0.92, RMSE =
 = 0.13). In this section, we discuss the implications of our findings
 and future directions.
 
-First, the result from our discrete model extended the Poli et al
-(2020)'s findings. We showed in a new behavioral dataset that, similar
-to infants, adults' attention allocation is better predicted by KL
+First, the result from our discrete time model agree with the findings
+reported by Poli et al. (2020). We show in a new behavioral dataset
+that, similar to infants, adults' looking time is better predicted by KL
 divergence than surprisal. This converging finding suggests a
-developmental continuity on principles guiding information-seeking
-behaviors. Second, the result from our continuous time model is the
-first evidence showing that under certain model architecture, surprisal
-and KL-divergence are good proxies for EIG, a metric that has the
-distinct advantage of quantitatively characterizing the optimal
-exploratory behaviors in humans. Tracking EIG can be computationally
-expensive and psychologically implausible. To calculate EIG, the current
-model needs to consider all possible combinations of features for the
-next observation. The proximities of model fits between EIG, KL, and
-surprisal revealed an opportunity to further optimize learning policies
-for computational models. Further, it also calls for more investigations
-on the relationships between different information theoretic metrics'
-roles in predicting human behaviors. Our finding is in sharp contrast
-with previous work that tries to dissociate between different metrics
-using the same behavioral dataset (Poli, Emily). It would be
-theoretically interesting to consider under what circumstances do the
-measurements converge or become dissociable. Last but not least,
-although we can not directly compare the two models' fits quantitatively
-due to the differences in the number of free parameters, our results
-still show how models' architectural differences can lead to different
-conclusions about the linking hypotheses. In a more psychologically
-realistic modeling regime, different information theoretic measurements
-can become indistinguishable.
+developmental continuity on principles guiding looking time. Second, the
+result from our continuous time model showed that under our model
+architecture, the performance of surprisal and KL can match that of EIG,
+a metric that can quantitatively characterize the optimal exploratory
+behaviors in humans (Coenen, Nelson, \& Gureckis, 2019; Oaksford \&
+Chater, 1994). However, to calculate EIG one needs to consider all
+possible combinations of features for the next observation, which
+becomes computationally expensive and therefore psychologically
+implausible quickly. The proximity of model fits between EIG, KL, and
+surprisal suggests that easier-to-compute metrics can be viable metrics
+to which to anchor sampling behavior. Our finding contrasts with
+previous work that tries to dissociate between different metrics using
+the same behavioral dataset {[}Poli et al. (2020);
+liquin2021developmental{]}. Last but not least, although we can not
+directly compare the two models' fits quantitatively due to the
+differences in the number of free parameters, our results still show how
+models' architectural differences can lead to different conclusions
+about the linking hypotheses. In a more psychologically realistic
+modeling regime, different information theoretic measurements can
+perform similarly.
 
 There are several limitations to the current work. For our behavioral
 data, one concern is that our self-paced visual presentation task might
 not be capturing participants' intrinsic interests in exploring the
-stimuli, which raises the question on whether we are actually measuring
-looking time. We addressed this question by including different filler
-tasks in-between blocks. No differences in looking time patterns are
-found across conditions. This suggests that the recorded-behaviors are
-task demand-independent, which means that they are more likely to
-reflect participants' genuine interests in looking at the stimuli. For
-our models, there are several limitations that require further
-investigation. The current stimuli representation is rather
-oversimplified. For example, we did not take into consideration how
-features can have different degrees of saliency. In addition, the
-sampling policy's implementation can be further challenged. The model
-currently decides between ``continuing looking'' and ``look away'', but
-one can argue that in the behavioral experiment the participants were
-deciding between ``continuing looking at the current stimulus'' and
-``look at the next stimulus''. Building these more sophisticated
-assumptions into the model would certainly help us understand looking
-time better under a rational analysis framework. Nevertheless, our
-current work suggests that simpler models are capable of explaining key
-phenomena in looking time change.
+stimuli, but rather other task demands. However, we found no no
+differences in looking time across the different attention check
+conditions. This suggests that the recorded behaviors are independent of
+task demand, suggesting that they likely reflect participants' genuine
+interests in looking at the stimuli. For our models, there are several
+limitations that require further investigation. The current stimulus
+representation is rather oversimplified. For example, we did not take
+into consideration how features can have different degrees of saliency.
+In addition, the sampling policy's implementation can be further
+challenged. The model currently decides between ``continuing looking''
+and ``look away,'' but one can argue that in the behavioral experiment
+the participants were deciding between ``continuing looking at the
+current stimulus'' and ``look at the next stimulus.'' Building these
+more sophisticated assumptions into the model would certainly help us
+understand looking time better under a rational analysis framework.
+Nevertheless, our current work suggests that simpler models are capable
+of explaining key phenomena in looking time change.
 
 Our ultimate goal is to provide a computational model that can explain
 the key looking time patterns documented and utilized in infant
@@ -563,16 +597,59 @@ learners decide what to look at, and when to stop looking.
 
 \hypertarget{refs}{}
 \begin{CSLReferences}{1}{0}
+\leavevmode\vadjust pre{\hypertarget{ref-aslin2007s}{}}%
+Aslin, R. N. (2007). What's in a look? \emph{Developmental Science},
+\emph{10}(1), 48--53.
+
+\leavevmode\vadjust pre{\hypertarget{ref-bitzer2014perceptual}{}}%
+Bitzer, S., Park, H., Blankenburg, F., \& Kiebel, S. J. (2014).
+Perceptual decision making: Drift-diffusion model is equivalent to a
+bayesian model. \emph{Frontiers in Human Neuroscience}, \emph{8}, 102.
+
+\leavevmode\vadjust pre{\hypertarget{ref-callaway2021fixation}{}}%
+Callaway, F., Rangel, A., \& Griffiths, T. L. (2021). Fixation patterns
+in simple choice reflect optimal information sampling. \emph{PLoS
+Computational Biology}, \emph{17}(3), e1008863.
+
+\leavevmode\vadjust pre{\hypertarget{ref-coenen2019asking}{}}%
+Coenen, A., Nelson, J. D., \& Gureckis, T. M. (2019). Asking the right
+questions about the psychology of human inquiry: Nine open challenges.
+\emph{Psychonomic Bulletin \& Review}, \emph{26}(5), 1548--1587.
+
 \leavevmode\vadjust pre{\hypertarget{ref-goodman2008rational}{}}%
 Goodman, N. D., Tenenbaum, J. B., Feldman, J., \& Griffiths, T. L.
 (2008). A rational analysis of rule-based concept learning.
 \emph{Cognitive Science}, \emph{32}(1), 108--154.
+
+\leavevmode\vadjust pre{\hypertarget{ref-haber2018learning}{}}%
+Haber, N., Mrowca, D., Fei-Fei, L., \& Yamins, D. L. (2018). Learning to
+play with intrinsically-motivated self-aware agents. \emph{arXiv
+Preprint arXiv:1802.07442}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-hunter1988multifactor}{}}%
+Hunter, M. A., \& Ames, E. W. (1988). A multifactor model of infant
+preferences for novel and familiar stimuli. \emph{Advances in Infancy
+Research}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-hunter1983effects}{}}%
+Hunter, M. A., Ames, E. W., \& Koopman, R. (1983). Effects of stimulus
+complexity and familiarization time on infant preferences for novel and
+familiar stimuli. \emph{Developmental Psychology}, \emph{19}(3), 338.
+
+\leavevmode\vadjust pre{\hypertarget{ref-kersten2004object}{}}%
+Kersten, D., Mamassian, P., \& Yuille, A. (2004). Object perception as
+bayesian inference. \emph{Annu. Rev. Psychol.}, \emph{55}, 271--304.
 
 \leavevmode\vadjust pre{\hypertarget{ref-kidd2012goldilocks}{}}%
 Kidd, C., Piantadosi, S. T., \& Aslin, R. N. (2012). The goldilocks
 effect: Human infants allocate attention to visual sequences that are
 neither too simple nor too complex. \emph{PloS One}, \emph{7}(5),
 e36399.
+
+\leavevmode\vadjust pre{\hypertarget{ref-liquin2021developmental}{}}%
+Liquin, E. G., Callaway, F., \& Lombrozo, T. (2021). Developmental
+change in what elicits curiosity. In \emph{Proceedings of the annual
+meeting of the cognitive science society} (Vol. 43).
 
 \leavevmode\vadjust pre{\hypertarget{ref-markant2012does}{}}%
 Markant, D., \& Gureckis, T. (2012). Does the utility of information
@@ -584,10 +661,25 @@ Oaksford, M., \& Chater, N. (1994). A rational analysis of the selection
 task as optimal data selection. \emph{Psychological Review},
 \emph{101}(4), 608.
 
+\leavevmode\vadjust pre{\hypertarget{ref-oudeyer2007intrinsic}{}}%
+Oudeyer, P.-Y., Kaplan, F., \& Hafner, V. V. (2007). Intrinsic
+motivation systems for autonomous mental development. \emph{IEEE
+Transactions on Evolutionary Computation}, \emph{11}(2), 265--286.
+
 \leavevmode\vadjust pre{\hypertarget{ref-poli2020infants}{}}%
 Poli, F., Serino, G., Mars, R., \& Hunnius, S. (2020). Infants tailor
 their attention to maximize learning. \emph{Science Advances},
 \emph{6}(39), eabb5053.
+
+\leavevmode\vadjust pre{\hypertarget{ref-sim2019another}{}}%
+Sim, Z. L., \& Xu, F. (2019). Another look at looking time: Surprise as
+rational statistical inference. \emph{Topics in Cognitive Science},
+\emph{11}(1), 154--163.
+
+\leavevmode\vadjust pre{\hypertarget{ref-smith2018developing}{}}%
+Smith, L. B., Jayaraman, S., Clerkin, E., \& Yu, C. (2018). The
+developing infant creates a curriculum for statistical learning.
+\emph{Trends in Cognitive Sciences}, \emph{22}(4), 325--336.
 
 \leavevmode\vadjust pre{\hypertarget{ref-tenenbaum1999bayesian}{}}%
 Tenenbaum, J. B. (1999). Bayesian modeling of human concept learning.
