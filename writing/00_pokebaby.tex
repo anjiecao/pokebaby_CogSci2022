@@ -135,7 +135,7 @@ alternative linking hypothesis between the model and behavior: the study
 used a similar paradigm and model to show that infants' looking time can
 be predicted by the Kullback-Leibler (KL) divergence. KL measures the
 statistical distance between two probabilities distribution, which
-intuitively tracks `learning progress'. These attempts on connecting
+intuitively tracks `learning progress.' These attempts on connecting
 information theoretic measurements to infants' looking time resonate
 with the emerging literature on curiosity in developmental robotics and
 reinforcement learning (Haber, Mrowca, Fei-Fei, \& Yamins, 2018;
@@ -473,31 +473,17 @@ linking hypothesis. We a priori constrained our parameter space on the
 prior beta distribution to have shape parameters that
 \(\alpha_{\theta} > \beta_{\theta}\), which describe the prior beliefs
 as ``more likely to see the absence of a feature than the presence of a
-feature''. For model 1, we searched for the priors over the concept to
-be learned. The parameter search for the two metrics, surprisal and
-KL-divergence, converged on the same priors (\(\alpha_{\theta}\) =
-1;\(\beta_{\theta}\) = 2). For model 2, we searched for the priors over
-the concept (\(\theta\)), the noise parameter that decides how likely a
-feature would be misperceived (\(\epsilon\)), and the constant EIG from
-the world (\(EIG(world)\)). The prior over the noise parameter was fixed
-for all searches (\(\alpha_{\epsilon}\) = 1;\(\beta_{\epsilon}\) = 10).
-In model 2, different parameters were selected to obtain the best fit to
+feature.'' For model 2, we searched for the priors over the concept
+(\(\theta\)), the noise parameter that decides how likely a feature
+would be misperceived (\(\epsilon\)), and the constant EIG from the
+world (\(EIG(world)\)). The prior over the noise parameter was fixed for
+all searches (\(\alpha_{\epsilon}\) = 1;\(\beta_{\epsilon}\) = 10). In
+model 2, different parameters were selected to obtain the best fit to
 the behavioral data (EIG: \(\alpha_{\theta}\) = 1, \(\beta_{\theta}\) =
 4, \(\epsilon\) = 0.065, \(EIG(world)\) = 0.01; KL: \(\alpha_{\theta}\)
 = 1, \(\beta_{\theta}\) = 5, \(\epsilon\) = 0.055, \(EIG(world)\) =
 0.006; Surprisal: \(\alpha_{\theta}\) = 1, \(\beta_{\theta}\) = 3,
 \(\epsilon\) = 0.07, \(EIG(world)\) = 8).
-
-\begin{CodeChunk}
-\begin{figure}[h]
-
-{\centering \includegraphics{figs/basic_result-1} 
-
-}
-
-\caption[Results from the discrete time model]{Results from the discrete time model. The top panels show the trajectories of KL under different sequences, and the bottom panels showw the trajectoreis of surprisal.}\label{fig:basic_result}
-\end{figure}
-\end{CodeChunk}
 
 \begin{CodeChunk}
 \begin{figure*}[h]
@@ -510,82 +496,14 @@ the behavioral data (EIG: \(\alpha_{\theta}\) = 1, \(\beta_{\theta}\) =
 \end{figure*}
 \end{CodeChunk}
 
-\hypertarget{results-and-discussion}{%
-\subsection{Results and Discussion}\label{results-and-discussion}}
+\hypertarget{results-1}{%
+\subsection{Results}\label{results-1}}
 
-Both models reproduced the behavioral phenomena qualitatively, showing
-habituation, dishabituation, and complexity effect. To quantitatively
-explore the models, we fit the models' output to the behavioral data.
-All models' results were adjusted to match behavioral data's scale and
-intercepts for easier comparisons. In model 1, we found that KL provided
-a better fit for the behavioral data than surprisal (Fig X; KL: \emph{r}
-= 0.9; RMSE = 0.39; Surprisal: \emph{r} = 0.74; RMSE = 0.42) In model 2,
-however, we found that the three linking hypotheses were qualitatively
-indistinguishable in their fits (Fig X; EIG: \emph{r} = 0.92, RMSE =
-0.19; KL: \emph{r} = 0.93, RMSE = 0.12; Surprisal: \emph{r} = 0.92, RMSE
-= 0.13). In this section, we discuss the implications of our findings
-and future directions.
+\hypertarget{discussion}{%
+\subsection{Discussion}\label{discussion}}
 
-First, the result from our discrete time model agree with the findings
-reported by Poli et al. (2020). We show in a new behavioral dataset
-that, similar to infants, adults' looking time is better predicted by KL
-divergence than surprisal. This converging finding suggests a
-developmental continuity on principles guiding looking time. Second, the
-result from our continuous time model showed that under our model
-architecture, the performance of surprisal and KL can match that of EIG,
-a metric that can quantitatively characterize the optimal exploratory
-behaviors in humans (Coenen, Nelson, \& Gureckis, 2019; Oaksford \&
-Chater, 1994). However, to calculate EIG one needs to consider all
-possible combinations of features for the next observation, which
-becomes computationally expensive and therefore psychologically
-implausible quickly. The proximity of model fits between EIG, KL, and
-surprisal suggests that easier-to-compute metrics can be viable metrics
-to which to anchor sampling behavior. Our finding contrasts with
-previous work that tries to dissociate between different metrics using
-the same behavioral dataset {[}Poli et al. (2020);
-liquin2021developmental{]}. Last but not least, although we can not
-directly compare the two models' fits quantitatively due to the
-differences in the number of free parameters, our results still show how
-models' architectural differences can lead to different conclusions
-about the linking hypotheses. In a more psychologically realistic
-modeling regime, different information theoretic measurements can
-perform similarly.
-
-There are several limitations to the current work. For our behavioral
-data, one concern is that our self-paced visual presentation task might
-not be capturing participants' intrinsic interests in exploring the
-stimuli, but rather other task demands. However, we found no no
-differences in looking time across the different attention check
-conditions. This suggests that the recorded behaviors are independent of
-task demand, suggesting that they likely reflect participants' genuine
-interests in looking at the stimuli. For our models, there are several
-limitations that require further investigation. The current stimulus
-representation is rather oversimplified. For example, we did not take
-into consideration how features can have different degrees of saliency.
-In addition, the sampling policy's implementation can be further
-challenged. The model currently decides between ``continuing looking''
-and ``look away'', but one can argue that in the behavioral experiment
-the participants were deciding between ``continuing looking at the
-current stimulus'' and ``look at the next stimulus''. Building these
-more sophisticated assumptions into the model would certainly help us
-understand looking time better under a rational analysis framework.
-Nevertheless, our current work suggests that simpler models are capable
-of explaining key phenomena in looking time change.
-
-Our ultimate goal is to provide a computational model that can explain
-the key looking time patterns documented and utilized in infant
-research: habituation, dishabituation, and complexity effect. We believe
-these patterns are driven by information-seeking principles that have
-strong developmental continuities. In the current work, we have shown
-that information theoretic measurements can be linked to adult looking
-time patterns. We also compared the two models and found that model
-architecture has consequences for linking hypotheses. Specifically, in a
-discrete time model, we found KL is a better predictor than surprisal.
-But in the continuous time model, three measurements (EIG, KL, and
-surprisal) become indistinguishable. As we further elaborate on our
-modeling approach, our ongoing work on infants will eventually help
-address the developmental trajectories of the mechanisms through which
-learners decide what to look at, and when to stop looking.
+\hypertarget{general-discussion}{%
+\section{General discussion}\label{general-discussion}}
 
 \hypertarget{references}{%
 \section{References}\label{references}}
@@ -610,11 +528,6 @@ bayesian model. \emph{Frontiers in Human Neuroscience}, \emph{8}, 102.
 Callaway, F., Rangel, A., \& Griffiths, T. L. (2021). Fixation patterns
 in simple choice reflect optimal information sampling. \emph{PLoS
 Computational Biology}, \emph{17}(3), e1008863.
-
-\leavevmode\vadjust pre{\hypertarget{ref-coenen2019asking}{}}%
-Coenen, A., Nelson, J. D., \& Gureckis, T. M. (2019). Asking the right
-questions about the psychology of human inquiry: Nine open challenges.
-\emph{Psychonomic Bulletin \& Review}, \emph{26}(5), 1548--1587.
 
 \leavevmode\vadjust pre{\hypertarget{ref-goodman2008rational}{}}%
 Goodman, N. D., Tenenbaum, J. B., Feldman, J., \& Griffiths, T. L.

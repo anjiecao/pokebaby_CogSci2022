@@ -20,6 +20,11 @@ s_sim_res <- readRDS(here("sim_res/03_Surprisal_tidy_sim.RDS"))
 #sim_res <- readRDS(here("tidy_sim_res"))
 b_res <- read_csv(here("processed_rt_task_data.csv"))
 
+
+nn_sim_res <- readRDS(here("sim_res/no_noise_sim.RDS"))
+random_sim_res <- readRDS(here("sim_res/random_looking_sim.RDS"))
+
+
 ```
 
 # preprocess behavioral results 
@@ -68,11 +73,19 @@ sim_res_print <- tidy_up_raw_simulation_results(sim_res, im_type = "EIG")
 kl_res_print <- tidy_up_raw_simulation_results(kl_sim_res, im_type = "KL")
 s_res_print <- tidy_up_raw_simulation_results(s_sim_res, im_type = "surprisal")
 
+nn_res_print <- tidy_up_raw_simulation_results(nn_sim_res, im_type = "EIG_nn")
+r_res_print <- tidy_up_raw_simulation_results(random_sim_res, im_type = "random")
+
+
 # summarizing the results to be compared with the behavioral data 
 # no need to summarise the basic because it is already at the trial level 
 sim_res_sum <- summarise_tidy_sim_res(sim_res_print)
 kl_res_sum <- summarise_tidy_sim_res(kl_res_print)
 s_res_sum <- summarise_tidy_sim_res(s_res_print)
+
+nn_res_sum <- summarise_tidy_sim_res(nn_res_print)
+r_res_sum <- summarise_tidy_sim_res(r_res_print)
+
 ```
 
 # put summary together 
@@ -89,6 +102,12 @@ kl_sim_b_res <- kl_res_sum %>%
 
 s_sim_b_res <- s_res_sum %>% 
   left_join(b_res_summary, by = c("trial_number", "sequence_scheme", "sequence_scheme_print", "complexity"))
+
+nn_sim_b_res <- nn_res_sum %>% 
+   left_join(b_res_summary, by = c("trial_number", "sequence_scheme", "sequence_scheme_print", "complexity"))
+
+r_sim_b_res <- r_res_sum %>% 
+   left_join(b_res_summary, by = c("trial_number", "sequence_scheme", "sequence_scheme_print", "complexity"))
 ```
 
 
@@ -103,10 +122,19 @@ df_eig_r <- calculate_correlation(sim_b_res)
 df_kl_r <- calculate_correlation(kl_sim_b_res)
 df_s_r <- calculate_correlation(s_sim_b_res)
 
+df_nn_r <- calculate_correlation(nn_sim_b_res)
+df_r_r <- calculate_correlation(r_sim_b_res)
 
 df_eig_r
 df_kl_r
 df_s_r
+
+df_nn_r
+df_r_r
+```
+
+```{r}
+df_eig_r
 ```
 
 
@@ -121,6 +149,9 @@ scaled_model_res <- scale_model_results(b_res_print, sim_res_print, best_params 
 scaled_kl_model_res <- scale_model_results(b_res_print, kl_res_print, best_params = "ae_1_be_10_ap_1_bp_5_np_0.055_wEIG_0.006")
 scaled_s_model_res <- scale_model_results(b_res_print, s_res_print, best_params = "ae_1_be_10_ap_1_bp_3_np_0.07_wEIG_8")
 
+scaled_nn_res <- scale_model_results(b_res_print, nn_res_print, best_params = "ae_1_be_10_ap_1_bp_4_np_0_wEIG_0.01")
+scaled_r_res <- scale_model_results(b_res_print, r_res_print, best_params = NA)
+
 ```
 
 
@@ -131,6 +162,9 @@ scaled_continuous_model_res <- bind_rows(scaled_model_res, scaled_kl_model_res, 
 
 saveRDS(scaled_continuous_model_res, here("scaled_continuous_model_res.RDS"))
 saveRDS(scaled_basic_sim_b_res, here("scaled_discrete_model_res.RDS"))
+
+saveRDS(scaled_r_res, here("scaled_random_model.RDS"))
+saveRDS(scaled_nn_res, here("scaled_no_noise_res.RDS"))
 ```
 
 

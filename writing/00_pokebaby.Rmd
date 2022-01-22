@@ -91,6 +91,7 @@ b_res_summary <- b_res_print %>%
 
 # Introduction 
 
+
 ```{r child = "01_introduction.Rmd"}
 ```
 
@@ -105,11 +106,18 @@ b_res_summary <- b_res_print %>%
 ```{r child = "03_experiment.Rmd"}
 ```
 
+
 # Model comparison 
 
-```{r child = "04_results_and_discussion.Rmd"}
+
+```{r child = "04_model_comparison.Rmd"}
 ```
 
+
+# General discussion 
+
+```{r child = "05_general_discussion.Rmd"}
+```
 
 <!--# Acknowledgements
 
