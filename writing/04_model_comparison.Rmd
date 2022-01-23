@@ -3,14 +3,16 @@ output: pdf_document
 ---
 
 
-To evaluate whether our models can provide sufficient explanation to the behavioral results, we designed a model experiment to represent the behavioral experiments. Then, we searched for the best set of parameters that yielded the highest Pearson’s correlation between the model results and behavioral results. We then compared the model fits within each model’s different linking hypotheses. 
+To evaluate whether RANCH can provide sufficient explanation of the behavioral results, we simulated each model on the behavioral experiment. Then, we searched for the best set of parameters that yielded the highest Pearson’s correlation between the model results and behavioral results. We then compared the model fits within each model’s different linking hypotheses. 
 
 
 ## Model experiment 
 
-To model the behavioral experiment, we first represented the stimuli as a vector of logical values indicating the presence and absence of a feature. All stimuli vectors are length 6, with the complex stimuli represented as having three `TRUE` and simple stimuli represented as having one `TRUE`, The rest of the elements are `FALSE`. Individual stimuli are then assembled into sequences to reflect the stimuli sequences in the behavioral experiment. For a particular sequence, we constructed the deviant stimulus based on the background stimulus to make sure that they were always maximally different and had the same number of features present. 
+To model the behavioral experiment, we first represented the stimuli as binary-valued vectors indicating the presence (1) or absence (0) of each feature. All stimuli vectors were chosen to be  length 6 to provide sufficient representational flexibility. Complex stimuli were represented as having three 1s and simple stimuli were represented as having one 1, with the rest of the elements 0s. Individual stimuli are then assembled into sequences to reflect the stimuli sequences in the behavioral experiment. We ran four types of sequences, differing in the position of the deviant: The sequence could either be a pure habituation sequence with six background stimuli, or a deviant deviant appeared at positions 2, 4 or 6. For a particular sequence, we constructed the deviant stimulus based on the background stimulus to make sure that they were always maximally different and had the same number of features present. 
 
-For Model 1, since it’s behavior is non-probabilistic, we presented the model with each of the four sequences once and derived the information theoretic measurements. For model 2, we ran each sequence 500 times to obtain a reasonably precise estimate on the model’s behaviors. 
+The model then chose how to sample based on the three information-theoretic linking hypotheses (EIG, surprisal and KL), as well as the baseline linking hypotheses (random looking and no noise).
+
+We let the model run 500 times for each sequence to obtain a reasonably precise estimate of the model’s behavior. 
 
 
 ```{r include=FALSE}
@@ -70,8 +72,11 @@ c_model_params <- c_res %>%
 ```
 
 
-We performed an iterative grid search in parameter space for each linking hypothesis. We a priori constrained our parameter space on the prior beta distribution to have shape parameters that $\alpha_{\theta} > \beta_{\theta}$, which describe the prior beliefs as “more likely to see the absence of a feature than the presence of a feature”. For model 2, we searched for the priors over the concept ($\theta$), the noise parameter that decides how likely a feature would be misperceived ($\epsilon$), and the constant EIG from the world ($EIG(world)$). The prior over the noise parameter was fixed for all searches ($\alpha_{\epsilon}$ = 1;$\beta_{\epsilon}$ = 10). In model 2, different parameters were selected to obtain the best fit to the behavioral data (EIG: $\alpha_{\theta}$ = `r filter(c_model_params, im_type == "EIG")$ap_val`, $\beta_{\theta}$ = `r filter(c_model_params, im_type == "EIG")$bp_val`, $\epsilon$ = `r filter(c_model_params, im_type == "EIG")$np_val`, $EIG(world)$ = `r filter(c_model_params, im_type == "EIG")$wEIG_val`; KL: $\alpha_{\theta}$ = `r filter(c_model_params, im_type == "KL")$ap_val`, $\beta_{\theta}$ = `r filter(c_model_params, im_type == "KL")$bp_val`, $\epsilon$ = `r filter(c_model_params, im_type == "KL")$np_val`, $EIG(world)$ = `r filter(c_model_params, im_type == "KL")$wEIG_val`; Surprisal: $\alpha_{\theta}$ = `r filter(c_model_params, im_type == "surprisal")$ap_val`, $\beta_{\theta}$ = `r filter(c_model_params, im_type == "surprisal")$bp_val`, $\epsilon$ = `r filter(c_model_params, im_type == "surprisal")$np_val`, $EIG(world)$ = `r filter(c_model_params, im_type == "surprisal")$wEIG_val`). 
+We performed an iterative grid search in parameter space for each linking hypothesis. We a priori constrained our parameter space on the prior beta distribution to have shape parameters $\alpha_{\theta} > \beta_{\theta}$, which describe the prior beliefs as “more likely to see the absence of a feature than the presence of a feature”.  We then searched for the priors over the concept ($\theta$), the noise parameter that decides how likely a feature would be misperceived ($\epsilon$), and the constant EIG from the world ($EIG(world)$). The prior over the noise parameter was fixed for all searches ($\alpha_{\epsilon}$ = 1;$\beta_{\epsilon}$ = 10). We selected the parameters that achieved the highest correlation with the behavioral data (EIG: $\alpha_{\theta}$ = `r filter(c_model_params, im_type == "EIG")$ap_val`, $\beta_{\theta}$ = `r filter(c_model_params, im_type == "EIG")$bp_val`, $\epsilon$ = `r filter(c_model_params, im_type == "EIG")$np_val`, $EIG(world)$ = `r filter(c_model_params, im_type == "EIG")$wEIG_val`; KL: $\alpha_{\theta}$ = `r filter(c_model_params, im_type == "KL")$ap_val`, $\beta_{\theta}$ = `r filter(c_model_params, im_type == "KL")$bp_val`, $\epsilon$ = `r filter(c_model_params, im_type == "KL")$np_val`, $EIG(world)$ = `r filter(c_model_params, im_type == "KL")$wEIG_val`; Surprisal: $\alpha_{\theta}$ = `r filter(c_model_params, im_type == "surprisal")$ap_val`, $\beta_{\theta}$ = `r filter(c_model_params, im_type == "surprisal")$bp_val`, $\epsilon$ = `r filter(c_model_params, im_type == "surprisal")$np_val`, $EIG(world)$ = `r filter(c_model_params, im_type == "surprisal")$wEIG_val`). 
 
+## Baseline Comparison 
+
+We next wanted to test what the effects are of removing two crucial aspects of this model: 1) Making sampling choices based on learning from samples, and 2) that perception is noisy. We implemented two lesioned baseline models to which to contrast these information-theoretic linking hypotheses. The first baseline model made totally random sampling decisions by drawing $p(look)$ from a uniform distribution between 0 and 1 at every time step. The second baseline model omitted the noisy sampling aspect of RANCH and instead assumed that learning is free from perceptual noise, i.e. that learners can observe the exemplars $y$ directly. To do so, we set $\epsilon$ to 0 and replaced the learner’s prior over $\epsilon$ with a point mass at 0.000001 for numerical stability. The baseline models used the parameters obtained from fitting the EIG model to the behavioral data.
 
 
 
@@ -181,7 +186,64 @@ behavioral_plot + model_plot + plot_layout(heights = c(1, 5))
 
 ## Results 
 
+<!--
+```{r eval=FALSE, include=FALSE}
+scaled_eig_res_sum <- summarise_scaled_tidy_sim_res(c_res %>% filter(im_type == "EIG"))
+scaled_kl_res_sum <- summarise_scaled_tidy_sim_res(c_res %>% filter(im_type == "KL"))
+scaled_s_res_sum <- summarise_scaled_tidy_sim_res(c_res %>% filter(im_type == "surprisal"))
+scaled_r_res_sum <- summarise_scaled_tidy_sim_res(r_res)
+scaled_nn_res_sum <- summarise_scaled_tidy_sim_res(nn_res)
 
-## Discussion 
+eig_sim_b_res <- scaled_eig_res_sum %>% 
+  left_join(b_res_summary, by = c("trial_number", "sequence_scheme", "sequence_scheme_print", "complexity")) 
+kl_sim_b_res <- scaled_kl_res_sum %>% 
+  left_join(b_res_summary, by = c("trial_number", "sequence_scheme", "sequence_scheme_print", "complexity"))
+s_sim_b_res <- scaled_s_res_sum %>% 
+  left_join(b_res_summary, by = c("trial_number", "sequence_scheme", "sequence_scheme_print", "complexity"))
+r_sim_b_res <- scaled_r_res_sum %>% 
+  left_join(b_res_summary, by = c("trial_number", "sequence_scheme", "sequence_scheme_print", "complexity"))
+nn_sim_b_res <- scaled_nn_res_sum %>% 
+  left_join(b_res_summary, by = c("trial_number", "sequence_scheme", "sequence_scheme_print", "complexity"))
+
+
+
+df_compare_eig <- calculate_scaled_correlation(eig_sim_b_res) %>% mutate(type = "Noisy Sampling Model (EIG)")
+df_compare_kl <- calculate_scaled_correlation(kl_sim_b_res) %>% mutate(type = "Noisy Sampling Model (KL-divergence)")
+df_compare_surpirsal <- calculate_scaled_correlation(s_sim_b_res) %>% mutate(type = "Noisy Sampling Model (Surprisal)")
+df_compare_random <- calculate_scaled_correlation(r_sim_b_res) %>% mutate(type = "Random Sampling Model")
+df_compare_nn <- calculate_scaled_correlation(nn_sim_b_res) %>% mutate(type = "No Noise Model (EIG)")
+
+tb_df <- bind_rows(df_compare_eig, df_compare_kl, df_compare_surpirsal, df_compare_nn, df_compare_random) %>% 
+  ungroup() %>% 
+  mutate(r_in_log = round(r_in_log, 2), 
+         rmse_in_log = round(rmse_in_log, 2)) %>% 
+  mutate(`Pearson's r` = r_in_log, 
+         "RMSE" = rmse_in_log) %>% 
+  select(type, `Pearson's r`, RMSE) %>% 
+  as.data.frame()
+
+kable(
+  tb_df,
+  format = "latex",
+  booktabs = TRUE,
+  escape = FALSE,
+  longtable = TRUE,
+  col.names = c("Model Type (Linking Hypothesis)", "Pearson's r", "RMSE"),
+  align = c("l", "c", "c"),
+  caption = "Correlations and RMSE between different versions of the model and behavioral results"
+  ) %>%
+  row_spec(row = 0, align = "c") 
+```
+--> 
+
+RANCH reproduced the behavioral phenomena qualitatively, showing habituation, dishabituation, and complexity effects (Fig. 3, row 2-4). To quantitatively explore the model, we fit the models’ output to the behavioral data. All models’ results were adjusted to match behavioral data’s scale and intercepts for easier comparisons. We found that the three linking hypotheses were qualitatively indistinguishable in their correlation to the behavioral data. Furthermore, the baseline models performed far worse than RANCH using information-theoretic linking hypotheses (see Table 1 for all computed metrics).
+
+## Discussion
+
+The model results show that under RANCH’s model architecture, the performance of surprisal and KL can match that of EIG, a metric that can quantitatively characterize the optimal exploratory behaviors in humans [@oaksford1994rational; @coenen2019asking].To calculate EIG one needs to consider all possible combinations of features for the next observation, which becomes computationally expensive and therefore psychologically implausible for naturalistic stimuli, which may be expected to have a large number of features. The proximity of model fits between EIG, KL, and surprisal suggests that easier-to-compute metrics can be viable heuristics to which to anchor sampling behavior.
+
+The poor fit of the baseline models (Fig 3., row 5-6) further show that both the learning model and the noisy sampling component of RANCH are critical for modeling our phenomena of interest and provide good quantitative fit to the data.
+
+
 
 

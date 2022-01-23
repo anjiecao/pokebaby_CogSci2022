@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2022/dev) (preloaded format=pdflatex 2022.1.13)  22 JAN 2022 10:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2022/dev) (preloaded format=pdflatex 2022.1.23)  23 JAN 2022 15:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **00_pokebaby.tex
 (./00_pokebaby.tex
 LaTeX2e <2021-11-15> patch level 1
-L3 programming layer <2022-01-12> (/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/base/article.cls
+L3 programming layer <2022-01-21> (/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2021/10/04 v1.4n Standard LaTeX document class
 (/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/base/size10.clo
 File: size10.clo 2021/10/04 v1.4n Standard LaTeX file (size option)
@@ -289,41 +289,190 @@ Package: color 2021/12/07 v1.3c Standard LaTeX Color (DPC)
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package color Info: Driver file: pdftex.def on input line 149.
+) (/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/booktabs/booktabs.sty
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen161
+\lightrulewidth=\dimen162
+\cmidrulewidth=\dimen163
+\belowrulesep=\dimen164
+\belowbottomsep=\dimen165
+\aboverulesep=\dimen166
+\abovetopsep=\dimen167
+\cmidrulesep=\dimen168
+\cmidrulekern=\dimen169
+\defaultaddspace=\dimen170
+\@cmidla=\count288
+\@cmidlb=\count289
+\@aboverulesep=\dimen171
+\@belowrulesep=\dimen172
+\@thisruleclass=\count290
+\@lastruleclass=\count291
+\@thisrulewidth=\dimen173
+) (/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/tools/longtable.sty
+Package: longtable 2021-09-01 v4.17 Multi-page Table package (DPC)
+\LTleft=\skip59
+\LTright=\skip60
+\LTpre=\skip61
+\LTpost=\skip62
+\LTchunksize=\count292
+\LTcapwidth=\dimen174
+\LT@head=\box55
+\LT@firsthead=\box56
+\LT@foot=\box57
+\LT@lastfoot=\box58
+\LT@gbox=\box59
+\LT@cols=\count293
+\LT@rows=\count294
+\c@LT@tables=\count295
+\c@LT@chunks=\count296
+\LT@p@ftn=\toks24
+) (/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/tools/array.sty
+Package: array 2021/10/04 v2.5f Tabular extension package (FMi)
+\col@sep=\dimen175
+\ar@mcellbox=\box60
+\extrarowheight=\dimen176
+\NC@list=\toks25
+\extratabsurround=\skip63
+\backup@length=\skip64
+\ar@cellbox=\box61
+) (/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/multirow/multirow.sty
+Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
+\multirow@colwidth=\skip65
+\multirow@cntb=\count297
+\multirow@dima=\skip66
+\bigstrutjot=\dimen177
+) (/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/wrapfig/wrapfig.sty
+\wrapoverhang=\dimen178
+\WF@size=\dimen179
+\c@WF@wrappedlines=\count298
+\WF@box=\box62
+\WF@everypar=\toks26
+Package: wrapfig 2003/01/31  v 3.6
+) (/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/colortbl/colortbl.sty
+Package: colortbl 2020/01/04 v1.0e Color table columns (DPC)
+\everycr=\toks27
+\minrowclearance=\skip67
+) (/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/pdflscape/pdflscape.sty
+Package: pdflscape 2019/12/05 v0.12 Display of landscape pages in PDF (HO)
+(/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/graphics/lscape.sty
+Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 )
-\cslhangindent=\skip59
+Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
+) (/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/tabu/tabu.sty
+Package: tabu 2019/01/11 v2.9 - flexible LaTeX tabulars (FC+tabu-fixed)
+(/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/varwidth/varwidth.sty
+Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
+\@vwid@box=\box63
+\sift@deathcycles=\count299
+\@vwid@loff=\dimen180
+\@vwid@roff=\dimen181
+)
+\c@taburow=\count300
+\tabu@nbcols=\count301
+\tabu@cnt=\count302
+\tabu@Xcol=\count303
+\tabu@alloc=\count304
+\tabu@nested=\count305
+\tabu@target=\dimen182
+\tabu@spreadtarget=\dimen183
+\tabu@naturalX=\dimen184
+\tabucolX=\dimen185
+\tabu@Xsum=\dimen186
+\extrarowdepth=\dimen187
+\abovetabulinesep=\dimen188
+\belowtabulinesep=\dimen189
+\tabustrutrule=\dimen190
+\tabu@thebody=\toks28
+\tabu@footnotes=\toks29
+\tabu@box=\box64
+\tabu@arstrutbox=\box65
+\tabu@hleads=\box66
+\tabu@vleads=\box67
+\tabu@cellskip=\skip68
+) (/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/threeparttable/threeparttable.sty
+Package: threeparttable 2003/06/13  v 3.0
+\@tempboxb=\box68
+) (/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/threeparttablex/threeparttablex.sty
+Package: threeparttablex 2013/07/23 v0.3 by daleif
+(/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/environ/environ.sty
+Package: environ 2014/05/04 v0.3 A new way to define environments
+(/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/trimspaces/trimspaces.sty
+Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
+))
+\TPTL@width=\skip69
+) (/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/generic/ulem/ulem.sty
+\UL@box=\box69
+\UL@hyphenbox=\box70
+\UL@skip=\skip70
+\UL@hook=\toks30
+\UL@height=\dimen191
+\UL@pe=\count306
+\UL@pixel=\dimen192
+\ULC@box=\box71
+Package: ulem 2019/11/18
+\ULdepth=\dimen193
+) (/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/makecell/makecell.sty
+Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
+\rotheadsize=\dimen194
+\c@nlinenum=\count307
+\TeXr@lab=\toks31
+) (/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2021/10/31 v2.13 LaTeX color extensions (UK)
+(/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 227.
+LaTeX Info: Redefining \color on input line 711.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1352.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1356.
+Package xcolor Info: Model `RGB' extended on input line 1368.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1370.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1371.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1372.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1373.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1374.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1375.
+)
+\cslhangindent=\skip71
 (/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2022-01-12 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count288
-\l__pdf_internal_box=\box55
+\l__color_backend_stack_int=\count308
+\l__pdf_internal_box=\box72
 ) (./00_pokebaby.aux)
 \openout1 = `00_pokebaby.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for OMS/pzccm/m/n on input line 66.
-LaTeX Font Info:    Trying to load font information for OMS+pzccm on input line 66.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 80.
+LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    Checking defaults for OMS/pzccm/m/n on input line 80.
+LaTeX Font Info:    Trying to load font information for OMS+pzccm on input line 80.
 (/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omspzccm.fd
 File: omspzccm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/pzccm.
 )
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 66.
-LaTeX Font Info:    ... okay on input line 66.
+LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 80.
+LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 80.
+LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 80.
+LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 80.
+LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 80.
+LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 80.
+LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 80.
+LaTeX Font Info:    ... okay on input line 80.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: hyperref package is loaded.
+Package caption Info: longtable package is loaded.
+(/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/caption/ltcaption.sty
+Package: ltcaption 2020/05/30 v1.4b longtable captions (AR)
+)
+Package caption Info: threeparttable package is loaded.
+Package caption Info: wrapfig package is loaded.
 Package caption Info: End \AtBeginDocument code.
-Package hyperref Info: Link coloring OFF on input line 66.
+Package hyperref Info: Link coloring OFF on input line 80.
 (/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
 (/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/refcount/refcount.sty
@@ -331,11 +480,11 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 ) (/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count289
+\c@section@level=\count309
 )
-LaTeX Info: Redefining \ref on input line 66.
-LaTeX Info: Redefining \pageref on input line 66.
-LaTeX Info: Redefining \nameref on input line 66.
+LaTeX Info: Redefining \ref on input line 80.
+LaTeX Info: Redefining \pageref on input line 80.
+LaTeX Info: Redefining \nameref on input line 80.
 (./00_pokebaby.out) (./00_pokebaby.out)
 \@outlinefile=\write4
 \openout4 = `00_pokebaby.out'.
@@ -346,39 +495,39 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
 (/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-\c@maskedRefs=\count290
+\c@maskedRefs=\count310
 (/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/apacite/english.apc
 File: english.apc 2013/07/21 v6.03 apacite language file
 LaTeX Info: Redefining \BPBI on input line 129.
 LaTeX Info: Redefining \BHBI on input line 130.
 )
-LaTeX Font Info:    Trying to load font information for OT1+ptmcm on input line 69.
+LaTeX Font Info:    Trying to load font information for OT1+ptmcm on input line 83.
 (/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/psnfss/ot1ptmcm.fd
 File: ot1ptmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ptmcm.
 )
-LaTeX Font Info:    Trying to load font information for OML+ptmcm on input line 69.
+LaTeX Font Info:    Trying to load font information for OML+ptmcm on input line 83.
 (/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omlptmcm.fd
 File: omlptmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OML/ptmcm.
 )
-LaTeX Font Info:    Trying to load font information for OMX+psycm on input line 69.
+LaTeX Font Info:    Trying to load font information for OMX+psycm on input line 83.
 (/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omxpsycm.fd
 File: omxpsycm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/psycm.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 69.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 83.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 69.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 83.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 69.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 69.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 83.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 83.
 (/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 69.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 83.
 (/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Underfull \vbox (badness 10000) detected at line 69
+Underfull \vbox (badness 10000) detected at line 83
  []
 
 [1{/Users/caoanjie/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
@@ -386,67 +535,67 @@ Underfull \vbox (badness 10000) detected at line 69
 
 
 ]
-<figs/plate_diagram-1.pdf, id=68, 136.51pt x 144.54pt>
+Underfull \vbox (badness 3000) has occurred while \output is active []
+
+<figs/plate_diagram-1.pdf, id=76, 136.51pt x 144.54pt>
 File: figs/plate_diagram-1.pdf Graphic file (type pdf)
 <use figs/plate_diagram-1.pdf>
-Package pdftex.def Info: figs/plate_diagram-1.pdf  used on input line 249.
+Package pdftex.def Info: figs/plate_diagram-1.pdf  used on input line 251.
 (pdftex.def)             Requested size: 136.50966pt x 144.53963pt.
 [2 <./figs/plate_diagram-1.pdf>]
-<figs/experimental_design-1.pdf, id=92, 180.675pt x 180.675pt>
+<figs/experimental_design-1.pdf, id=98, 180.675pt x 180.675pt>
 File: figs/experimental_design-1.pdf Graphic file (type pdf)
 <use figs/experimental_design-1.pdf>
-Package pdftex.def Info: figs/experimental_design-1.pdf  used on input line 319.
+Package pdftex.def Info: figs/experimental_design-1.pdf  used on input line 346.
 (pdftex.def)             Requested size: 180.67455pt x 180.67455pt.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
 [3 <./figs/experimental_design-1.pdf>]
-Underfull \hbox (badness 1490) in paragraph at lines 383--390
+Underfull \hbox (badness 1490) in paragraph at lines 407--414
  []\OT1/ptm/b/n/10 Participants[] \OT1/ptm/m/n/10 We re-cruited 449 par-tic-i-pants (Age \OT1/ptm/m/it/10 M \OT1/ptm/m/n/10 =
  []
 
-<figs/behavioral_result-1.pdf, id=112, 212.795pt x 199.74625pt>
-File: figs/behavioral_result-1.pdf Graphic file (type pdf)
-<use figs/behavioral_result-1.pdf>
-Package pdftex.def Info: figs/behavioral_result-1.pdf  used on input line 397.
-(pdftex.def)             Requested size: 212.79446pt x 199.74576pt.
-
-Underfull \hbox (badness 1803) in paragraph at lines 412--416
- []\OT1/ptm/b/n/10 Manipulation Check[] \OT1/ptm/m/n/10 The com-plex an-i-mated crea-tures
- []
-
-LaTeX Font Info:    Trying to load font information for OML+ptm on input line 436.
+LaTeX Font Info:    Trying to load font information for OML+ptm on input line 440.
 (/Users/caoanjie/Library/TinyTeX/texmf-dist/tex/latex/psnfss/omlptm.fd
 File: omlptm.fd 
 )
 LaTeX Font Info:    Font shape `OML/ptm/m/n' in size <10> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 436.
-<figs/experiment_res-1.pdf, id=113, 450.68375pt x 328.22626pt>
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 440.
+
+Underfull \hbox (badness 1910) in paragraph at lines 424--442
+[]\OT1/ptm/m/n/10 Three cri-te-ria were se-lected to eval-u-ate whether the
+ []
+
+[4]
+<figs/experiment_res-1.pdf, id=129, 450.68375pt x 328.22626pt>
 File: figs/experiment_res-1.pdf Graphic file (type pdf)
 <use figs/experiment_res-1.pdf>
-Package pdftex.def Info: figs/experiment_res-1.pdf  used on input line 491.
+Package pdftex.def Info: figs/experiment_res-1.pdf  used on input line 518.
 (pdftex.def)             Requested size: 450.68263pt x 328.22545pt.
-[4 <./figs/behavioral_result-1.pdf>]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[5] [6 <./figs/experiment_res-1.pdf>] (./00_pokebaby.aux)
+
+Underfull \vbox (badness 4279) has occurred while \output is active []
+
+[5]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+[6 <./figs/experiment_res-1.pdf>] [7] (./00_pokebaby.aux)
 Package rerunfilecheck Info: File `00_pokebaby.out' has not changed.
-(rerunfilecheck)             Checksum: D9A2DB2FB61C92CBD0808456732E064A;1734.
+(rerunfilecheck)             Checksum: 0EC7C9A2D4E0720C661E84E776349F15;1861.
  ) 
 Here is how much of TeX's memory you used:
- 11701 strings out of 480246
- 188163 string characters out of 5895024
- 482606 words of memory out of 5000000
- 29395 multiletter control sequences out of 15000+600000
- 501748 words of font info for 87 fonts, out of 8000000 for 9000
+ 13801 strings out of 480247
+ 221939 string characters out of 5895047
+ 522161 words of memory out of 5000000
+ 31419 multiletter control sequences out of 15000+600000
+ 502444 words of font info for 88 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 60i,11n,63p,667b,365s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/Users/caoanjie/Library/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}</Users/caoanjie/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></Users/caoanjie/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></Users/caoanjie/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></Users/caoanjie/Library/TinyTeX/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></Users/caoanjie/Library/TinyTeX/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></Users/caoanjie/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></Users/caoanjie/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></Users/caoanjie/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on 00_pokebaby.pdf (6 pages, 381947 bytes).
+ 60i,12n,63p,667b,356s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/Users/caoanjie/Library/TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}</Users/caoanjie/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></Users/caoanjie/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></Users/caoanjie/Library/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></Users/caoanjie/Library/TinyTeX/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></Users/caoanjie/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></Users/caoanjie/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></Users/caoanjie/Library/TinyTeX/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on 00_pokebaby.pdf (7 pages, 377322 bytes).
 PDF statistics:
- 230 PDF objects out of 1000 (max. 8388607)
- 190 compressed objects within 2 object streams
- 73 named destinations out of 1000 (max. 500000)
- 133 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 236 PDF objects out of 1000 (max. 8388607)
+ 200 compressed objects within 2 object streams
+ 80 named destinations out of 1000 (max. 500000)
+ 144 words of extra memory for PDF output out of 10000 (max. 10000000)
 

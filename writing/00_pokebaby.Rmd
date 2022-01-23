@@ -49,6 +49,10 @@ library(ggplot2)
 library(xtable)
 library(bookdown)
 
+library(knitr)
+library(kableExtra)
+
+
 source(here("model/helper/simulation_results_processing.R"))
 
 all_d <- read_csv(here("experiment/01_merged_data/merged_data.csv"))
@@ -95,7 +99,7 @@ b_res_summary <- b_res_print %>%
 ```{r child = "01_introduction.Rmd"}
 ```
 
-# Models  
+# Model  
 
 ```{r child = "02_model.Rmd"}
 ```
