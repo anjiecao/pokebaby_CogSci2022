@@ -43,7 +43,7 @@ b_res_summary <- b_res_print %>%
 ```
 
 
-To evaluate how well these models can explain looking time changes, we developed a stimuli set and an experimental paradigm to reproduce the key looking time patterns in adult participants. There are two advantages for evaluating models with adult looking time data:  1) it is relatively easy to acquire adult looking time data to reach sufficient power; 2) adult looking time data can speak to the developmental continuities of the principles guiding looking time behaviors.
+To evaluate how well these models can explain looking time changes, we developed a stimuli set and an experimental paradigm to reproduce the key looking time patterns in adult participants. There are two advantages to evaluating models with adult looking time data:  1) it is relatively easy to acquire adult looking time data to reach sufficient power; 2) adult looking time data can speak to the developmental endpoints of the principles guiding looking time behaviors.
 
 
 ## Methods 
@@ -56,17 +56,17 @@ grid::grid.raster(img)
 ```
 
 
-We created the animated creatures using Spore (a game developed by Maxis in 2008). There were forty creatures in total, half of which have low perceptual complexity (e.g. the creatures do not have limbs, additional body parts, facial features, or textured skin), and half of which have high perceptual complexity (i.e. they do have the aforementioned features; see Fig.2 for examples). We used the "animated avatar" function in Spore to capture the creatures in motion.
+We created the animated creatures using Spore (a game developed by Maxis in 2008). There were forty creatures in total, half of which have low perceptual complexity (e.g. the creatures do not have limbs, additional body parts, facial features, or textured skin), and half of which have high perceptual complexity (i.e. they do have the aforementioned features; see Fig 2 for examples). We used the "animated avatar" function in Spore to capture the creatures in motion.
 
 ### Procedure 
 
-The experiment was a web-based, self-paced visual presentation task. Participants were instructed to look at a sequence of animated creatures at their own pace and answer some questions throughout. On each trial, an animated creature showed up on the screen. participants can press the down arrow to go to the next trial whenever they want after a minimum viewing time of 500 ms. 
+The experiment was a web-based, self-paced visual presentation task. Participants were instructed to look at a sequence of animated creatures at their own pace and answer some questions throughout. On each trial, an animated creature showed up on the screen. Participants could press the down arrow to go to the next trial whenever they wanted to, after a minimum viewing time of 500 ms. 
 
-Each block consisted of six trials. A trial can be either a background trial (B) or a deviant trial (D). A background trial presented a creature repeatedly, and the deviant trial presented a different creature from the background trial in the block. Two creatures in the blocks were matched for visual complexity. There were four sequences of background trials and deviant trials. Each sequence appeared twice, once with high complexity stimuli and once with low complexity stimuli. The deviant trial can appear at either the second (BDBBBB), the fourth (BBBDBB), or the sixth trial (BBBBBD) in the block. Two blocks do not have deviant trials (BBBBBB). The creatures presented in the deviant trials and background trials were matched for complexity. Each participant saw eight blocks in total, half of which used creatures with high perceptual complexity, and half of which used creatures with low perceptual complexity.
+Each block consisted of six trials. Unbeknownst to the participants, each trial was either a background trial (B) or a deviant trial (D). A background trial presented a creature repeatedly, and the deviant trial presented a different creature from the background trial in the block. Two creatures in the blocks were matched for visual complexity. There were four sequences of background trials and deviant trials. Each sequence appeared twice, once with high complexity stimuli and once with low complexity stimuli. The deviant trial could appear at either the second (BDBBBB), the fourth (BBBDBB), or the sixth trial (BBBBBD) in the block. Two blocks did not have deviant trials (BBBBBB). The creatures presented in the deviant trials and background trials were matched for complexity. Each participant saw eight blocks in total, half of which used creatures with high perceptual complexity, and half of which used creatures with low perceptual complexity.
 
-To test whether behavior was related to task demands, participants were randomly assigned to one of the three attention check conditions, differing in the type of questions asked following each block: Curiosity, Memory, and Math. In the Curiosity condition, participants were asked to rate "How curious are you about the creature?" on a 5-point Likert scale. In the Memory condition, a forced-choice recognition question followed each block ("Have you seen this creature before?"). The creature used in the question in both conditions was either a creature presented in the preceding block or a novel creature matched in complexity. In the Math condition,  the participants were asked a simple arithmetic question ("What is 5 + 7?") in a multiple-choice format. 
+To test whether behavior was related to task demands, participants were randomly assigned to one of three attention check conditions, differing in the type of questions asked following each block: Curiosity, Memory, and Math. In the Curiosity condition, participants were asked to rate "How curious are you about the creature?" on a 5-point Likert scale. In the Memory condition, a forced-choice recognition question followed each block ("Have you seen this creature before?"). The creature used in the question in both conditions was either a creature presented in the preceding block or a novel creature matched in complexity. In the Math condition,  the participants were asked a simple arithmetic question ("What is 5 + 7?") in a multiple-choice format. 
 
-At the end of the eight blocks, participants were asked to rate the similarity between pairs of creatures and complexity of creatures they encountered on a 7-point Likert Scale. We used responses to these questions to make sure our complexity manipulation was successful, and check that we successfully controlled for similarity between backgrounds and deviants across complexity level
+At the end of the eight blocks, participants were asked to rate the similarity between pairs of creatures and complexity of creatures they encountered on a 7-point Likert scale. We used responses to these questions to make sure our complexity manipulation was successful.
 
 
 ### Participants
@@ -114,7 +114,7 @@ We recruited `r total_participants` participants (Age *M* = `r age_mean`; *SD* =
 
 
 
-```{r behavioral_result, echo = FALSE, fig.env = "figure", fig.pos = "h", fig.align='center', fig.width=3, fig.height=3, set.cap.width=T, num.cols.cap=1, fig.cap = "Results of behavioral experiment."}
+<!--```{r behavioral_result, echo = FALSE, fig.env = "figure", fig.pos = "h", fig.align='center', fig.width=3, fig.height=3, set.cap.width=T, num.cols.cap=1, fig.cap = "Results of behavioral experiment."}
 
 b_res_print %>%
   ggplot(aes(x=trial_number, y=log(trial_looking_time), color = complexity)) +
@@ -134,21 +134,10 @@ b_res_print %>%
         legend.title = element_text(size = 8.5),
         legend.text = element_text(size = 8.5))
 ```
+-->
 
 
 
-
-
-
-The sample size, methods, and main analyses were all pre-registered and are available at [LINK]. Data and analysis scripts are available at [LINK]. 
-
-
-### Manipulation Check 
-
- The complex animated creatures were rated as more perceptually complex (M = ; SD = ) than the simple animated creatures (M = ; SD = ). Pairs of background creature and deviant creature were rated as moderately dissimilar to one another (M = ; SD = ). 
-
-
-### Evaluating the Paradigm 
 
 
 ```{r include=FALSE}
@@ -163,6 +152,9 @@ summary(model_1)
 ```
 
 
-Three criteria were selected to evaluate whether the paradigms successfully captured the characteristic looking time patterns observed in infant literature: habituation (the decrease in looking time for a stimulus with repeated presentations), dishabituation (the increase in looking time to a new stimulus after habituated to one stimulus), and complexity effect (longer looking time for perceptually more complex stimuli). The visualization of our results suggests that we reproduce the phenomena qualitatively (Fig. 3).To evaluate the phenomenon quantitatively, we ran a linear mixed effects model with maximal random effect structure. The predictor included in the model are a three-way interaction term between the trial number on an exponential function, the type of trial (background vs. deviant) and the complexity of the stimuli (simple and complex). The model failed to converge, so we pruned the model following the preregistered procedure. The final model included subject as a random intercept. All predictors except for the three-way interaction are significant from the model (all *p* < .001). This provides a quantitative confirmation that our paradigm successfully captured the key looking time patterns.  
+
+The sample size, methods, and main analyses were all pre-registered and are available at [LINK]. Data and analysis scripts are available at [LINK].  We first checked the basic complexity manipulations were successful. Complex animated creatures were rated as more perceptually complex (M = ; SD = ) than the simple animated creatures (M = ; SD = ). 
+
+Three criteria were selected to evaluate whether the paradigms successfully captured the characteristic looking time patterns observed in infant literature: habituation (the decrease in looking time for a stimulus with repeated presentations), dishabituation (the increase in looking time to a new stimulus after habituated to one stimulus), and complexity effect (longer looking time for perceptually more complex stimuli). The visualization of our results suggests that we reproduce the phenomena qualitatively (Fig. 3, row1).To evaluate the phenomenon quantitatively, we ran a linear mixed effects model with maximal random effect structure. The predictors included in the model were a three-way interaction term between the trial number (modeled as an exponential decay; Keil 1991), the type of trial (background vs. deviant) and the complexity of the stimuli (simple vs. complex). The model failed to converge, so we pruned the model following the pre-registered procedure. The final model included per-subject random intercepts. All predictors except for the three-way interaction were significant from the model (all *t* < .001), providing a quantitative confirmation that our paradigm successfully captured the key looking time patterns. 
 
 

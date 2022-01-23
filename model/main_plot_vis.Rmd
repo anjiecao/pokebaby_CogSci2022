@@ -154,7 +154,7 @@ viz_df %>%
 
 # main table 
 
-```{r include=FALSE}
+```{r eval=FALSE, include=FALSE}
 scaled_eig_res_sum <- summarise_scaled_tidy_sim_res(c_res %>% filter(im_type == "EIG"))
 scaled_kl_res_sum <- summarise_scaled_tidy_sim_res(c_res %>% filter(im_type == "KL"))
 scaled_s_res_sum <- summarise_scaled_tidy_sim_res(c_res %>% filter(im_type == "surprisal"))
@@ -188,12 +188,7 @@ tb_df <- bind_rows(df_compare_eig, df_compare_kl, df_compare_surpirsal, df_compa
          "RMSE" = rmse_in_log) %>% 
   select(type, `Pearson's r`, RMSE) %>% 
   as.data.frame()
-```
 
-
-```{r echo=FALSE}
-library(knitr)
-library(kableExtra)
 
 kable(
   tb_df,
@@ -206,6 +201,11 @@ kable(
   caption = "Correlations and RMSE between different versions of the model and behavioral results"
   ) %>%
   row_spec(row = 0, align = "c") 
+```
+
+
+```{r echo=FALSE}
+
 
 #%>%
   #footnote(

@@ -4,24 +4,20 @@ output:
 
 ---
 
-We reasoned that, at its simplest, habituation occurs when each repetition of a stimulus refines the representation of a concept until repetitions become ineffectual. Dishabituation then occurs when a stimulus deviates from the concept learned during habituation.  We therefore formalized the learning problem that participants face in a simple habituation experiment  as a form of Bayesian concept learning [ @goodman2008rational;@tenenbaum1999bayesian]. The goal is to learn a concept $\theta$, which is a set of probabilities for independent binary features $\theta_{1,2,..,n}$, where n is the number of features.
+We reasoned that, at its simplest, habituation occurs when each repetition of a stimulus refines the representation of a concept until repetitions become ineffectual. Dishabituation then occurs when a stimulus deviates from the concept learned during habituation. We therefore formalized the learning problem that participants face in a simple habituation experiment as a form of Bayesian concept learning [@goodman2008rational;@tenenbaum1999bayesian]. Figure 1. shows the plate diagram illustrating the model’s architecture. 
 
+## Learning 
 
-## Model 1: Discrete Time Model
-
-
-In the first model, we assume that the learner receives information about $\theta$ by observing exemplars $y$: instantiations of $\bar{\theta}$, where each feature $y_{1,2,..,n}$ is either on or off. Each feature $\theta_i$ and its corresponding exemplar $y_i$ form a Beta-Bernoulli process:
+The goal is to learn a concept $\theta$, which is a set of probabilities for independent binary features $\theta_{1,2,..,n}$, where n is the number of features. $\theta$ in turn generates exemplars $y$: instantiations of $\bar{\theta}$, where each feature $y_{1,2,..,n}$ is either on or off. Each feature $\theta_i$ and its corresponding exemplar $y_i$ form a Beta-Bernoulli process:
 
 \begin{eqnarray}
 p(\theta_i) \sim Beta(\alpha_i,\beta_i) \\
 p(y_i|\theta_i) \sim Bernoulli(\theta_i)
 \end{eqnarray}
 
-Since the features are independent, this relationship holds for the entire concept $\theta$. In previous work, two information-theoretic quantities, surprisal and Kullback-Leibler (KL) divergence, resulting from the stimulus were shown to be linked to looking behavior [@kidd2012goldilocks; @poli2020infants]. Surprisal, calculated as $-log(p(y|\theta))$, intuitively refers to how surprising a stimulus $y$ is given the model's beliefs about $\theta$ - the intuition that surprising events should result in longer looking times has served as a foundational assumption in developmental psychology. KL-divergence measures how much a model needs to change to accommodate a new stimulus $y$, and describes a distance between the model before and after an observation, in is defined in our case as $\sum_{x \in X}{p(\theta = x|y)\frac{p(\theta = x|y)}{p(\theta = x)}}$. If an observation causes a large change, we speculated that a proportionally long looking time is necesssary to integrate the new information. 
+Since the features are independent, this relationship holds for the entire concept $\theta$. 
 
-## Model 2: Continuous Time Model
-
-A limitation of Model 1 is that it assumes that stimuli are encoded perfectly and instantaneously. However, to model the precise time course of attention, we instead suggest that participants gather repeated noisy samples $\bar{z}$ from the exemplars, instead of directly observing them. For any sample $z$ from an exemplar $y$ there is a small probability $\epsilon$ to misperceive the feature as off when it was actually on, and vice versa.
+This formulation mirrors the models proposed previously to account for infant looking behavior, but it assumes that stimuli are encoded perfectly and instantaneously[@kidd2012goldilocks; @poli2020infants]. However, to model the precise time course of attention, we instead suggest that participants gather repeated noisy samples $\bar{z}$ from the exemplars, instead of directly observing them. For any sample $z$ from an exemplar $y$ there is a small probability $\epsilon$ to misperceive the feature as off when it was actually on, and vice versa.
 
 Therefore, by making noisy observations $\bar{z}$, the learner obtains information about the true identity of the exemplar $y$, and by extension, about the concept $\bar{theta}$. By Bayes’ rule:
 \begin{eqnarray}
@@ -29,21 +25,32 @@ P(\theta|\bar{z}) &= p(\bar{z}|y) p(y|\theta) p(\theta) / p(\bar{z})
 \end{eqnarray}
 where $p(\bar{z}|y_i)$ is fully described by $\epsilon$, and $p(y|\theta)$ by Bernoulli processes as in Eq. 2.
 
+
+
+
+
 ```{r plate_diagram, echo = FALSE, fig.env = "figure", fig.pos = "H", fig.align='center', fig.width=2, fig.height=2, set.cap.width=T, num.cols.cap=1, fig.cap = "Graphical representation of our model. Circles indicate random variables. The squares indicate fixed model parameters."}
 img <- png::readPNG("figs/plate_diagram.png")
 grid::grid.raster(img)
 ```
 
-### Sampling
+## Sampling
 
-The formulation of the model in continuous time allows us to do two things: First, we can explicitly model the learner's decision on when to stop sampling by asking the model to decide, after every sample $z$, whether it wants to continue sampling from the same stimulus or not. This is in contrast to the discrete time models presented here and in previous work (Kidd et al., 2012; Poli et al., 2020), where we can only link information-theoretic measures to looking data, but not provide a mechanism for how these measures could control moment-to-moment sampling decisions. Second, a consequence of making a decision at every time step is that we can study the behavior of another information-theoretic measure: the expected information gain (EIG). EIG is commonly used in rational analyses of information-seeking behavior - that is to assess whether information-seeking is optimal with respect to the learning task [@markant2012does;@oaksford1994rational]. Importantly, EIG is a forward-looking measure that considers the potential for learning from the next sample. Since discrete time models  operate on the level of a whole stimulus, rather than individual samples, EIG would look forward to the next stimulus in these models, rather than the next sample, and therefore not be able to capture the decision of whether to keep looking. EIG to describe looking time is therefore only possible in the continuous time models.
+The formulation of the model as taking noisy samples from exemplars allows us to do two things: First, we can explicitly model the learner's decision on when to stop sampling by asking the model to decide, after every sample $z$, whether it wants to continue sampling from the same stimulus or not. This is in contrast to the discrete time models presented here and in previous work [@kidd2012goldilocks; @poli2020infants] , where we can only link information-theoretic measures to looking data, but not provide a mechanism for how these measures could control moment-to-moment sampling decisions. Second, a consequence of making a decision at every time step is that we can study the behavior of another information-theoretic measure: the expected information gain (EIG). EIG is commonly used in rational analyses of information-seeking behavior - that is to assess whether information-seeking is optimal with respect to the learning task [@markant2012does; @oaksford1994rational]. Importantly, EIG is a forward-looking measure that considers the potential for learning from the next sample. Since discrete time models  operate on the level of a whole stimulus, rather than a series of incomplete, noisy individual samples, EIG would look forward to the next stimulus in these models, rather than to the next sample, and therefore not be able to capture the decision of whether to keep looking. EIG to describe looking time is therefore only possible in models with temporally extended perception 
 
 We compute EIG by weighing the information gain from each possible next observation by the probability of that observation. We defined information gain as the KL-divergence between the hypothetical posterior after observing a future sample $z_{t+1}$ and the current posterior:
 \begin{eqnarray}
 EIG(z_{t+1}) = \sum_{z_{t+1} \in [0,1]} p(z_{t+1}|\theta_t) * D_{KL}(\theta_{t+1} || p(\theta_t))
 \end{eqnarray}
-Finally, to get actual sampling behavior from the model, it has to convert EIG into a binary decision about whether continue looking at the current sample, or to advance to the next trial. The model does so using a luce choice between the EIG from the next sample and a constant EIG from looking away.
+Finally, to get actual sampling behavior from the model, it has to convert EIG into a binary decision about whether to continue looking at the current sample, or to advance to the next trial. The model does so using a Luce choice between the EIG from the next sample and a constant EIG from looking away.
 \begin{eqnarray}
 p(look) = \frac{EIG(z_{t+1})}{EIG(z_{t+1})+EIG(world)}
 \end{eqnarray}
-We also studied the behavior of the model when replacing EIG with continuous time versions of the linking hypotheses described earlier, surprisal and KL-divergence between the posterior $p(\theta_t)$ and the prior $p(\theta_{t-1})$.
+
+
+## Alternative linking hypotheses
+
+We also studied the behavior of RANCH when replacing EIG with two other linking hypotheses, surprisal and Kullback-Leibler (KL) divergence, used in previous attempts to model infant looking behavior [@kidd2012goldilocks; @poli2020infants]. These metrics have also been used to approximate EIG in reinforcement learning literature [@kim2020active]. Surprisal, which we calculated as $-log(p(z|\theta))$, intuitively refers to how surprising an observation $z$ is given the model's beliefs about $\theta$ - the intuition that surprising events should result in longer looking times has served as a foundational assumption in developmental psychology. KL-divergence measures how much a model needs to change to accommodate a new observation $z$, and describes a distance between the model before and after an observation. If an observation causes a large change, a proportionally long looking time might be necessary to integrate the new information. Formally, it describes a distance between the posterior $p(\theta_t)$ and the prior $p(\theta_{t-1})$, computed as $\sum_{x \in X}{p(\theta = x|y)\frac{p(\theta_{t-1})}{p(\theta = t)}}$.  Unlike EIG, these alternative linking hypotheses are not strictly maximizing information gain but provide psychologically plausible heuristics with which to approximate EIG, given that they are computationally much less intensive since there is no need to iterate through all possible future samples $z_{t+1}$ as in Eq. 4.
+
+
+
