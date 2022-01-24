@@ -152,8 +152,29 @@ summary(model_1)
 ```
 
 
+```{r include=FALSE}
+complexity_summary <- d_complexity %>% 
+  mutate(complexity_type = case_when(
+    grepl("complex", stimulus) ~ "complex", 
+    grepl("simple", stimulus) ~ "simple"
+  )) %>% 
+  group_by(complexity_type) %>% 
+  summarise(
+    mean = round(mean(rating),2), 
+    sd = round(sd(rating),2)
+  )
 
-The sample size, methods, and main analyses were all pre-registered and are available at [LINK]. Data and analysis scripts are available at [LINK].  We first checked the basic complexity manipulations were successful. Complex animated creatures were rated as more perceptually complex (M = ; SD = ) than the simple animated creatures (M = ; SD = ). 
+model_1 <- lm(rating ~ complexity_type, data = d_complexity %>% 
+  mutate(complexity_type = case_when(
+    grepl("complex", stimulus) ~ "complex", 
+    grepl("simple", stimulus) ~ "simple"
+  )) )
+summary(model_1)
+
+```
+
+
+The sample size, methods, and main analyses were all pre-registered and are available at [LINK]. Data and analysis scripts are available at [LINK].  We first checked the basic complexity manipulations were successful. Complex animated creatures were rated as more perceptually complex (*M* = `r filter(complexity_summary, complexity_type == "complex")$mean` ; *SD* = `r filter(complexity_summary, complexity_type == "complex")$sd`) than the simple animated creatures (*M* = `r filter(complexity_summary, complexity_type == "simple")$mean`; *SD* = `r filter(complexity_summary, complexity_type == "simple")$mean`;  *t* < 0.001). 
 
 Three criteria were selected to evaluate whether the paradigms successfully captured the characteristic looking time patterns observed in infant literature: habituation (the decrease in looking time for a stimulus with repeated presentations), dishabituation (the increase in looking time to a new stimulus after habituated to one stimulus), and complexity effect (longer looking time for perceptually more complex stimuli). The visualization of our results suggests that we reproduce the phenomena qualitatively (Fig. 3, row1).To evaluate the phenomenon quantitatively, we ran a linear mixed effects model with maximal random effect structure. The predictors included in the model were a three-way interaction term between the trial number (modeled as an exponential decay; Keil 1991), the type of trial (background vs. deviant) and the complexity of the stimuli (simple vs. complex). The model failed to converge, so we pruned the model following the pre-registered procedure. The final model included per-subject random intercepts. All predictors except for the three-way interaction were significant from the model (all *t* < .001), providing a quantitative confirmation that our paradigm successfully captured the key looking time patterns. 
 

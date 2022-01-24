@@ -57,11 +57,20 @@ source(here("model/helper/simulation_results_processing.R"))
 
 all_d <- read_csv(here("experiment/01_merged_data/merged_data.csv"))
 d <- read_csv(here("experiment/02_processed_data/processed_rt_task_data.csv"))
+d_complexity <- read_csv(here("experiment/02_processed_data/processed_complexity_data.csv"))
+
 prolific <- read_csv(here("experiment/prolific.csv"))
 exclusion_d <- read_csv(here("experiment/p_level_exclusion.csv"))
 
 
-b_res_print <- d %>% 
+b_res <- read_csv(here("experiment/02_processed_data/processed_rt_task_data.csv"))
+
+
+nn_res <- readRDS(here("model/report_res/scaled_no_noise_res.RDS")) 
+r_res <- readRDS(here("model/report_res/scaled_random_model.RDS"))
+c_res <- readRDS(here("model/report_res/scaled_continuous_model_res.RDS"))
+
+b_res_print <- b_res %>% 
   mutate(sequence_scheme = case_when(
     deviant_position == 2 ~ "BDBBBB", 
     deviant_position == 4 ~ "BBBDBB", 
@@ -78,8 +87,6 @@ b_res_print <- d %>%
   separate(block_type, into = c("complexity", "similarity"), sep = "_") %>% 
   select(subject, complexity, trial_number, 
          sequence_scheme, sequence_scheme_print, trial_looking_time, log_trial_looking_time)
-
-# calculate smean.cl.b
 
 
 b_res_summary <- b_res_print %>% 

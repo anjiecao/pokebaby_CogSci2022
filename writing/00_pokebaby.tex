@@ -419,7 +419,9 @@ The sample size, methods, and main analyses were all pre-registered and
 are available at {[}LINK{]}. Data and analysis scripts are available at
 {[}LINK{]}. We first checked the basic complexity manipulations were
 successful. Complex animated creatures were rated as more perceptually
-complex (M = ; SD = ) than the simple animated creatures (M = ; SD = ).
+complex (\emph{M} = 4.63 ; \emph{SD} = 1.08) than the simple animated
+creatures (\emph{M} = 1.06; \emph{SD} = 1.06; \emph{t} \textless{}
+0.001).
 
 Three criteria were selected to evaluate whether the paradigms
 successfully captured the characteristic looking time patterns observed
@@ -451,7 +453,7 @@ behavioral results. We then compared the model fits within each model's
 different linking hypotheses.
 
 \hypertarget{model-experiment}{%
-\subsection{Model experiment}\label{model-experiment}}
+\subsubsection{Model experiment}\label{model-experiment}}
 
 To model the behavioral experiment, we first represented the stimuli as
 binary-valued vectors indicating the presence (1) or absence (0) of each
@@ -476,7 +478,7 @@ We let the model run 500 times for each sequence to obtain a reasonably
 precise estimate of the model's behavior.
 
 \hypertarget{parameter-estimation}{%
-\subsection{Parameter estimation}\label{parameter-estimation}}
+\subsubsection{Parameter estimation}\label{parameter-estimation}}
 
 We performed an iterative grid search in parameter space for each
 linking hypothesis. We a priori constrained our parameter space on the
@@ -496,7 +498,7 @@ Surprisal: \(\alpha_{\theta}\) = 1, \(\beta_{\theta}\) = 3, \(\epsilon\)
 = 0.07, \(EIG(world)\) = 8).
 
 \hypertarget{baseline-comparison}{%
-\subsection{Baseline Comparison}\label{baseline-comparison}}
+\subsubsection{Baseline Comparison}\label{baseline-comparison}}
 
 We next wanted to test what the effects are of removing two crucial
 aspects of this model: 1) Making sampling choices based on learning from
@@ -513,7 +515,7 @@ stability. The baseline models used the parameters obtained from fitting
 the EIG model to the behavioral data.
 
 \begin{CodeChunk}
-\begin{figure*}[h]
+\begin{figure*}[t!]
 
 {\centering \includegraphics{figs/experiment_res-1} 
 
@@ -524,7 +526,23 @@ the EIG model to the behavioral data.
 \end{CodeChunk}
 
 \hypertarget{results-1}{%
-\subsection{Results}\label{results-1}}
+\subsubsection{Results}\label{results-1}}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{lll}
+  \hline
+Model Type (Linking Hypothesis) & Pearson's r & RMSE \\ 
+  \hline
+RANCH (EIG) & 0.92 & 0.19 \\ 
+  RANCH (KL-divergence) & 0.93 & 0.12 \\ 
+  RANCH (Surprisal) & 0.92 & 0.13 \\ 
+  Baseline: No Noise & 0.50 & 0.25 \\ 
+  Baseline: No Learning & 0.21 & 0.27 \\ 
+   \hline
+\end{tabular}
+\caption{This table shows the correlations between the log-transformed model results and the log-transformed looking time data. RANCH model implemented with the three different linking hypotheses showed similar performance with slight numerical differences and outperomed the baseline models.} 
+\end{table}
 
 RANCH reproduced the behavioral phenomena qualitatively, showing
 habituation, dishabituation, and complexity effects (Fig. 3, row 2-4).
@@ -537,7 +555,7 @@ performed far worse than RANCH using information-theoretic linking
 hypotheses (see Table 1 for all computed metrics).
 
 \hypertarget{discussion}{%
-\subsection{Discussion}\label{discussion}}
+\subsubsection{Discussion}\label{discussion}}
 
 The model results show that under RANCH's model architecture, the
 performance of surprisal and KL can match that of EIG, a metric that can
