@@ -153,7 +153,7 @@ high nor too low in surprisal, resulting in a `Goldilocks' effect of
 attention. A recent study by Poli, Serino, Mars, \& Hunnius (2020)
 offered an alternative linking hypothesis between the model and
 behavior: the study used a similar paradigm and model to show that
-infants' looking time can be predicted by `learning progress',
+infants' looking time can be predicted by `learning progress,'
 formalized as the Kullback-Leibler (KL) divergence between the the
 model's knowledge before and after each stimulus. These attempts to
 connect information theoretic measures to infants' looking time resonate
@@ -197,131 +197,6 @@ using different information-theoretic linking hypotheses (surprisal,
 KL-divergence, and EIG). Finally, we evaluate RANCH with adult looking
 time data collected from a paradigm that captures habituation,
 dishabituation, and complexity effects.
-
-\hypertarget{model}{%
-\section{Model}\label{model}}
-
-We reasoned that, at its simplest, habituation occurs when each
-repetition of a stimulus refines the representation of a concept until
-repetitions become ineffectual. Dishabituation then occurs when a
-stimulus deviates from the concept learned during habituation. We
-therefore formalized the learning problem that participants face in a
-simple habituation experiment as a form of Bayesian concept learning
-(Goodman, Tenenbaum, Feldman, \& Griffiths, 2008; Tenenbaum, 1999).
-Figure 1. shows the plate diagram illustrating the model's architecture.
-
-\hypertarget{learning}{%
-\subsection{Learning}\label{learning}}
-
-The goal is to learn a concept \(\theta\), which is a set of
-probabilities for independent binary features \(\theta_{1,2,..,n}\),
-where n is the number of features. \(\theta\) in turn generates
-exemplars \(y\): instantiations of \(\bar{\theta}\), where each feature
-\(y_{1,2,..,n}\) is either on or off. Each feature \(\theta_i\) and its
-corresponding exemplar \(y_i\) form a Beta-Bernoulli process:
-
-\begin{eqnarray}
-p(\theta_i) \sim Beta(\alpha_i,\beta_i) \\
-p(y_i|\theta_i) \sim Bernoulli(\theta_i)
-\end{eqnarray}
-
-Since the features are independent, this relationship holds for the
-entire concept \(\theta\).
-
-This formulation mirrors the models proposed previously to account for
-infant looking behavior, but it assumes that stimuli are encoded
-perfectly and instantaneously(Kidd et al., 2012; Poli et al., 2020).
-However, to model the precise time course of attention, we instead
-suggest that participants gather repeated noisy samples \(\bar{z}\) from
-the exemplars, instead of directly observing them. For any sample \(z\)
-from an exemplar \(y\) there is a small probability \(\epsilon\) to
-misperceive the feature as off when it was actually on, and vice versa.
-
-Therefore, by making noisy observations \(\bar{z}\), the learner obtains
-information about the true identity of the exemplar \(y\), and by
-extension, about the concept \(\bar{theta}\). By Bayes' rule:
-\begin{eqnarray}
-P(\theta|\bar{z}) &= p(\bar{z}|y) p(y|\theta) p(\theta) / p(\bar{z})
-\end{eqnarray} where \(p(\bar{z}|y_i)\) is fully described by
-\(\epsilon\), and \(p(y|\theta)\) by Bernoulli processes as in Eq. 2.
-
-\begin{CodeChunk}
-\begin{figure}[H]
-
-{\centering \includegraphics{figs/plate_diagram-1} 
-
-}
-
-\caption[Graphical representation of our model]{Graphical representation of our model. Circles indicate random variables. The squares indicate fixed model parameters.}\label{fig:plate_diagram}
-\end{figure}
-\end{CodeChunk}
-
-\hypertarget{sampling}{%
-\subsection{Sampling}\label{sampling}}
-
-The formulation of the model as taking noisy samples from exemplars
-allows us to do two things: First, we can explicitly model the learner's
-decision on when to stop sampling by asking the model to decide, after
-every sample \(z\), whether it wants to continue sampling from the same
-stimulus or not. This is in contrast to the discrete time models
-presented here and in previous work (Kidd et al., 2012; Poli et al.,
-2020) , where we can only link information-theoretic measures to looking
-data, but not provide a mechanism for how these measures could control
-moment-to-moment sampling decisions. Second, a consequence of making a
-decision at every time step is that we can study the behavior of another
-information-theoretic measure: the expected information gain (EIG). EIG
-is commonly used in rational analyses of information-seeking behavior -
-that is to assess whether information-seeking is optimal with respect to
-the learning task (Markant \& Gureckis, 2012; Oaksford \& Chater, 1994).
-Importantly, EIG is a forward-looking measure that considers the
-potential for learning from the next sample. Since discrete time models
-operate on the level of a whole stimulus, rather than a series of
-incomplete, noisy individual samples, EIG would look forward to the next
-stimulus in these models, rather than to the next sample, and therefore
-not be able to capture the decision of whether to keep looking. EIG to
-describe looking time is therefore only possible in models with
-temporally extended perception
-
-We compute EIG by weighing the information gain from each possible next
-observation by the probability of that observation. We defined
-information gain as the KL-divergence between the hypothetical posterior
-after observing a future sample \(z_{t+1}\) and the current posterior:
-\begin{eqnarray}
-EIG(z_{t+1}) = \sum_{z_{t+1} \in [0,1]} p(z_{t+1}|\theta_t) * D_{KL}(\theta_{t+1} || p(\theta_t))
-\end{eqnarray} Finally, to get actual sampling behavior from the model,
-it has to convert EIG into a binary decision about whether to continue
-looking at the current sample, or to advance to the next trial. The
-model does so using a Luce choice between the EIG from the next sample
-and a constant EIG from looking away. \begin{eqnarray}
-p(look) = \frac{EIG(z_{t+1})}{EIG(z_{t+1})+EIG(world)}
-\end{eqnarray}
-
-\hypertarget{alternative-linking-hypotheses}{%
-\subsection{Alternative linking
-hypotheses}\label{alternative-linking-hypotheses}}
-
-We also studied the behavior of RANCH when replacing EIG with two other
-linking hypotheses, surprisal and Kullback-Leibler (KL) divergence, used
-in previous attempts to model infant looking behavior (Kidd et al.,
-2012; Poli et al., 2020). These metrics have also been used to
-approximate EIG in reinforcement learning literature (Kim, Sano, De
-Freitas, Haber, \& Yamins, 2020). Surprisal, which we calculated as
-\(-log(p(z|\theta))\), intuitively refers to how surprising an
-observation \(z\) is given the model's beliefs about \(\theta\) - the
-intuition that surprising events should result in longer looking times
-has served as a foundational assumption in developmental psychology.
-KL-divergence measures how much a model needs to change to accommodate a
-new observation \(z\), and describes a distance between the model before
-and after an observation. If an observation causes a large change, a
-proportionally long looking time might be necessary to integrate the new
-information. Formally, it describes a distance between the posterior
-\(p(\theta_t)\) and the prior \(p(\theta_{t-1})\), computed as
-\(\sum_{x \in X}{p(\theta = x|y)\frac{p(\theta_{t-1})}{p(\theta = t)}}\).
-Unlike EIG, these alternative linking hypotheses are not strictly
-maximizing information gain but provide psychologically plausible
-heuristics with which to approximate EIG, given that they are
-computationally much less intensive since there is no need to iterate
-through all possible future samples \(z_{t+1}\) as in Eq. 4.
 
 \hypertarget{experiment}{%
 \section{Experiment}\label{experiment}}
@@ -434,7 +309,7 @@ the phenomena qualitatively (Fig. 3, row1).To evaluate the phenomenon
 quantitatively, we ran a linear mixed effects model with maximal random
 effect structure. The predictors included in the model were a three-way
 interaction term between the trial number (modeled as an exponential
-decay; Keil 1991), the type of trial (background vs.~deviant) and the
+decay, Kail, 1991), the type of trial (background vs.~deviant) and the
 complexity of the stimuli (simple vs.~complex). The model failed to
 converge, so we pruned the model following the pre-registered procedure.
 The final model included per-subject random intercepts. All predictors
@@ -442,18 +317,114 @@ except for the three-way interaction were significant from the model
 (all \emph{t} \textless{} .001), providing a quantitative confirmation
 that our paradigm successfully captured the key looking time patterns.
 
-\hypertarget{model-comparison}{%
-\section{Model comparison}\label{model-comparison}}
+\hypertarget{model}{%
+\section{Model}\label{model}}
 
-To evaluate whether RANCH can provide sufficient explanation of the
-behavioral results, we simulated each model on the behavioral
-experiment. Then, we searched for the best set of parameters that
-yielded the highest Pearson's correlation between the model results and
-behavioral results. We then compared the model fits within each model's
-different linking hypotheses.
+We reasoned that, habituation, dishabituation and complexity effects are
+consequences of encoding. For example, habituation occurs when each
+repetition of a stimulus refines the representation of a concept until
+encoding is complete. Dishabituation then occurs when a stimulus
+deviates from the concept learned during habituation. And complex
+stimuli might be harder to encode, which slows down encoding. We
+therefore formalized the learning problem that participants face in a
+simple habituation experiment as a form of Bayesian concept learning
+(Goodman, Tenenbaum, Feldman, \& Griffiths, 2008; Tenenbaum, 1999). In
+this setting, learners are tasked with learning a concept by observing
+samples from it, and each concept has a set of features that can be
+either on or off, to represent complexity the number of features being
+on.
 
-\hypertarget{model-experiment}{%
-\subsubsection{Model experiment}\label{model-experiment}}
+\hypertarget{learning}{%
+\subsection{Learning}\label{learning}}
+
+RANCH's goal is to learn a concept \(\theta\), which is a set of
+probabilities for independent binary features \(\theta_{1,2,..,n}\),
+where n is the number of features. \(\theta\) in turn generates
+exemplars \(y\): instantiations of \(\bar{\theta}\), where each feature
+\(y_{1,2,..,n}\) is either on or off. Each feature \(\theta_i\) and its
+corresponding exemplar \(y_i\) form a Beta-Bernoulli process:
+
+\begin{eqnarray}
+p(\theta_i) \sim Beta(\alpha_i,\beta_i) \\
+p(y_i|\theta_i) \sim Bernoulli(\theta_i)
+\end{eqnarray}
+
+Since the features are independent, this relationship holds for the
+entire concept \(\theta\).
+
+This formulation mirrors the models proposed previously to account for
+infant looking behavior, but it assumes that stimuli are encoded
+perfectly and instantaneously(Kidd et al., 2012; Poli et al., 2020).
+However, to model the precise time course of attention, we instead
+suggest that participants gather repeated noisy samples \(\bar{z}\) from
+the exemplars, instead of directly observing them. For any sample \(z\)
+from an exemplar \(y\) there is a small probability \(\epsilon\) to
+misperceive the feature as off when it was actually on, and vice versa.
+
+Therefore, by making noisy observations \(\bar{z}\), the learner obtains
+information about the true identity of the exemplar \(y\), and by
+extension, about the concept \(\theta\). By Bayes' rule:
+\begin{eqnarray}
+P(\theta|\bar{z}) &= p(\bar{z}|y) p(y|\theta) p(\theta) / p(\bar{z})
+\end{eqnarray} where \(p(\bar{z}|y_i)\) is fully described by
+\(\epsilon\), and \(p(y|\theta)\) by Bernoulli processes as in Eq. 2.
+Figure 1 shows the plate diagram illustrating the RANCH's model
+architecture.
+
+\begin{CodeChunk}
+\begin{figure}[H]
+
+{\centering \includegraphics{figs/plate_diagram-1} 
+
+}
+
+\caption[Graphical representation of RANCH]{Graphical representation of RANCH. Circles indicate random variables. The square indicates fixed model parameters.}\label{fig:plate_diagram}
+\end{figure}
+\end{CodeChunk}
+
+\hypertarget{sampling}{%
+\subsection{Sampling}\label{sampling}}
+
+The formulation of the model as taking noisy samples from exemplars
+allows us to do two things: First, we can explicitly model the learner's
+on-the-fly decisions by asking the model to decide, after every sample
+\(z\), whether it wants to continue sampling from the same stimulus or
+not. This is in contrast to previous work which describes how entire
+stimuli affect an ideal learner model (Kidd et al., 2012; Poli et al.,
+2020). In these cases, we can only link information-theoretic measures
+to looking data, but not provide a mechanism for how these measures
+could control moment-to-moment sampling decisions. Second, a consequence
+of making a decision at every time step is that we can study the
+behavior of another information-theoretic measure: the expected
+information gain (EIG). EIG is commonly used in rational analyses of
+information-seeking behavior - that is to assess whether
+information-seeking is optimal with respect to the learning task
+(Markant \& Gureckis, 2012; Oaksford \& Chater, 1994). Importantly, EIG
+is a forward-looking measure that considers the potential for learning
+from the next sample. Since previous models operate on the level of a
+whole stimulus, rather than a series of incomplete, noisy individual
+samples, EIG would look forward to the next stimulus in these models,
+rather than to the next sample, and therefore not capture the
+in-the-moment decision of whether to keep looking. Relating EIG to
+looking time is therefore only possible in models with temporally
+extended perception.
+
+RANCH computes EIG by weighing the information gain from each possible
+next observation by the probability of that observation. We defined
+information gain as the KL-divergence between the hypothetical posterior
+after observing a future sample \(z_{t+1}\) and the current posterior:
+\begin{eqnarray}
+EIG(z_{t+1}) = \sum_{z_{t+1} \in [0,1]} p(z_{t+1}|\theta_t) * D_{KL}(\theta_{t+1} || p(\theta_t))
+\end{eqnarray} Finally, to get actual sampling behavior from the model,
+it has to convert EIG into a binary decision about whether to continue
+looking at the current sample, or to advance to the next trial. The
+model does so using a Luce choice between the EIG from the next sample
+and a constant EIG from looking away. \begin{eqnarray}
+p(look) = \frac{EIG(z_{t+1})}{EIG(z_{t+1})+EIG(world)}
+\end{eqnarray}
+
+\hypertarget{experimental-setting}{%
+\subsection{Experimental Setting}\label{experimental-setting}}
 
 To model the behavioral experiment, we first represented the stimuli as
 binary-valued vectors indicating the presence (1) or absence (0) of each
@@ -478,14 +449,14 @@ We let the model run 500 times for each sequence to obtain a reasonably
 precise estimate of the model's behavior.
 
 \hypertarget{parameter-estimation}{%
-\subsubsection{Parameter estimation}\label{parameter-estimation}}
+\subsection{Parameter estimation}\label{parameter-estimation}}
 
 We performed an iterative grid search in parameter space for each
 linking hypothesis. We a priori constrained our parameter space on the
 prior beta distribution to have shape parameters
 \(\alpha_{\theta} > \beta_{\theta}\), which describe the prior beliefs
 as ``more likely to see the absence of a feature than the presence of a
-feature''. We then searched for the priors over the concept
+feature.'' We then searched for the priors over the concept
 (\(\theta\)), the noise parameter that decides how likely a feature
 would be misperceived (\(\epsilon\)), and the constant EIG from the
 world (\(EIG(world)\)). The prior over the noise parameter was fixed for
@@ -497,22 +468,8 @@ behavioral data (EIG: \(\alpha_{\theta}\) = 1, \(\beta_{\theta}\) = 4,
 Surprisal: \(\alpha_{\theta}\) = 1, \(\beta_{\theta}\) = 3, \(\epsilon\)
 = 0.07, \(EIG(world)\) = 8).
 
-\hypertarget{baseline-comparison}{%
-\subsubsection{Baseline Comparison}\label{baseline-comparison}}
-
-We next wanted to test what the effects are of removing two crucial
-aspects of this model: 1) Making sampling choices based on learning from
-samples, and 2) that perception is noisy. We implemented two lesioned
-baseline models to which to contrast these information-theoretic linking
-hypotheses. The first baseline model made totally random sampling
-decisions by drawing \(p(look)\) from a uniform distribution between 0
-and 1 at every time step. The second baseline model omitted the noisy
-sampling aspect of RANCH and instead assumed that learning is free from
-perceptual noise, i.e.~that learners can observe the exemplars \(y\)
-directly. To do so, we set \(\epsilon\) to 0 and replaced the learner's
-prior over \(\epsilon\) with a point mass at 0.000001 for numerical
-stability. The baseline models used the parameters obtained from fitting
-the EIG model to the behavioral data.
+\hypertarget{results-and-discussion}{%
+\subsection{Results and Discussion}\label{results-and-discussion}}
 
 \begin{CodeChunk}
 \begin{figure*}[t!]
@@ -524,9 +481,6 @@ the EIG model to the behavioral data.
 \caption[Continuous time model using different linking hypotheses provide qualitatively indistinguishable fits to the behavioral data]{Continuous time model using different linking hypotheses provide qualitatively indistinguishable fits to the behavioral data. All model results are log-transformed and adjusted to be at the same scale and intercepts as the log-transformed behavioral data. The solid lines represent human data, and the dotted lines represent the model's results. Red lines indicated results for complex stimuli, and blue lines indicated results for simple stimuli.}\label{fig:experiment_res}
 \end{figure*}
 \end{CodeChunk}
-
-\hypertarget{results-1}{%
-\subsubsection{Results}\label{results-1}}
 
 \begin{table}[ht]
 \centering
@@ -544,35 +498,15 @@ RANCH (EIG) & 0.92 & 0.19 \\
 \caption{This table shows the correlations between the log-transformed model results and the log-transformed looking time data. RANCH model implemented with the three different linking hypotheses showed similar performance with slight numerical differences and outperomed the baseline models.} 
 \end{table}
 
-RANCH reproduced the behavioral phenomena qualitatively, showing
-habituation, dishabituation, and complexity effects (Fig. 3, row 2-4).
-To quantitatively explore the model, we fit the models' output to the
-behavioral data. All models' results were adjusted to match behavioral
-data's scale and intercepts for easier comparisons. We found that the
-three linking hypotheses were qualitatively indistinguishable in their
-correlation to the behavioral data. Furthermore, the baseline models
-performed far worse than RANCH using information-theoretic linking
-hypotheses (see Table 1 for all computed metrics).
+\hypertarget{alternative-models}{%
+\section{Alternative Models}\label{alternative-models}}
 
-\hypertarget{discussion}{%
-\subsubsection{Discussion}\label{discussion}}
+\hypertarget{baseline-comparison}{%
+\subsection{Baseline Comparison}\label{baseline-comparison}}
 
-The model results show that under RANCH's model architecture, the
-performance of surprisal and KL can match that of EIG, a metric that can
-quantitatively characterize the optimal exploratory behaviors in humans
-(Coenen, Nelson, \& Gureckis, 2019; Oaksford \& Chater, 1994).To
-calculate EIG one needs to consider all possible combinations of
-features for the next observation, which becomes computationally
-expensive and therefore psychologically implausible for naturalistic
-stimuli, which may be expected to have a large number of features. The
-proximity of model fits between EIG, KL, and surprisal suggests that
-easier-to-compute metrics can be viable heuristics to which to anchor
-sampling behavior.
-
-The poor fit of the baseline models (Fig 3., row 5-6) further show that
-both the learning model and the noisy sampling component of RANCH are
-critical for modeling our phenomena of interest and provide good
-quantitative fit to the data.
+\hypertarget{alternative-linking-hypotheses}{%
+\subsection{Alternative Linking
+hypotheses}\label{alternative-linking-hypotheses}}
 
 \hypertarget{general-discussion}{%
 \section{General discussion}\label{general-discussion}}
@@ -598,9 +532,9 @@ whether to keep sampling or look away. This is in contrast to previous
 approaches, which incremented time in steps of whole stimuli, and
 therefore can merely correlate information-theoretic variability in the
 stimulus sequence to looking time. Our mechanistic account of the
-sampling process depended on assuming that perception is noisy, which
-made it necessary to take multiple samples from a stimulus until the
-information content of the stimulus has been learned. The
+sampling process depended on the assumption that perception is noisy,
+which made it necessary to take multiple samples from a stimulus until
+the information content of the stimulus has been learned. The
 moment-to-moment increments in which RANCH operates also enabled us to
 use EIG as a linking hypothesis between learning and sampling. Using EIG
 allowed us to perform the rational analysis of human behavior in our
@@ -632,10 +566,10 @@ Graham, 2018; Birmingham, Bischof, \& Kingstone, 2009). Properly
 representing different cognitive consequences of different types of
 features could be an interesting next step for the model. In addition,
 RANCH assumes that looking duration is determined by the decision
-between ``continue looking'' and ``look away''. However, one can argue
+between ``continue looking'' and ``look away.'' However, one can argue
 that in the behavioral experiment the participants were deciding between
 ``continuing looking at the current stimulus'' and ``looking at the next
-stimulus''. Building in these more sophisticated assumptions into the
+stimulus.'' Building in these more sophisticated assumptions into the
 model would certainly help us better understand looking time under a
 rational analysis framework. But as a first step, our current work
 suggests that a simple rational learner that takes noisy samples from a
@@ -684,11 +618,6 @@ Callaway, F., Rangel, A., \& Griffiths, T. L. (2021). Fixation patterns
 in simple choice reflect optimal information sampling. \emph{PLoS
 Computational Biology}, \emph{17}(3), e1008863.
 
-\leavevmode\vadjust pre{\hypertarget{ref-coenen2019asking}{}}%
-Coenen, A., Nelson, J. D., \& Gureckis, T. M. (2019). Asking the right
-questions about the psychology of human inquiry: Nine open challenges.
-\emph{Psychonomic Bulletin \& Review}, \emph{26}(5), 1548--1587.
-
 \leavevmode\vadjust pre{\hypertarget{ref-goodman2008rational}{}}%
 Goodman, N. D., Tenenbaum, J. B., Feldman, J., \& Griffiths, T. L.
 (2008). A rational analysis of rule-based concept learning.
@@ -715,6 +644,11 @@ Hunter, M. A., Ames, E. W., \& Koopman, R. (1983). Effects of stimulus
 complexity and familiarization time on infant preferences for novel and
 familiar stimuli. \emph{Developmental Psychology}, \emph{19}(3), 338.
 
+\leavevmode\vadjust pre{\hypertarget{ref-kail1991development}{}}%
+Kail, R. (1991). Development of processing speed in childhood and
+adolescence. \emph{Advances in Child Development and Behavior},
+\emph{23}, 151--185.
+
 \leavevmode\vadjust pre{\hypertarget{ref-kersten2004object}{}}%
 Kersten, D., Mamassian, P., \& Yuille, A. (2004). Object perception as
 bayesian inference. \emph{Annu. Rev. Psychol.}, \emph{55}, 271--304.
@@ -724,12 +658,6 @@ Kidd, C., Piantadosi, S. T., \& Aslin, R. N. (2012). The goldilocks
 effect: Human infants allocate attention to visual sequences that are
 neither too simple nor too complex. \emph{PloS One}, \emph{7}(5),
 e36399.
-
-\leavevmode\vadjust pre{\hypertarget{ref-kim2020active}{}}%
-Kim, K., Sano, M., De Freitas, J., Haber, N., \& Yamins, D. (2020).
-Active world model learning with progress curiosity. In
-\emph{International conference on machine learning} (pp. 5306--5315).
-PMLR.
 
 \leavevmode\vadjust pre{\hypertarget{ref-liquin2021developmental}{}}%
 Liquin, E. G., Callaway, F., \& Lombrozo, T. (2021). Developmental

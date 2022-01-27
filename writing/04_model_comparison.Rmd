@@ -3,17 +3,13 @@ output: pdf_document
 ---
 
 
+
+
+
 To evaluate whether RANCH can provide sufficient explanation of the behavioral results, we simulated each model on the behavioral experiment. Then, we searched for the best set of parameters that yielded the highest Pearson’s correlation between the model results and behavioral results. We then compared the model fits within each model’s different linking hypotheses. 
 
 
 
-### Model experiment 
-
-To model the behavioral experiment, we first represented the stimuli as binary-valued vectors indicating the presence (1) or absence (0) of each feature. All stimuli vectors were chosen to be  length 6 to provide sufficient representational flexibility. Complex stimuli were represented as having three 1s and simple stimuli were represented as having one 1, with the rest of the elements 0s. Individual stimuli are then assembled into sequences to reflect the stimuli sequences in the behavioral experiment. We ran four types of sequences, differing in the position of the deviant: The sequence could either be a pure habituation sequence with six background stimuli, or a deviant deviant appeared at positions 2, 4 or 6. For a particular sequence, we constructed the deviant stimulus based on the background stimulus to make sure that they were always maximally different and had the same number of features present. 
-
-The model then chose how to sample based on the three information-theoretic linking hypotheses (EIG, surprisal and KL), as well as the baseline linking hypotheses (random looking and no noise).
-
-We let the model run 500 times for each sequence to obtain a reasonably precise estimate of the model’s behavior. 
 
 
 
