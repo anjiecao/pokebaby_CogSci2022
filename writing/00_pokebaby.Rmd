@@ -1,5 +1,5 @@
 ---
-title: "How to Make a Proceedings Paper Submission"
+title: "Habituation reflects optimal exploration over noisy perceptual samples"
 bibliography: library.bib
 csl: apa6.csl
 document-params: "10pt, letterpaper"
@@ -9,22 +9,19 @@ author-information: >
     \AND {\large \bf Sharon J.~Derry (SDJ@Macc.Wisc.Edu)} \\ Department of Educational Psychology, 1025 W. Johnson Street \\ Madison, WI 53706 USA}
 
 abstract: >
-    Include no author information in the initial submission, to facilitate
-    blind review.  The abstract should be one paragraph, indented 1/8 inch on both sides,
-    in 9~point font with single spacing. The heading 'Abstract'
-    should be 10~point, bold, centered, with one line of space below
-    it. This one-paragraph abstract section is required only for standard
-    six page proceedings papers. Following the abstract should be a blank
-    line, followed by the header 'Keywords' and a list of
-    descriptive keywords separated by semicolons, all in 9~point font, as
-    shown below.
+    From birth, humans constantly make decisions about what to look at and for how long. Yet the mechanism behind such decision-making remains poorly understood. Here we present the “rational action, noisy choice for habituation” (RANCH) model. RANCH is a rational learning model that takes noisy perceptual samples from stimuli and makes sampling decisions based on Expected Information Gain (EIG). The model captures three key patterns of looking time changes well documented in developmental research: habituation and dishabituation. We evaluated the model with adult looking time collected from a paradigm analogous to infant habituation paradigm. We compared RANCH with baseline models (no learning model, no perceptual noise model) and models with alternative linking hypotheses (Surprisal, KL-divergence). We showed that 1) learning and perceptual noise are critical assumptions of the model, and 2) Surprial and KL are good proxies for EIG under the current learning context. 
+
     
 keywords: >
-    Add your choice of indexing terms or keywords; kindly use a semi-colon; between each term.
+    decision making; learning; bayesian modeling; cognitive development 
+
     
 output: 
     cogsci2016::cogsci_paper
     
+  
+nocite: | 
+  @hunter1983effects, @bergmann2016development
 
 #final-submission: \cogscifinalcopy
 ---
@@ -147,6 +144,8 @@ the end of the paper.
 # References will be generated automatically by Pandoc and included here.
 # The following code is some latex to format the bibliography. Do not remove it.
 ```
+
+
 
 \setlength{\parindent}{-0.1in} 
 \setlength{\leftskip}{0.125in}
