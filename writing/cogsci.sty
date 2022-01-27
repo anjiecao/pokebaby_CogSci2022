@@ -43,6 +43,17 @@
 %         Author 3 \\ Address line \\ ... \\ Address line}
 
 
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+
+\newcommand\NoDo{\renewcommand\algorithmicdo{}}
+\newcommand\ReDo{\renewcommand\algorithmicdo{\textbf{do}}}
+\newcommand\NoThen{\renewcommand\algorithmicthen{}}
+\newcommand\ReThen{\renewcommand\algorithmicthen{\textbf{then}}}
+
+\algtext*{EndWhile}
+\algtext*{EndIf}
+\algtext*{EndFor}
 
 \newif\ifcogscifinal
 \cogscifinalfalse

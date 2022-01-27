@@ -1,7 +1,7 @@
 ---
 output:
-  bookdown::pdf_document2
-
+  pdf_document:
+      
 ---
 
 We reasoned that, habituation, dishabituation and complexity effects are consequences of encoding. For example, habituation occurs when each repetition of a stimulus refines the representation of a concept until encoding is complete. Dishabituation then occurs when a stimulus deviates from the concept learned during habituation. And complex stimuli might be harder to encode, which slows down encoding. We therefore formalized the learning problem that participants face in a simple habituation experiment as a form of Bayesian concept learning [@goodman2008rational;@tenenbaum1999bayesian]. In this setting, learners are tasked with learning a concept by observing samples from it, and each concept has a set of features that can be either on or off, to represent complexity the number of features being on. 
@@ -42,6 +42,28 @@ Finally, to get actual sampling behavior from the model, it has to convert EIG i
 \begin{eqnarray}
 p(look) = \frac{EIG(z_{t+1})}{EIG(z_{t+1})+EIG(world)}
 \end{eqnarray}
+
+The basic structure of the model can therefore be described in the following pseudocode:
+
+\begin{algorithm}
+  \caption*{RANCH model}\label{msn}
+  \begin{algorithmic}
+  \NoDo{}
+  \For{each exemplar y} 
+    \State{$continue \gets T$}
+    \While{$continue$ take another sample z}
+    \State{update posterior $P(\theta|z)$}
+    \State{compute EIG of next sample $z_{t+1}$}
+    \State{flip $coin$ with $p(lookaway)  = \frac{EIG(z_{t+1})}{EIG(z_{t+1})+EIG(env)}$}
+    \NoThen{}
+    \If{$coin = T$}
+    \State{$continue \gets  F$}
+    \EndIf
+    \EndWhile
+  \EndFor
+\end{algorithmic}
+  \end{algorithm}
+
 
 
 ## Experimental Setting 
