@@ -117,7 +117,7 @@ noisy perceptual samples for learning.
 
 Developmental researchers have long capitalized on infants' ability to
 control their attention, making inferences about learning and mental
-representations from changes in looking duration (Aslin, 2007; Sim \&
+representations from changes in looking duration (Aslin, 1991; Sim \&
 Xu, 2019). In a typical experiment, infants decrease their looking
 duration upon seeing the same stimulus repeatedly (habituation) but
 recover interest when seeing a novel stimulus (dishabituation). While
@@ -347,14 +347,14 @@ complexity (the stimulus complexity effect).
 \hypertarget{model}{%
 \section{Model}\label{model}}
 
-We next tested whether we could capture our behavioral experimental
-results using our ``rational action, noisy choice for habituation''
-(RANCH) model. RANCH treats the learning problem that participants face
-in our experiment as a form of Bayesian concept learning (Goodman,
-Tenenbaum, Feldman, \& Griffiths, 2008; Tenenbaum, 1999). In this
-setting, multiple noisy samples inform the learner's hypothesis about a
-probabilistic concept represented by a set of binary features (Figure
-2).
+(Aalo, 1995) We next tested whether we could capture our behavioral
+experimental results using our ``rational action, noisy choice for
+habituation'' (RANCH) model. RANCH treats the learning problem that
+participants face in our experiment as a form of Bayesian concept
+learning (Goodman, Tenenbaum, Feldman, \& Griffiths, 2008; Tenenbaum,
+1999). In this setting, multiple noisy samples inform the learner's
+hypothesis about a probabilistic concept represented by a set of binary
+features (Figure 2).
 
 The formulation of the learner as taking noisy samples from a stimulus
 allows us to do two things: First, we can explicitly model the learner's
@@ -483,11 +483,28 @@ estimate of the model's behavior.
 \hypertarget{parameter-estimation}{%
 \subsection{Parameter estimation}\label{parameter-estimation}}
 
+We performed an iterative grid search in parameter space for each
+linking hypothesis. We a priori constrained our parameter space on the
+prior beta distribution to have shape parameters
+\(\alpha_{\theta} > \beta_{\theta}\), which describe the prior beliefs
+as ``more likely to see the absence of a feature than the presence of a
+feature''. We then searched for the priors over the concept
+(\(\theta\)), the noise parameter that decides how likely a feature
+would be misperceived (\(\epsilon\)), and the constant EIG from the
+environment (\(EIG(env)\)). The prior over the noise parameter was fixed
+for all searches (\(\alpha_{\epsilon}\) = 1;\(\beta_{\epsilon}\) = 10).
+We selected the parameters that achieved the highest correlation with
+the behavioral data (EIG: \(\alpha_{\theta}\) = 1, \(\beta_{\theta}\) =
+4, \(\epsilon\) = 0.065, \(EIG(env)\) = 0.01; KL: \(\alpha_{\theta}\) =
+1, \(\beta_{\theta}\) = 5, \(\epsilon\) = 0.055, \(EIG(env)\) = 0.006;
+Surprisal: \(\alpha_{\theta}\) = 1, \(\beta_{\theta}\) = 3, \(\epsilon\)
+= 0.07, \(EIG(env)\) = 8).
+
 We performed an iterative grid search in parameter space. We a priori
 constrained our parameter space on the prior beta distribution to have
 shape parameters \(\alpha_{\theta} > \beta_{\theta}\), which describe
 the prior beliefs as ``more likely to see the absence of a feature than
-the presence of a feature.'' We then searched for the priors over the
+the presence of a feature''. We then searched for the priors over the
 concept (\(\theta\)), the noise parameter that decides how likely a
 feature would be misperceived (\(\epsilon\)), and the constant EIG from
 the environment (\(EIG(env)\)). The prior over the noise parameter was
@@ -598,6 +615,21 @@ sampling behavior.
 \section{General discussion}\label{general-discussion}}
 
 The current work aimed to provide a computational model that can explain
+the three key phenomena observed in typical infant looking time
+paradigms: habituation, dishabituation, and complexity effect. RANCH
+assumes a rational learner that takes noisy perceptual samples from
+stimuli and makes sampling decisions based on expected information gain.
+We evaluated the model with adult looking time data collected from a
+paradigm that mirrors classic infant looking time paradigms. We found
+that RANCH can successfully reproduce the patterns observed in
+behavioral data. We find that other information theoretic quantities
+(e.g.~KL-divergence and Surprisal) are good proxies for the rational
+learning policy. Moreover, by contrasting the model results with our
+baseline models, we showed that habituation, dishabituation, and
+complexity effects only arise in a learning model that takes into
+account the noisy nature of perception.
+
+The current work aimed to provide a computational model that can explain
 the key phenomena observed in typical infant looking time paradigms:
 habituation, dishabituation, and how these are modified by stimulus
 complexity. RANCH assumes a rational learner that takes noisy perceptual
@@ -633,8 +665,8 @@ hypotheses highlights the significance of learning contexts. Our results
 should not be interpreted as evidence showing that the three linking
 hypotheses are indistinguishable across all learning contexts. Previous
 work has shown that adopting surprisal as learning policy can lead to
-undesirable behaviors in artificial agents (e.g.~{``the white noise
-problem,''} Oudeyer et al., 2007). Moreover, the two alternative linking
+undesirable behaviors in artificial agents (e.g.~``the white noise
+problem,'' Oudeyer et al., 2007). Moreover, the two alternative linking
 hypotheses are backward-looking metrics that utilize past heuristics to
 make decisions. This characteristic could lead to them only working when
 the environment is stable and the cost of sampling is low. Since human
@@ -685,9 +717,15 @@ at, and when to stop looking.
 
 \hypertarget{refs}{}
 \begin{CSLReferences}{1}{0}
+\leavevmode\vadjust pre{\hypertarget{ref-aalo1995performance}{}}%
+Aalo, V. A. (1995). Performance of maximal-ratio diversity systems in a
+correlated nakagami-fading environment. \emph{IEEE Transactions on
+Communications}, \emph{43}(8), 2360--2369.
+
 \leavevmode\vadjust pre{\hypertarget{ref-aslin2007s}{}}%
-Aslin, R. N. (2007). What's in a look? \emph{Developmental Science},
-\emph{10}(1), 48--53.
+Aslin, R. N. (1991). Development of processing speed in childhood and
+adolescence. \emph{Advances in Child Development and Behavior},
+\emph{23}, 151--185.
 
 \leavevmode\vadjust pre{\hypertarget{ref-baldi2010bits}{}}%
 Baldi, P., \& Itti, L. (2010). Of bits and wows: A bayesian theory of

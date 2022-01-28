@@ -34,10 +34,10 @@ Figuring out the sequence and generate the stimuli sequence with all the paramet
 
 # set model-related parameters 
 alpha_epsilons = c(1)
-beta_epsilons = c(10)
+beta_epsilons = c(4)
 alpha_priors = c(1)
 beta_priors = c(10)
-noise_parameters = c(0)
+noise_parameters = c(0.065)
 world_EIGs = c(0.01)
 max_observation = 500
 
@@ -59,14 +59,6 @@ stims_df <- set_stim_params(sequence_scheme, features_df)
 full_params_df <- make_simulation_params(n_sim = 1,
                                         model_params, 
                                         stims_df)
-
-# option 1: make sure the simple and the complex one has the same number of flipped feature 
-  # should reinforce in the feature_df section to make sure simulations are relatively independent of each other? 
-
-# option 2: having all features flipped, when plausible. then poses a limitation on the number of features turned on (n_on <= n_total * .5)
-  # currently following the option 2. if it is above n_total * .5 then flip the maximum of the feature 
-
-
 
 ```
 
