@@ -132,20 +132,7 @@ b_res_summary <- b_res_print %>%
 ```{r child = "05_general_discussion.Rmd"}
 ```
 
-<!--# Acknowledgements
-
-Place acknowledgments (including funding information) in a section at
-the end of the paper.
--->
-
 # References 
-
-```{r}
-# References will be generated automatically by Pandoc and included here.
-# The following code is some latex to format the bibliography. Do not remove it.
-```
-
-
 
 \setlength{\parindent}{-0.1in} 
 \setlength{\leftskip}{0.125in}
