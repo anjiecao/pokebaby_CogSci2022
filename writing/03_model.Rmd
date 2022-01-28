@@ -3,7 +3,6 @@ output:
   pdf_document:
       
 ---
-[@aalo1995performance]
 We next tested whether we could capture our behavioral experimental results using our “rational action, noisy choice for habituation” (RANCH) model. RANCH treats the learning problem that participants face in our experiment as a form of Bayesian concept learning [@goodman2008rational;@tenenbaum1999bayesian]. In this setting, multiple noisy samples inform the learner’s hypothesis about a probabilistic concept represented by a set of binary features (Figure 2). 
 
 The formulation of the learner as taking noisy samples from a stimulus allows us to do two things: First, we can explicitly model the learner's decision on when to stop sampling by asking the model to decide, after every sample, whether it wants to continue sampling from the same stimulus or not. This is in contrast to previous models which correlate information-theoretic measures to looking data [@kidd2012goldilocks; @poli2020infants], but do not provide a mechanism for how these measures could control moment-to-moment sampling decisions. Second, a consequence of making a decision at every time step is that we can study the behavior of another information-theoretic measure: the expected information gain (EIG). EIG is commonly used in rational analyses of information-seeking behavior - that is to assess whether information-seeking is optimal with respect to the learning task [@markant2012does; @oaksford1994rational]. 
