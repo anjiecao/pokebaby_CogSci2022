@@ -88,16 +88,15 @@ for how long. Yet the mechanism behind such decision-making remains
 poorly understood. Here we present the ``rational action, noisy choice
 for habituation'' (RANCH) model. RANCH is a rational learning model that
 takes noisy perceptual samples from stimuli and makes sampling decisions
-based on Expected Information Gain (EIG). The model captures three key
-patterns of looking time changes well documented in developmental
-research: habituation and dishabituation. We evaluated the model with
-adult looking time collected from a paradigm analogous to infant
-habituation paradigm. We compared RANCH with baseline models (no
-learning model, no perceptual noise model) and models with alternative
-linking hypotheses (Surprisal, KL-divergence). We showed that 1)
-learning and perceptual noise are critical assumptions of the model, and
-2) Surprial and KL are good proxies for EIG under the current learning
-context.
+based on Expected Information Gain (EIG). The model captures key
+patterns of looking time documented in developmental research:
+habituation and dishabituation. We evaluated the model with adult
+looking time collected from a paradigm analogous to infant habituation
+paradigm. We compared RANCH with baseline models (no learning model, no
+perceptual noise model) and models with alternative linking hypotheses
+(Surprisal, KL-divergence). We showed that 1) learning and perceptual
+noise are critical assumptions of the model, and 2) Surprial and KL are
+good proxies for EIG under the current learning context.
 
 \textbf{Keywords:}
 decision making; learning; bayesian modeling; cognitive development
@@ -111,8 +110,8 @@ TikTok, we are constantly making the decision of whether to keep looking
 or to look at something else. Even the youngest infants have to decide
 whether to keep looking at what is in front of them or move on. How can
 we explain this decision-making process? Our goal in the current paper
-is to provide a model of the basic decision whether to keep looking at a
-stimulus. To do so, we model looking as rational active selection of
+is to provide a model of the basic decision: whether to keep looking at
+a stimulus. To do so, we model looking as rational active selection of
 noisy perceptual samples for learning.
 
 Developmental researchers have long capitalized on infants' ability to
@@ -127,17 +126,17 @@ dishabituation underpin many other claims about infants' cognitive
 repertoire (Paulus, 2022; Tafreshi, Thompson, \& Racine, 2014).
 
 One classic theory of infant looking posits that infants look at stimuli
-in order to learn or encode them, so the dynamics of looking time are
-driven by the dynamics of learning (Hunter \& Ames, 1988). This theory
-describes the intersection of exposure, stimulus complexity, and
-processing difficulty: The more an infant has already been exposed to a
-stimulus, the less they have yet to learn about it, but the more
-complicated the stimulus is, the more they have to learn overall. Older
-infants are assumed to learn faster than younger infants. Although this
-theory is influential, little work has examined it systematically and it
-does not make quantitative predictions (For exception, see Hunter \&
-Ames, 1988; Bergmann \& Cristia, 2016). Nevertheless, it is often
-invoked as a post-hoc explanation of observed patterns in infant data.
+in order to learn them, so the dynamics of looking time are driven by
+the dynamics of learning (Hunter \& Ames, 1988). This theory describes
+the intersection of exposure, stimulus complexity, and processing
+difficulty: The more an infant has already been exposed to a stimulus,
+the less they have yet to learn about it, but the more complicated the
+stimulus is, the more they have to learn overall. Older infants are
+assumed to learn faster than younger infants. Although this theory is
+influential, little work has examined it systematically and it does not
+make quantitative predictions (For exception, see Hunter \& Ames, 1988;
+Bergmann \& Cristia, 2016). Nevertheless, it is often invoked as a
+post-hoc explanation of observed patterns in infant data.
 
 Recent work has attempted to overcome these limitations by describing
 infants' looking behaviors quantitatively through computational
@@ -205,7 +204,7 @@ experiment: instead of assuming a learner is estimating the probability
 of event types, the model assumes the learner is encoding perceptual
 categories. Furthermore, the architecture allows us to investigate
 different information-theoretic linking hypotheses as informing choice,
-including surprisal, KL-divergence, and EIG. We make a preliminary
+including EIG, surprisal, and KL-divergence. We make a preliminary
 evaluation of the RANCH model using adult looking time data collected
 from a self-paced habituation paradigm that captures habituation,
 dishabituation, and how these phenomena are modified by stimulus
@@ -221,9 +220,8 @@ they look at repeated novel stimuli with no explicit task. This learning
 context resembles a classic infant habituation-dishabituation
 experiment, which also assumes that the infants are learning about the
 stimuli content. This setting is in contrast with previous work, where
-the behavioral experiment postulates infants are learning about the
-probabilities of event sequences (e.g., Kidd et al., 2012; Poli et al.,
-2020)
+the behavioral experiment postulates infants are learning about event
+probabilities (e.g.~Kidd et al., 2012; Poli et al., 2020)
 
 We decided to start with testing adults for several reasons. First,
 adult data are suitable for establishing quantitative links between
@@ -252,11 +250,9 @@ and adult behavior under similar learning contexts.
 
 We created the animated creatures using Spore (a game developed by Maxis
 in 2008). There were forty creatures in total, half of which have low
-perceptual complexity (e.g.~the creatures do not have limbs, additional
-body parts, facial features, or textured skin), and half of which have
-high perceptual complexity (i.e.~they do have the aforementioned
-features; see Fig 2 for examples). We used the ``animated avatar''
-function in Spore to capture the creatures in motion.
+perceptual complexity and half of which have high perceptual complexity
+(see Fig.1 for examples). We used the ``animated avatar'' function in
+Spore to capture the creatures in motion.
 
 \hypertarget{procedure}{%
 \subsubsection{Procedure}\label{procedure}}
@@ -269,19 +265,17 @@ the down arrow to go to the next trial whenever they wanted to, after a
 minimum viewing time of 500 ms.
 
 Each block consisted of six trials. Unbeknownst to the participants,
-each trial was either a background trial (B) or a deviant trial (D). A
+each trial was either a background trial or a deviant trial. A
 background trial presented a creature repeatedly, and the deviant trial
 presented a different creature from the background trial in the block.
 Two creatures in the blocks were matched for visual complexity. There
 were four sequences of background trials and deviant trials. Each
 sequence appeared twice, once with high complexity stimuli and once with
 low complexity stimuli. The deviant trial could appear at either the
-second (BDBBBB), the fourth (BBBDBB), or the sixth trial (BBBBBD) in the
-block. Two blocks did not have deviant trials (BBBBBB). The creatures
-presented in the deviant trials and background trials were matched for
-complexity. Each participant saw eight blocks in total, half of which
-used creatures with high perceptual complexity, and half of which used
-creatures with low perceptual complexity.
+second, the fourth, or the sixth trial in the block. Two blocks did not
+have deviant trials. The creatures presented in the deviant trials and
+background trials were matched for complexity. Each participant saw
+eight blocks in total.
 
 To test whether behavior was related to task demands, participants were
 randomly assigned to one of three attention check conditions, differing
@@ -348,13 +342,23 @@ complexity (the stimulus complexity effect).
 \section{Model}\label{model}}
 
 We next tested whether we could capture our behavioral experimental
-results using our ``rational action, noisy choice for habituation''
-(RANCH) model. RANCH treats the learning problem that participants face
-in our experiment as a form of Bayesian concept learning (Goodman,
-Tenenbaum, Feldman, \& Griffiths, 2008; Tenenbaum, 1999). In this
-setting, multiple noisy samples inform the learner's hypothesis about a
-probabilistic concept represented by a set of binary features (Figure
-2).
+results using RANCH model. RANCH treats the learning problem that
+participants face in our experiment as a form of Bayesian concept
+learning (Goodman, Tenenbaum, Feldman, \& Griffiths, 2008; Tenenbaum,
+1999). In this setting, multiple noisy samples inform the learner's
+hypothesis about a probabilistic concept represented by a set of binary
+features (Figure 2).
+
+\begin{CodeChunk}
+\begin{figure}[H]
+
+{\centering \includegraphics{figs/plate_diagram-1} 
+
+}
+
+\caption[Graphical representation of RANCH]{Graphical representation of RANCH. Circles indicate random variables. The square indicates fixed model parameters.}\label{fig:plate_diagram}
+\end{figure}
+\end{CodeChunk}
 
 The formulation of the learner as taking noisy samples from a stimulus
 allows us to do two things: First, we can explicitly model the learner's
@@ -391,30 +395,17 @@ a small probability \(\epsilon\) that the observation is flipped and the
 feature is seen to be present when it was actually absent or vice versa.
 Therefore, by making noisy observations \(\bar{z}\), RANCH obtains
 information about the true identity of the exemplar \(y\), and by
-extension, about the concept \(\bar{theta}\). By Bayes' rule:
+extension, about the concept \(\bar{\theta}\). By Bayes' rule:
 
 \begin{eqnarray}
 P(\theta|\bar{z}) &= p(\bar{z}|y) p(y|\theta) p(\theta) / p(\bar{z})
 \end{eqnarray}.
 
-\begin{CodeChunk}
-\begin{figure}[H]
-
-{\centering \includegraphics{figs/plate_diagram-1} 
-
-}
-
-\caption[Graphical representation of RANCH]{Graphical representation of RANCH. Circles indicate random variables. The square indicates fixed model parameters.}\label{fig:plate_diagram}
-\end{figure}
-\end{CodeChunk}
-
 \hypertarget{sampling}{%
 \subsection{Sampling}\label{sampling}}
 
 Upon observing a sample, RANCH then decides whether to keep sampling or
-not. We chose as the main linking hypothesis (i.e.~the link between
-learning and sampling) the expected information gain (EIG) from the next
-sample.
+not. We chose EIG from the next sample as the main linking hypothesis.
 
 RANCH computes EIG by iterating through each possible next observation
 and weighing the information gain from each observation by its posterior
@@ -465,20 +456,15 @@ sufficient representational flexibility. Complex stimuli were
 represented as having three 1s and simple stimuli were represented as
 having one 1, with the rest of the features set to 0. Individual stimuli
 are then assembled into sequences to reflect the stimuli sequences in
-the behavioral experiment. We ran four types of sequences, differing in
-the position of the deviant: The sequence could either be a pure
-habituation sequence with six background stimuli, or a deviant deviant
-appeared at positions 2, 4 or 6. For a particular sequence, we
-constructed the deviant stimulus based on the background stimulus to
-make sure that they were always maximally different and had the same
-number of features present.
+the behavioral experiment. For a particular sequence, we constructed the
+deviant stimulus based on the background stimulus to make sure that they
+were always maximally different and had the same number of features
+present.
 
 Since the model makes stochastic choices about how many samples to take
 from each stimuli, behavior varies substantially across runs. Thus, we
 conducted 500 runs for each stimuli sequence and parameter value to
-obtain a reasonably precise estimate of the model's behavior. We let the
-model run 500 times for each sequence to obtain a reasonably precise
-estimate of the model's behavior.
+obtain a reasonably precise estimate of the model's behavior.
 
 \hypertarget{parameter-estimation}{%
 \subsection{Parameter estimation}\label{parameter-estimation}}
@@ -488,7 +474,7 @@ linking hypothesis. We a priori constrained our parameter space on the
 prior beta distribution to have shape parameters
 \(\alpha_{\theta} > \beta_{\theta}\), which describe the prior beliefs
 as ``more likely to see the absence of a feature than the presence of a
-feature''. We then searched for the priors over the concept
+feature.'' We then searched for the priors over the concept
 (\(\theta\)), the noise parameter that decides how likely a feature
 would be misperceived (\(\epsilon\)), and the constant EIG from the
 environment (\(EIG(env)\)). The prior over the noise parameter was fixed
@@ -504,14 +490,14 @@ We performed an iterative grid search in parameter space. We a priori
 constrained our parameter space on the prior beta distribution to have
 shape parameters \(\alpha_{\theta} > \beta_{\theta}\), which describe
 the prior beliefs as ``more likely to see the absence of a feature than
-the presence of a feature''. We then searched for the priors over the
+the presence of a feature.'' We then searched for the priors over the
 concept (\(\theta\)), the noise parameter that decides how likely a
 feature would be misperceived (\(\epsilon\)), and the constant EIG from
 the environment (\(EIG(env)\)). The prior over the noise parameter was
 fixed for all searches (\(\alpha_{\epsilon}\) = 1;\(\beta_{\epsilon}\) =
 10). We selected the parameters that achieved the highest correlation
-with the behavioral data averaged across participants and blocks (EIG:
-\(\alpha_{\theta}\) = 1, \(\beta_{\theta}\) = 4, \(\epsilon\) = 0.065,
+with the behavioral data averaged across participants and blocks
+(\(\alpha_{\theta}\) = 1, \(\beta_{\theta}\) = 4, \(\epsilon\) = 0.065,
 \(EIG(env)\) = 0.01).
 
 \hypertarget{results-1}{%
@@ -527,6 +513,13 @@ with the behavioral data averaged across participants and blocks (EIG:
 \caption[All models’ results were adjusted to match behavioral data’s scale and intercepts for easier comparisons.Red lines indicated results for complex stimuli, and blue lines indicated results for simple stimuli]{All models’ results were adjusted to match behavioral data’s scale and intercepts for easier comparisons.Red lines indicated results for complex stimuli, and blue lines indicated results for simple stimuli.}\label{fig:experiment_res}
 \end{figure*}
 \end{CodeChunk}
+
+RANCH exhibited the main phenomena of interest, showing habituation,
+dishabituation, and complexity effects (Fig. 3, row 2-4). We also
+quantitatively explore the model by fitting the model results to the
+behavioral data (See Table 1, row 1). Overall RANCH achieved a good fit,
+despite showing a more gradual habituation process than the behavioral
+data.
 
 \begin{table}[ht]
 \centering
@@ -544,16 +537,11 @@ RANCH (EIG) & 0.92 & 0.19 \\
 \caption{This table shows the correlations between the log-transformed model results and the log-transformed looking time data. RANCH model implemented with the three different linking hypotheses showed similar performance with slight numerical differences and outperomed the baseline models.} 
 \end{table}
 
-RANCH exihibited the main phenomena of interest, showing habituation,
-dishabituation, and complexity effects (Fig. 3, row 2-4). We also
-quantitatively explore the model by fitting the model results to the
-behavioral data (See Table 1, row 1).
-
 \hypertarget{alternative-models}{%
 \section{Alternative Models}\label{alternative-models}}
 
 \hypertarget{baseline-comparison}{%
-\subsection{Baseline Comparison}\label{baseline-comparison}}
+\subsubsection{Baseline Comparison}\label{baseline-comparison}}
 
 We next wanted to test what aspects of the model are necessary to
 produce the phenomena. We focused on two assumptions: 1) the model makes
@@ -575,15 +563,14 @@ The baseline models fit the data poorly (Table 1, row 2-3; Fig 3, row
 for modeling the phenomena of interests.
 
 \hypertarget{alternative-linking-hypotheses}{%
-\subsection{Alternative Linking
+\subsubsection{Alternative Linking
 hypotheses}\label{alternative-linking-hypotheses}}
 
-Alternative linking hypotheses We also studied the behavior of RANCH
-using two other linking hypotheses, surprisal and Kullback-Leibler (KL)
-divergence. By replacing \(EIG(z_{t+1})\) in Equation 2 with surprisal
-and KL of the current sample \(z\), we can contrast their performance of
-other information-theoretic linking hypotheses with the rational
-analysis.
+We also studied the behavior of RANCH using two other linking
+hypotheses, surprisal and Kullback-Leibler (KL) divergence. By replacing
+\(EIG(z_{t+1})\) in Equation 2 with surprisal and KL of the current
+sample \(z\), we can compare performance of different
+information-theoretic linking hypotheses with the rational analysis.
 
 Both linking hypotheses have been used in previous attempts to model
 infant looking behavior (Kidd et al., 2012; Poli et al., 2020) and to
@@ -615,36 +602,20 @@ sampling behavior.
 \section{General discussion}\label{general-discussion}}
 
 The current work aimed to provide a computational model that can explain
-the three key phenomena observed in typical infant looking time
-paradigms: habituation, dishabituation, and complexity effect. RANCH
-assumes a rational learner that takes noisy perceptual samples from
-stimuli and makes sampling decisions based on expected information gain.
-We evaluated the model with adult looking time data collected from a
-paradigm that mirrors classic infant looking time paradigms. We found
-that RANCH can successfully reproduce the patterns observed in
-behavioral data. We find that other information theoretic quantities
-(e.g.~KL-divergence and Surprisal) are good proxies for the rational
-learning policy. Moreover, by contrasting the model results with our
-baseline models, we showed that habituation, dishabituation, and
-complexity effects only arise in a learning model that takes into
-account the noisy nature of perception.
-
-The current work aimed to provide a computational model that can explain
 the key phenomena observed in typical infant looking time paradigms:
 habituation, dishabituation, and how these are modified by stimulus
 complexity. RANCH assumes a rational learner that takes noisy perceptual
-samples from stimuli and makes sampling decisions based on expected
-information gain. We evaluated the model with adult looking time data
-collected from a paradigm that mirrors classic infant looking time
-paradigms, in which participants are learning about multi-feature
-concepts. We found that RANCH can successfully reproduce the patterns
-observed in behavioral data. By contrasting the model results with our
-baseline models, we showed that habituation, dishabituation, and
-complexity effects only arise in a learning model that takes into
-account the noisy nature of perception. Moreover, we find that, in the
-current learning context, other information theoretic quantities
-(surprisal and KL-divergence) are good proxies for the rational linking
-hypothesis, EIG.
+samples from stimuli and makes sampling decisions based on EIG. We
+evaluated the model with adult looking time data collected from a
+paradigm that mirrors classic infant looking time paradigms, in which
+participants are learning about multi-feature concepts. We found that
+RANCH can successfully reproduce the patterns observed in behavioral
+data. By contrasting the model results with our baseline models, we
+showed that habituation, dishabituation, and complexity effects only
+arise in a learning model that takes into account the noisy nature of
+perception. Moreover, we found that, in the current learning context,
+other information theoretic quantities (surprisal and KL-divergence) are
+good proxies for the rational linking hypothesis, EIG.
 
 RANCH constitutes a significant step forward in the modeling of looking
 time in that it models the moment-to-moment decision making process of
@@ -665,8 +636,8 @@ hypotheses highlights the significance of learning contexts. Our results
 should not be interpreted as evidence showing that the three linking
 hypotheses are indistinguishable across all learning contexts. Previous
 work has shown that adopting surprisal as learning policy can lead to
-undesirable behaviors in artificial agents (e.g.~``the white noise
-problem,'' Oudeyer et al., 2007). Moreover, the two alternative linking
+undesirable behaviors in artificial agents (e.g.~{``the white noise
+problem,''} Oudeyer et al., 2007). Moreover, the two alternative linking
 hypotheses are backward-looking metrics that utilize past heuristics to
 make decisions. This characteristic could lead to them only working when
 the environment is stable and the cost of sampling is low. Since human
@@ -676,15 +647,14 @@ more dynamic and realistic learning context (Dubey \& Griffiths, 2020;
 Vogelstein et al., 2022).
 
 There are several limitations to our work. For our behavioral data, one
-concern is that adult looking time might not be driven by the same
-process underpinning infant looking time. Adult looking might be driven
-by task-preparation, rather than intrinsic interests. Nevertheless,
-across the three conditions with different filler tasks, we found no
-differences in looking time patterns. This suggests that adult looking
-time is unlikely to be related to the task. In regards to the model, a
-few concerns can be raised about the current implementation. First of
-all, the current stimulus representation is rather oversimplified, using
-an unweighted collection of binary features. In addition, RANCH assumes
+concern is that adult looking time might not be driven by intrinsic
+interests like infant looking time. Rather, they might be driven by
+task-preparation. However, across the three conditions with different
+filler tasks, we found no differences in looking time patterns. This
+suggests that adult looking time is unlikely to be related to the task.
+In regards to the model, a few concerns can be raised. First, the
+current stimulus representation is rather oversimplified, using an
+unweighted collection of binary features. In addition, RANCH assumes
 that the EIG from the environment is a constant throughout the
 experiment, but one can argue that environmental EIG might increase as
 the experiment progresses (e.g.~the longer you haven't attended to the
