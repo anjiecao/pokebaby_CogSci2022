@@ -2,7 +2,7 @@
 output: pdf_document
 ---
 
-## Baseline Comparison 
+### Baseline Comparison 
 
 We next wanted to test what aspects of the model are necessary to produce the phenomena. We focused on two assumptions: 1) the model makes decision based on learning and 2) perception is noisy. We implemented two lesioned baseline models corresponding to each assumption. 
 
@@ -11,10 +11,9 @@ The first baseline model (No Learning) made random sampling decisions by drawing
 The baseline models fit the data poorly (Table 1, row 2-3; Fig 3, row 3-4). This suggests that both learning and noisy perception are critical for modeling the phenomena of interests. 
 
 
-## Alternative Linking hypotheses
+### Alternative Linking hypotheses
 
-Alternative linking hypotheses
-We also studied the behavior of RANCH using two other linking hypotheses, surprisal and Kullback-Leibler (KL) divergence. By replacing $EIG(z_{t+1})$ in Equation 2 with surprisal and KL of the current sample $z$, we can contrast their performance of other information-theoretic linking hypotheses with the rational analysis. 
+We also studied the behavior of RANCH using two other linking hypotheses, surprisal and Kullback-Leibler (KL) divergence. By replacing $EIG(z_{t+1})$ in Equation 2 with surprisal and KL of the current sample $z$, we can compare performance of different information-theoretic linking hypotheses with the rational analysis. 
 
 Both linking hypotheses have been used in previous attempts to model infant looking behavior [@kidd2012goldilocks; @poli2020infants] and to approximate EIG in reinforcement learning literature [@kim2020active]. Surprisal, formally described as $-log(p(z|\theta))$, intuitively refers to how surprising an observation $z$ is given the model's beliefs about $\theta$ - the intuition that surprising events should result in longer looking times has served as a foundational assumption in developmental psychology [@sim2019another]. KL-divergence, formally described as $\sum_{x \in X}{p(\theta = x|y)\frac{p(\theta_{t-1} = x)}{p(\theta_t = x)}}$, measures how much the model changed to accommodate the most recent observation $z_t$. If an observation causes a large change, a proportionally long looking time might be necessary to integrate the new information. 
 
