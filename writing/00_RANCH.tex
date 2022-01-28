@@ -88,18 +88,6 @@ for how long. Yet the mechanism behind such decision-making remains
 poorly understood. Here we present the ``rational action, noisy choice
 for habituation'' (RANCH) model. RANCH is a rational learning model that
 takes noisy perceptual samples from stimuli and makes sampling decisions
-<<<<<<< HEAD
-based on Expected Information Gain (EIG). The model captures three key
-patterns of looking time changes well documented in developmental
-research: habituation and dishabituation. We evaluated the model with
-adult looking time collected from a paradigm analogous to infant
-habituation paradigm. We compared RANCH with baseline models (no
-learning model, no perceptual noise model) and models with alternative
-linking hypotheses (Surprisal, KL-divergence). We showed that 1)
-learning and perceptual noise are critical assumptions of the model, and
-2) Surprisal and KL are good proxies for EIG under the current learning
-context.
-=======
 based on Expected Information Gain (EIG). The model captures key
 patterns of looking time documented in developmental research:
 habituation and dishabituation. We evaluated the model with adult
@@ -107,9 +95,8 @@ looking time collected from a paradigm analogous to infant habituation
 paradigm. We compared RANCH with baseline models (no learning model, no
 perceptual noise model) and models with alternative linking hypotheses
 (Surprisal, KL-divergence). We showed that 1) learning and perceptual
-noise are critical assumptions of the model, and 2) Surprial and KL are
+noise are critical assumptions of the model, and 2) Surprisal and KL are
 good proxies for EIG under the current learning context.
->>>>>>> 7311edc58c324d3b373592065d2180200eca8f82
 
 \textbf{Keywords:}
 decision making; learning; bayesian modeling; cognitive development
@@ -487,7 +474,7 @@ linking hypothesis. We a priori constrained our parameter space on the
 prior beta distribution to have shape parameters
 \(\alpha_{\theta} > \beta_{\theta}\), which describe the prior beliefs
 as ``more likely to see the absence of a feature than the presence of a
-feature.'' We then searched for the priors over the concept
+feature''. We then searched for the priors over the concept
 (\(\theta\)), the noise parameter that decides how likely a feature
 would be misperceived (\(\epsilon\)), and the constant EIG from the
 environment (\(EIG(env)\)). The prior over the noise parameter was fixed
@@ -503,7 +490,7 @@ We performed an iterative grid search in parameter space. We a priori
 constrained our parameter space on the prior beta distribution to have
 shape parameters \(\alpha_{\theta} > \beta_{\theta}\), which describe
 the prior beliefs as ``more likely to see the absence of a feature than
-the presence of a feature.'' We then searched for the priors over the
+the presence of a feature''. We then searched for the priors over the
 concept (\(\theta\)), the noise parameter that decides how likely a
 feature would be misperceived (\(\epsilon\)), and the constant EIG from
 the environment (\(EIG(env)\)). The prior over the noise parameter was
@@ -649,8 +636,8 @@ hypotheses highlights the significance of learning contexts. Our results
 should not be interpreted as evidence showing that the three linking
 hypotheses are indistinguishable across all learning contexts. Previous
 work has shown that adopting surprisal as learning policy can lead to
-undesirable behaviors in artificial agents (e.g.~{``the white noise
-problem,''} Oudeyer et al., 2007). Moreover, the two alternative linking
+undesirable behaviors in artificial agents (e.g.~``the white noise
+problem,'' Oudeyer et al., 2007). Moreover, the two alternative linking
 hypotheses are backward-looking metrics that utilize past heuristics to
 make decisions. This characteristic could lead to them only working when
 the environment is stable and the cost of sampling is low. Since human
