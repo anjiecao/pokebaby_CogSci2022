@@ -4,10 +4,9 @@ output:
 
 ---
 
-To reproduce the key looking time patterns from infant habituation experiments in adult participants, we chose a learning context in which participants learn about the stimuli as they look at visually presented exemplars with no explicit task. This experimental setup resembles the classic infant habituation-dishabituation paradigm, rather than the look-away paradigm where infants were assumed to learn about event probabilities [@kidd2012goldilocks; @poli2020infants].
+To reproduce the key looking time patterns from infant habituation experiments in adult participants, we chose a learning context in which participants learn about the stimuli as they look at visually presented exemplars for as long as they like, with no explicit task. This experimental setup resembles the classic infant habituation-dishabituation paradigm, rather than the look-away paradigm where infants were assumed to learn about event probabilities [@kidd2012goldilocks; @poli2020infants].
 
-Our initial data come from  adults for two reasons. First, adult data are suitable for establishing quantitative links between models and human behaviors, since infants’ looking time data tend to have small sample sizes and are therefore limited in their quantitative details [@frank2017collaborative]. Second, adult data allow us to test the hypothesis that similar rational choice processes underlie infant and adult behavior under similar learning contexts.
-
+Our initial data come from adults for two reasons. First, adult data are suitable for establishing quantitative links between models and human behaviors, since infants’ looking time data tend to have small sample sizes and are therefore limited in their quantitative details [@frank2017collaborative]. Second, adult data allow us to test the hypothesis that similar rational choice processes underlie infant and adult behavior under similar learning contexts.
 
 
 ```{r include = FALSE}
@@ -49,8 +48,6 @@ b_res_summary <- b_res_print %>%
 ```
 
 
-
-
 ## Methods 
 
 ### Stimuli 
@@ -60,8 +57,7 @@ img <- png::readPNG("figs/experimental_design.png")
 grid::grid.raster(img)
 ```
 
-
-We created the animated creatures using Spore (a game developed by Maxis in 2008). There were forty creatures in total, half of which have low perceptual complexity and half of which have high perceptual complexity (see Fig.1 for examples). We used the "animated avatar" function in Spore to capture the creatures in motion.
+We created the animated creatures using Spore (a game developed by Maxis in 2008). There were forty creatures in total, half of which had low perceptual complexity and half of which have high perceptual complexity (see Fig. 1 for examples). We used the "animated avatar" function in Spore to capture the creatures in motion.
 
 ### Procedure 
 
@@ -69,10 +65,9 @@ The experiment was a web-based, self-paced visual presentation task. Participant
 
 Each block consisted of six trials. Unbeknownst to the participants, each trial within the block was either a background trial or a deviant trial. One creature was assigned to be the ‘background’ for each block, and was presented five or six times. If the block contained a deviant trial, then a new, unique, creature was presented on that trial. The deviant trial could appear at either the second, the fourth, or the sixth trial in the block, or not at all. The creatures presented in the deviant trials and background trials were matched for complexity. Each participant saw eight blocks in total, four with simple creatures and four with complex creatures, in random order across participants.
 
-To test whether behavior was related to task demands, participants were randomly assigned to one of three attention check conditions, differing in the questions asked following each block: Curiosity, Memory, and Math. In the Curiosity condition, participants were asked to rate "How curious are you about the creature?" on a 5-point Likert scale. In the Memory condition, a forced-choice recognition question followed each block ("Have you seen this creature before?" showing either a creature presented in the preceding block or a novel creature matched in complexity). In the Math condition, the participants were asked a simple arithmetic question ("What is 5 + 7?") in a multiple-choice format. 
+To test whether behavior was related to task demands, participants were randomly assigned to one of three attention check conditions, differing in the questions asked following each block: Curiosity, Memory, and Math. In the Curiosity condition, participants were asked to rate "How curious are you about the creature?" on a 5-point Likert scale. In the Memory condition, a forced-choice recognition question followed each block ("Have you seen this creature before?", showing either a creature presented in the preceding block or a novel creature matched in complexity). In the Math condition, the participants were asked a simple arithmetic question ("What is 5 + 7?") in a multiple-choice format. 
 
 To check if our complexity manipulation was successful, at the end of the eight blocks, participants were asked to rate the complexity of creatures they encountered on a 7-point Likert scale. 
-
 
 ### Participants
 
@@ -117,10 +112,6 @@ We recruited `r total_participants` participants (Age *M* = `r age_mean`; *SD* =
 
 ## Results 
 
-
-
-
-
 ```{r include=FALSE}
 #preregistration: log(looking time) ~ I((exp(1)**(-trial_number))) * item_type * trial_complexity + (trial_number * item_type * trial_complexity|subject)
 
@@ -159,6 +150,6 @@ The sample size, methods, and main analyses were all pre-registered and are avai
 
 We first checked whether the basic complexity manipulations were successful. Complex animated creatures were rated as more perceptually complex (*M* = `r filter(complexity_summary, complexity_type == "complex")$mean` ; *SD* = `r filter(complexity_summary, complexity_type == "complex")$sd`) than the simple animated creatures (*M* = `r filter(complexity_summary, complexity_type == "simple")$mean`; *SD* = `r filter(complexity_summary, complexity_type == "simple")$mean`; *t* < 0.001). 
 
-Next, we tested whether the task (curiosity, memory, or math) affected reaction times in self-paced viewing (our measure of interest). There were no task effects so we averaged all results across three conditions. 
+Next, we tested whether the task (Curiosity, Memory, or Math) affected reaction times in self-paced viewing (our measure of interest). There were no task effects so we averaged all results across three conditions. 
 
-We were interested in whether our paradigm successfully captured the characteristic looking time patterns observed in infant literature: habituation (the decrease in looking time for a stimulus with repeated presentations), dishabituation (the increase in looking time to a new stimulus after habituated to one stimulus), and complexity effect (longer looking time for perceptually more complex stimuli). The visualization of our results suggests that we reproduce the phenomena qualitatively (Fig. 3, row 1).To evaluate the phenomenon quantitatively, we ran a linear mixed effects model with maximal random effect structure. The predictors included in the model were a three-way interaction term between the trial number (modeled as an exponential decay; Kail, 1991), the type of trial (background vs. deviant) and the complexity of the stimuli (simple vs. complex). The model failed to converge, so we pruned the model following the pre-registered procedure. The final model included per-subject random intercepts. All predictors except for the three-way interaction were significant from the model (all *t* < .001), providing a quantitative confirmation that our paradigm successfully captured the key looking time patterns: habituation (trial number), dishabituation (the deviant effect), and complexity (the stimulus complexity effect). We next tested whether we could capture our behavioral experimental results using the RANCH model.
+We were interested in whether our paradigm successfully captured the characteristic looking time patterns observed in infant literature: habituation (the decrease in looking time for a stimulus with repeated presentations), dishabituation (the increase in looking time to a new stimulus after habituated to one stimulus), and complexity effects (longer looking time for perceptually more complex stimuli). The visualization of our results suggests that we reproduce the phenomena qualitatively (Fig. 3, row 1). To evaluate the phenomena quantitatively, we ran a linear mixed effects model with maximal random effect structure. The predictors included in the model were a three-way interaction term between the trial number (modeled as an exponential decay; Kail, 1991), the type of trial (background vs. deviant) and the complexity of the stimuli (simple vs. complex). The model failed to converge, so we pruned the model following the pre-registered procedure. The final model included per-subject random intercepts. All predictors except for the three-way interaction were significant in the model (all *t* < .001), providing a quantitative confirmation that our paradigm successfully captured the key looking time patterns: habituation (trial number), dishabituation (the deviant effect), and complexity (the stimulus complexity effect). We next tested whether we could capture these behavioral results using the RANCH model.
