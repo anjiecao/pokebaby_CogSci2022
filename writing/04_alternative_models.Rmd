@@ -11,11 +11,13 @@ The first baseline model (No Learning) made random sampling decisions by drawing
 The baseline models fit the data poorly (Table 1, row 2-3; Fig 3, row 3-4), suggesting that both learning and noisy perception are critical for modeling the phenomena of interest. 
 
 
+
+
 ### Alternative linking hypotheses
 
 We also studied the behavior of RANCH using two other linking hypotheses, surprisal and Kullback-Leibler (KL) divergence. Both have been used in previous attempts to model infant looking behavior [@kidd2012goldilocks; @poli2020infants] and to approximate EIG in the reinforcement learning literature [@kim2020active].
 
-We implemented these by replacing $EIG(z_{t+1})$ in Equation 2. Surprisal, formally described as $-log(p(z|\theta))$, intuitively refers to how surprising an observation $z$ is given the model's beliefs about $\theta$ - the intuition that surprising events should result in longer looking times has served as a foundational assumption in developmental psychology [@sim2019another]. KL, formally described as $\sum_{x \in X}{p(\theta = x|z) log \frac{p(\theta = x|z)}{p(\theta = x)}}$, measures how much the model changed to accommodate the most recent observation $z$. The intuition behind using KL as a linking hypothesis is that, if an observation causes a large change, the next one might too, so continuing to sample is likely to be informative. 
+We implemented these by replacing $EIG(z_{t+1})$ in Equation 2. Surprisal, formally described as $-log(p(z|\theta))$, intuitively refers to how surprising an observation $z$ is given the model's beliefs about $\theta$ -- the intuition that surprising events should result in longer looking times has served as a foundational assumption in developmental psychology [@sim2019another]. KL, formally described as $\sum_{x \in X}{p(\theta = x|z) log \frac{p(\theta = x|z)}{p(\theta = x)}}$, measures how much the model changed to accommodate the most recent observation $z$. The intuition behind using KL as a linking hypothesis is that, if one observation causes a large change, the next one might too, so continuing to sample is likely to be informative. 
 
 In our experiment, the performance of surprisal and KL matched that of EIG (Table 1, row 4-5, Fig 3, row 5-6). To calculate EIG, the model needs to consider all combinations of possible features for the next observation and how informative they would be, a computation that can be intractable in richer environments. The similarity of model fits between EIG, surprisal and KL suggests that easier-to-compute metrics could be viable heuristics for choice behavior, at least  in the current learning context.
 

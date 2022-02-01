@@ -12,7 +12,7 @@ grid::grid.raster(img)
 ```
 
 
-The formulation of the learner as taking noisy samples from a stimulus allows us to do two things: First, we can explicitly model the learner's decision about when to stop sampling by asking the model to decide, after every sample, whether it wants to continue sampling from the same stimulus or not. This aspect of RANCH contrasts with previous models, which correlate information-theoretic measures to looking data overall [@kidd2012goldilocks; @poli2020infants] but do not provide a mechanism for how these measures could control moment-to-moment sampling decisions. Second, a consequence of making a decision at every time step is that we can study the behavior of another information-theoretic measure: the model’s expected information gain (EIG). EIG is commonly used in rational analyses of information-seeking behavior to assess whether information-seeking is optimal with respect to the learning task [@markant2012does; @oaksford1994rational]. 
+The formulation of the learner as taking noisy samples from a stimulus allows us to do two things. First, we can explicitly model the learner's decision about when to stop sampling by asking the model to decide, after every sample, whether it wants to continue sampling from the same stimulus or not. This aspect of RANCH contrasts with previous models, which correlate information-theoretic measures to looking data overall [@kidd2012goldilocks; @poli2020infants] but do not provide a mechanism for how these measures could control moment-to-moment sampling decisions. Second, a consequence of making a decision at every time step is that we can study the behavior of another information-theoretic measure: the model’s expected information gain (EIG). EIG is commonly used in rational analyses of information-seeking behavior to assess whether information-seeking is optimal with respect to the learning task [@markant2012does; @oaksford1994rational]. 
 
 ## Model definition 
 
@@ -22,11 +22,11 @@ To model the timecourse of attention, RANCH does not observe exemplars directly.
 
 \begin{eqnarray}
 P(\theta|\bar{z}) &= p(\bar{z}|y) p(y|\theta) p(\theta) / p(\bar{z})
-\end{eqnarray}.
+\end{eqnarray}
 
 To compute approximate posterior probability distributions during inference, we used a discrete grid approximation with a step size of .001 over both $\theta$ and $\epsilon$.
 
-Upon observing a sample, RANCH then decides whether to keep sampling or not. We chose EIG from the next sample as the main linking hypothesis. 
+Upon observing a sample, RANCH then decides whether to keep sampling or not. We chose EIG from the next sample as the main linking hypothesis between the learned posterior and sampling choice.
 
 RANCH computes EIG by iterating through each possible next observation and weighing the information gain from each observation by its posterior predictive probability $p(z|\theta)$. We defined information gain as the KL between the hypothetical posterior after observing a future sample $z_{t+1}$ and the current posterior [@baldi2010bits]:
 \begin{eqnarray}
@@ -62,7 +62,7 @@ The basic structure of the model can be described in the following pseudocode:
 
 ## Simulations
 
-To model the behavioral experiment, we first represented the stimuli as binary-valued vectors indicating the presence (1) or absence (0) of each feature. All stimuli vectors were chosen to be length 6 to provide sufficient representational flexibility. Complex stimuli were represented as having three 1s and simple stimuli were represented as having one 1, with the rest of the features set to 0. Individual stimuli are then assembled into sequences to reflect the stimuli sequences in the behavioral experiment. For a particular sequence, we constructed the deviant stimulus based on the background stimulus to make sure that they were always maximally different and had the same number of features present. 
+To model the behavioral experiment, we first represented the stimuli as binary-valued vectors indicating the presence (1) or absence (0) of each feature. All stimulus vectors were chosen to be length 6 to provide sufficient representational flexibility. Complex stimuli were represented as having three 1s and simple stimuli were represented as having one 1, with the rest of the features set to 0. Individual stimuli were then assembled into sequences to reflect the stimuli sequences in the behavioral experiment. For a particular sequence, we constructed the deviant stimulus based on the background stimulus to make sure that they were always maximally different and had the same number of features present. 
 
 Since the model makes stochastic choices about how many samples to take from each stimulus, behavior varies substantially across runs. Thus, we conducted 500 runs for each stimuli sequence and parameter value to obtain a reasonably precise estimate of the model’s behavior. 
 
