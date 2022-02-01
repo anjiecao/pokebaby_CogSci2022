@@ -4,9 +4,7 @@ output:
       
 ---
 
-
 RANCH treats the learning problem that participants face in our experiment as a form of Bayesian concept learning [@goodman2008rational;@tenenbaum1999bayesian]. In this setting, multiple noisy samples inform the learner’s hypothesis about a probabilistic concept represented by a set of binary features (Figure 2). 
-
 
 ```{r plate_diagram, echo = FALSE, fig.env = "figure", fig.pos = "H", fig.align='center', fig.width=2, fig.height=2, set.cap.width=T, num.cols.cap=1, fig.cap = "Graphical representation of RANCH. Circles indicate random variables. The square indicates fixed model parameters."}
 img <- png::readPNG("figs/plate_diagram.png")
@@ -26,13 +24,11 @@ To model the timecourse of attention, RANCH does not observe exemplars directly.
 P(\theta|\bar{z}) &= p(\bar{z}|y) p(y|\theta) p(\theta) / p(\bar{z})
 \end{eqnarray}.
 
-
 To compute approximate posterior probability distributions during inference, we used a discrete grid approximation with a step size of .001 over both $\theta$ and $\epsilon$.
 
 Upon observing a sample, RANCH then decides whether to keep sampling or not. We chose EIG from the next sample as the main linking hypothesis. 
 
 RANCH computes EIG by iterating through each possible next observation and weighing the information gain from each observation by its posterior predictive probability $p(z|\theta)$. We defined information gain as the KL between the hypothetical posterior after observing a future sample $z_{t+1}$ and the current posterior [@baldi2010bits]:
-
 \begin{eqnarray}
 EIG(z_{t+1}) = \sum_{z_{t+1} \in [0,1]} p(z_{t+1}|\theta_t) * D_{KL}(\theta_{t+1} || p(\theta_t))
 \end{eqnarray}
@@ -40,21 +36,23 @@ Finally, to get actual sampling behavior from the model, it has to convert EIG i
 \begin{eqnarray}
 p(look away) = \frac{EIG(env)}{EIG(z_{t+1})+EIG(env)}
 \end{eqnarray}
- The basic structure of the model can be described in the following pseudocode:
 
-\begin{algorithm}[h]
+The basic structure of the model can be described in the following pseudocode:
+
+
+\begin{algorithm}
   \caption*{RANCH model}\label{msn}
   \begin{algorithmic}
   \NoDo{}
   \For{each exemplar y} 
-    \State{$continue \gets T$}
-    \While{$continue$ take another sample z}
+    \State{$sample \gets T$}
+    \While{$sample$ take another sample z}
     \State{update posterior $P(\theta|z)$}
     \State{compute EIG of next sample $z_{t+1}$}
-    \State{flip $coin$ with $p(lookaway)  = \frac{EIG(z_{t+1})}{EIG(z_{t+1})+EIG(env)}$}
+    \State{flip $coin$ with $p(lookaway) = \frac{EIG(z_{t+1})}{EIG(z_{t+1})+EIG(env)}$}
     \NoThen{}
     \If{$coin = T$}
-    \State{$continue \gets  F$}
+    \State{$sample \gets F$}
     \EndIf
     \EndWhile
   \EndFor
@@ -62,17 +60,11 @@ p(look away) = \frac{EIG(env)}{EIG(z_{t+1})+EIG(env)}
   \end{algorithm}
 
 
-
-
-
-
-
-
 ## Simulations
 
 To model the behavioral experiment, we first represented the stimuli as binary-valued vectors indicating the presence (1) or absence (0) of each feature. All stimuli vectors were chosen to be length 6 to provide sufficient representational flexibility. Complex stimuli were represented as having three 1s and simple stimuli were represented as having one 1, with the rest of the features set to 0. Individual stimuli are then assembled into sequences to reflect the stimuli sequences in the behavioral experiment. For a particular sequence, we constructed the deviant stimulus based on the background stimulus to make sure that they were always maximally different and had the same number of features present. 
 
-Since the model makes stochastic choices about how many samples to take from each stimuli, behavior varies substantially across runs. Thus, we conducted 500 runs for each stimuli sequence and parameter value to obtain a reasonably precise estimate of the model’s behavior. 
+Since the model makes stochastic choices about how many samples to take from each stimulus, behavior varies substantially across runs. Thus, we conducted 500 runs for each stimuli sequence and parameter value to obtain a reasonably precise estimate of the model’s behavior. 
 
 
 ## Parameter estimation
@@ -172,10 +164,6 @@ model_plot <- viz_df %>%
 
 behavioral_plot + model_plot + plot_layout(heights = c(1, 5))
 ```
-
-
-
-
 
 RANCH exhibited the main phenomena of interest, showing habituation, dishabituation, and complexity effects (Fig. 3, row 2). We also quantitatively explored the model by fitting the model results to the behavioral data (See Table 1, row 1). Overall RANCH achieved a good fit, though it did show a slightly more gradual habituation process than the behavioral data.
 
