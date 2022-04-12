@@ -49,7 +49,7 @@ The basic structure of the model can be described in the following pseudocode:
     \While{$sample$ take another sample z}
     \State{update posterior $P(\theta|z)$}
     \State{compute EIG of next sample $z_{t+1}$}
-    \State{flip $coin$ with $p(lookaway) = \frac{EIG(z_{t+1})}{EIG(z_{t+1})+EIG(env)}$}
+    \State{flip $coin$ with $p(lookaway) = \frac{EIG(env)}{EIG(env)+EIG(z_{t+1})}$}
     \NoThen{}
     \If{$coin = T$}
     \State{$sample \gets F$}
@@ -207,7 +207,7 @@ tb_df <- bind_rows(df_compare_eig, df_compare_random, df_compare_nn, df_compare_
 rownames(tb_df) <- NULL
 
 table <- xtable::xtable(as.matrix(tb_df), digits=c(2), 
-                       caption = "This table shows the correlations between the log-transformed model results and the log-transformed looking time data. RANCH model implemented with the three different linking hypotheses showed similar performance with slight numerical differences and outperomed the baseline models.")
+                       caption = "This table shows the correlations between the log-transformed model results and the log-transformed looking time data. RANCH model implemented with the three different linking hypotheses showed similar performance with slight numerical differences and outperfomed the baseline models.")
 
 print.xtable(table, include.rownames = FALSE, comment = FALSE)
 ```
