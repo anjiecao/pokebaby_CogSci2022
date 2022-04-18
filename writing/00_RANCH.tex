@@ -124,7 +124,7 @@ decrease their looking duration upon seeing the same stimulus repeatedly
 well-documented, the mechanisms underlying them remain poorly
 understood, even though assumptions about habituation and dishabituation
 underpin many other claims about infants' cognitive repertoire (Aslin,
-1991; Haith, 1998; Sim \& Xu, 2019).
+1991; Carey, 2009; Haith, 1998; Sim \& Xu, 2019).
 
 One classic theory of infant looking posits that infants look at stimuli
 in order to learn from them, so the dynamics of looking time are driven
@@ -136,8 +136,8 @@ but the more complicated the stimulus is, the more they have to learn
 overall, and older infants are assumed to learn faster than younger
 infants. Although this theory is influential, its predictions are
 qualitative, not quantitative, and have not been systematically tested
-(For exception, see Hunter, Ames, \& Koopman, 1983; Bergmann \& Cristia,
-2016). Nevertheless, it is often invoked as a post-hoc explanation of
+(For exception, see Bergmann \& Cristia, 2016; Hunter, Ames, \& Koopman,
+1983). Nevertheless, it is often invoked as a post-hoc explanation of
 observed patterns in infant data.
 
 Recent work has attempted to overcome these limitations by describing
@@ -312,7 +312,7 @@ analysis scripts are available at \url{https://tinyurl.com/RANCH-2022}.
 We first checked whether the basic complexity manipulations were
 successful. Complex animated creatures were rated as more perceptually
 complex (\emph{M} = 4.63 ; \emph{SD} = 1.08) than the simple animated
-creatures (\emph{M} = 1.06; \emph{SD} = 1.06; \emph{t} \textless{}
+creatures (\emph{M} = 1.06; \emph{SD} = 1.06; \emph{p} \textless{}
 0.001).
 
 Next, we tested whether the task (Curiosity, Memory, or Math) affected
@@ -335,7 +335,11 @@ complexity of the stimuli (simple vs.~complex). The model failed to
 converge, so we pruned the model following the pre-registered procedure.
 The final model included per-subject random intercepts. All predictors
 except for the three-way interaction were significant in the model (all
+<<<<<<< HEAD
 \emph{t} \textless{} .001), providing a quantitative confirmation that
+=======
+\emph{p} \textless{} .001), providing a quantitative confirmation that
+>>>>>>> dc7f522ad77af4ee3131c5a18521a47d1b1705dc
 our paradigm successfully captured the key looking time patterns:
 habituation (trial number), dishabituation (the deviant effect), and
 complexity (the stimulus complexity effect). We next tested whether we
@@ -362,7 +366,7 @@ concept represented by a set of binary features (Figure 2).
 \end{CodeChunk}
 
 The formulation of the learner as taking noisy samples from a stimulus
-allows us to do two things: First, we can explicitly model the learner's
+allows us to do two things. First, we can explicitly model the learner's
 decision about when to stop sampling by asking the model to decide,
 after every sample, whether it wants to continue sampling from the same
 stimulus or not. This aspect of RANCH contrasts with previous models,
@@ -403,14 +407,15 @@ extension, about the concept \(\bar{\theta}\). By Bayes' rule:
 
 \begin{eqnarray}
 P(\theta|\bar{z}) &= p(\bar{z}|y) p(y|\theta) p(\theta) / p(\bar{z})
-\end{eqnarray}.
+\end{eqnarray}
 
 To compute approximate posterior probability distributions during
 inference, we used a discrete grid approximation with a step size of
 .001 over both \(\theta\) and \(\epsilon\).
 
 Upon observing a sample, RANCH then decides whether to keep sampling or
-not. We chose EIG from the next sample as the main linking hypothesis.
+not. We chose EIG from the next sample as the main linking hypothesis
+between the learned posterior and sampling choice.
 
 RANCH computes EIG by iterating through each possible next observation
 and weighing the information gain from each observation by its posterior
@@ -456,11 +461,11 @@ pseudocode:
 
 To model the behavioral experiment, we first represented the stimuli as
 binary-valued vectors indicating the presence (1) or absence (0) of each
-feature. All stimuli vectors were chosen to be length 6 to provide
+feature. All stimulus vectors were chosen to be length 6 to provide
 sufficient representational flexibility. Complex stimuli were
 represented as having three 1s and simple stimuli were represented as
 having one 1, with the rest of the features set to 0. Individual stimuli
-are then assembled into sequences to reflect the stimuli sequences in
+were then assembled into sequences to reflect the stimuli sequences in
 the behavioral experiment. For a particular sequence, we constructed the
 deviant stimulus based on the background stimulus to make sure that they
 were always maximally different and had the same number of features
@@ -568,14 +573,19 @@ Yamins, 2020).
 We implemented these by replacing \(EIG(z_{t+1})\) in Equation 2.
 Surprisal, formally described as \(-log(p(z|\theta))\), intuitively
 refers to how surprising an observation \(z\) is given the model's
-beliefs about \(\theta\) - the intuition that surprising events should
+beliefs about \(\theta\) -- the intuition that surprising events should
 result in longer looking times has served as a foundational assumption
 in developmental psychology (Sim \& Xu, 2019). KL, formally described as
 \(\sum_{x \in X}{p(\theta = x|z) log \frac{p(\theta = x|z)}{p(\theta = x)}}\),
 measures how much the model changed to accommodate the most recent
 observation \(z\). The intuition behind using KL as a linking hypothesis
+<<<<<<< HEAD
 is that if an observation causes a large change, the next one might too,
 so continuing to sample is likely to be informative.
+=======
+is that, if one observation causes a large change, the next one might
+too, so continuing to sample is likely to be informative.
+>>>>>>> dc7f522ad77af4ee3131c5a18521a47d1b1705dc
 
 In our experiment, the performance of surprisal and KL matched that of
 EIG (Table 1, row 4-5, Fig 3, row 5-6). To calculate EIG, the model
@@ -596,7 +606,7 @@ complexity. RANCH assumes a rational learner that takes noisy perceptual
 samples from stimuli and makes sampling decisions based on EIG. We
 evaluated the model with adult looking time data collected from a
 paradigm that mirrors classic infant looking time paradigms, in which
-participants are learning about multi-feature concepts and found that
+participants are learning about multi-feature concepts, and found that
 RANCH could successfully reproduce the patterns observed in behavioral
 data. By contrasting the model results with our baseline models, we
 showed that habituation, dishabituation, and complexity effects only
@@ -621,8 +631,13 @@ hypotheses highlights the significance of learning contexts. Our results
 should not be interpreted as evidence showing that the three linking
 hypotheses are indistinguishable across all learning contexts. Previous
 work has shown that adopting surprisal as learning policy can lead to
+<<<<<<< HEAD
 undesirable behaviors in artificial agents (e.g.~``the white noise
 problem,'' Oudeyer et al., 2007). Moreover, the two alternative linking
+=======
+undesirable behaviors in artificial agents (e.g.~{``the white noise
+problem,''} Oudeyer et al., 2007). Moreover, the two alternative linking
+>>>>>>> dc7f522ad77af4ee3131c5a18521a47d1b1705dc
 hypotheses are backward-looking metrics that utilize heuristics about
 the past to make decisions. This characteristic could constrain their
 application to situations in which the environment is stable and the
@@ -671,7 +686,7 @@ decide what to look at, and when to stop looking.
 \noindent
 
 \hypertarget{refs}{}
-\begin{CSLReferences}{1}{0}
+\begin{CSLReferences}
 \leavevmode\vadjust pre{\hypertarget{ref-aslin2007s}{}}%
 Aslin, R. N. (1991). Development of processing speed in childhood and
 adolescence. \emph{Advances in Child Development and Behavior},
@@ -701,6 +716,10 @@ bayesian model. \emph{Frontiers in Human Neuroscience}, \emph{8}, 102.
 Callaway, F., Rangel, A., \& Griffiths, T. L. (2021). Fixation patterns
 in simple choice reflect optimal information sampling. \emph{PLoS
 Computational Biology}, \emph{17}(3), e1008863.
+
+\leavevmode\vadjust pre{\hypertarget{ref-carey2009}{}}%
+Carey, S. (2009). \emph{The origin of concepts}. Oxford University
+Press.
 
 \leavevmode\vadjust pre{\hypertarget{ref-colombo2009infant}{}}%
 Colombo, J., \& Mitchell, D. W. (2009). Infant visual habituation.
