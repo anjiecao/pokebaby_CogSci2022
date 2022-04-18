@@ -4,7 +4,7 @@ output:
       
 ---
 
-RANCH treats the learning problem that participants face in our experiment as a form of Bayesian concept learning [@goodman2008rational;@tenenbaum1999bayesian]. In this setting, multiple noisy samples inform the learner’s hypothesis about a probabilistic concept represented by a set of binary features (Figure 2). 
+RANCH treats the learning problem that participants face in our experiment as a form of Bayesian concept learning [@goodman2008rational;@tenenbaum1999bayesian]. In this setting, multiple noisy samples inform the learner’s hypothesis about a probabilistic concept represented by a set of binary features (Figure 2). Like our participants, the model needs to decide at every step whether to keep looking at the current stimulus or terminate the trial by "looking away".
 
 ```{r plate_diagram, echo = FALSE, fig.env = "figure", fig.pos = "H", fig.align='center', fig.width=2, fig.height=2, set.cap.width=T, num.cols.cap=1, fig.cap = "Graphical representation of RANCH. Circles indicate random variables. The square indicates fixed model parameters."}
 img <- png::readPNG("figs/plate_diagram.png")
@@ -49,7 +49,7 @@ The basic structure of the model can be described in the following pseudocode:
     \While{$sample$ take another sample z}
     \State{update posterior $P(\theta|z)$}
     \State{compute EIG of next sample $z_{t+1}$}
-    \State{flip $coin$ with $p(lookaway) = \frac{EIG(z_{t+1})}{EIG(z_{t+1})+EIG(env)}$}
+    \State{flip $coin$ with $p(lookaway) = \frac{EIG(env)}{EIG(z_{t+1})+EIG(env)}$}
     \NoThen{}
     \If{$coin = T$}
     \State{$sample \gets F$}
@@ -115,31 +115,27 @@ viz_df$sequence_scheme_print <- factor(viz_df$sequence_scheme_print,
                                        levels = c("No Deviant",  "Deviant at 2nd Trial", 
                                                   "Deviant at 4th Trial", "Deviant at Last Trial"))
 
-
-
-
 behavioral_plot <- viz_df %>% 
   filter(res_type_print == "Behavioral") %>% 
    ggplot(aes(x = trial_number, y = res_val, color = complexity)) +
   stat_summary(fun.data = "mean_cl_boot", position = position_dodge(width = .2),  fatten = 0) + 
    stat_summary(fun.data = "mean_cl_boot",
-                geom = "line", position = position_dodge(width = .2)) +
-  
+                geom = "line", position = position_dodge(width = .2)) + ylab('Looking time \n (log msec)') +
   facet_grid(res_type_print~sequence_scheme_print) +
-  scale_x_continuous(breaks = seq(1, 6, 1)) + 
-  #langcog::theme_mikabr() +
-  theme_classic()+
+  scale_x_continuous(breaks = seq(1, 6, 1)) + scale_y_continuous(breaks = c(7.5, 8.0, 8.5)) + 
+  theme_classic() +
   langcog::scale_color_solarized(name = "Trial Complexity",labels = c("Complex", "Simple")) + 
   theme(strip.background = element_blank(), 
         strip.text.y = element_text(size = 6),
+        strip.text.x = element_blank(),
         axis.title.x = element_blank(), 
-        axis.title.y = element_blank(),
+        axis.title.y = element_text(size = 8),
         axis.line.x = element_blank(), 
-        axis.ticks = element_blank(),
+        axis.ticks.x = element_blank(), 
         axis.text.x = element_blank(),
+        axis.text.y = element_text(size = 6),
         legend.position = "none", 
-        panel.border = element_rect(color = "black", fill = NA), 
-        
+        panel.border = element_rect(color = "black", fill = NA) 
         )
 
 model_plot <- viz_df %>% 
@@ -147,22 +143,21 @@ model_plot <- viz_df %>%
   ggplot(aes(x = trial_number, y = res_val, color = complexity)) +
   stat_summary(fun.data = "mean_cl_boot", position = position_dodge(width = .2),  fatten = 0) + 
    stat_summary(fun.data = "mean_cl_boot",
-                geom = "line", position = position_dodge(width = .2)) +
-  
+                geom = "line", position = position_dodge(width = .2)) + ylab('Model samples (scaled)') +
   facet_grid(res_type_print~sequence_scheme_print) +
   scale_x_continuous(breaks = seq(1, 6, 1)) + 
-  #langcog::theme_mikabr() +
-  theme_classic()+
+  theme_classic() +
   langcog::scale_color_solarized(name = "Trial Complexity",labels = c("Complex", "Simple")) + 
   xlab("Trial Number") + 
   theme(strip.background = element_blank(), 
         strip.text.y = element_text(size = 6),
-        axis.title.y = element_blank(),
         strip.text.x = element_blank(),
+        axis.title.x = element_blank(), 
+        axis.title.y = element_text(size = 8),
+        axis.text.y = element_text(size = 6),
         legend.position = "bottom")
 
-
-behavioral_plot + model_plot + plot_layout(heights = c(1, 5))
+behavioral_plot + model_plot + plot_layout(heights = c(1, 5)) 
 ```
 
 RANCH exhibited the main phenomena of interest, showing habituation, dishabituation, and complexity effects (Fig. 3, row 2). We also quantitatively explored the model by fitting the model results to the behavioral data (See Table 1, row 1). Overall RANCH achieved a good fit, though it did show a slightly more gradual habituation process than the behavioral data.
@@ -207,7 +202,7 @@ tb_df <- bind_rows(df_compare_eig, df_compare_random, df_compare_nn, df_compare_
 rownames(tb_df) <- NULL
 
 table <- xtable::xtable(as.matrix(tb_df), digits=c(2), 
-                       caption = "This table shows the correlations between the log-transformed model results and the log-transformed looking time data. RANCH model implemented with the three different linking hypotheses showed similar performance with slight numerical differences and outperomed the baseline models.")
+                       caption = "This table shows the correlations between the log-transformed model results and the log-transformed looking time data. RANCH model implemented with the three different linking hypotheses showed similar performance with slight numerical differences and outperformed the baseline models.")
 
 print.xtable(table, include.rownames = FALSE, comment = FALSE)
 ```

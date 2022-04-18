@@ -4,7 +4,7 @@ output:
 
 ---
 
-To reproduce the key looking time patterns from infant habituation experiments in adult participants, we chose a learning context in which participants learn about the stimuli as they look at visually presented exemplars for as long as they like, with no explicit task. This experimental setup resembles the classic infant habituation-dishabituation paradigm, rather than the look-away paradigm where infants were assumed to learn about event probabilities [@kidd2012goldilocks; @poli2020infants].
+To reproduce the key looking time patterns from infant habituation experiments in adult participants, we chose a learning context in which participants learn about the stimuli as they look at visually presented exemplars for as long as they like, with no explicit task. The time participants spent exploring the exemplars served as the adult proxy for looking time. This experimental setup resembles the classic infant habituation-dishabituation paradigm, rather than the look-away paradigm where infants were assumed to learn about event probabilities [@kidd2012goldilocks; @poli2020infants]. 
 
 Our initial data come from adults for two reasons. First, adult data are suitable for establishing quantitative links between models and human behaviors, since infants’ looking time data tend to have small sample sizes and are therefore limited in their quantitative details [@frank2017collaborative]. Second, adult data allow us to test the hypothesis that similar rational choice processes underlie infant and adult behavior under similar learning contexts.
 
@@ -75,7 +75,6 @@ To check if our complexity manipulation was successful, at the end of the eight 
 ## total participants 
 total_participants <- length(unique(all_d$subject))
 
-
 ## age 
 all_age <- all_d %>% select(subject, responses) %>% 
   filter(grepl("age", responses)) %>% 
@@ -102,11 +101,12 @@ sample_n <- d %>%
   distinct(subject, task_type) %>% 
   group_by(task_type) %>% 
   summarise(n = n())
+
 ```
 
 
 
-We recruited `r total_participants` participants (Age *M* = `r age_mean`; *SD* = `r age_sd`) on Prolific. They were randomly assigned to one of the three conditions of the experiment (Curiosity: *N* = `r filter(all_conditions, stimulus_type == "curiosity")$n`; Memory: *N* = `r filter(all_conditions, stimulus_type == "memory_test")$n`; Math: *N* = `r filter(all_conditions, stimulus_type == "math_question")$n`). Participants were excluded if they showed irregular reaction times or their responses in the filler tasks indicated low engagement with the experiment. All exclusion criteria were pre-registered. The final sample included `r sum(sample_n$n)` participants.
+We recruited `r total_participants` participants (Age *M* = `r age_mean`; *SD* = `r age_sd`) on Prolific. They were randomly assigned to one of the three conditions of the experiment (Curiosity: *N* = `r filter(all_conditions, stimulus_type == "curiousity")$n`; Memory: *N* = `r filter(all_conditions, stimulus_type == "memory_test")$n`; Math: *N* = `r filter(all_conditions, stimulus_type == "math_question")$n`). Participants were excluded if they showed irregular reaction times or their responses in the filler tasks indicated low engagement with the experiment. All exclusion criteria were pre-registered. The final sample included `r sum(sample_n$n)` participants.
 
 
 
