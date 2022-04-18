@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  1 FEB 2022 10:44
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2016.5.22)  1 FEB 2022 18:41
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -508,7 +508,7 @@ Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
 )
 \cslhangindent=\skip66
 
-No file 00_RANCH.aux.
+(./00_RANCH.aux)
 \openout1 = `00_RANCH.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 81.
@@ -520,6 +520,7 @@ LaTeX Font Info:    ... okay on input line 81.
 LaTeX Font Info:    Checking defaults for OMS/pzccm/m/n on input line 81.
 LaTeX Font Info:    Try loading font information for OMS+pzccm on input line 81
 .
+
 (/usr/local/texlive/2016/texmf-dist/tex/latex/psnfss/omspzccm.fd
 File: omspzccm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/pzccm.
 )
@@ -554,6 +555,8 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 81.
 LaTeX Info: Redefining \pageref on input line 81.
 LaTeX Info: Redefining \nameref on input line 81.
+
+(./00_RANCH.out) (./00_RANCH.out)
 \@outlinefile=\write4
 \openout4 = `00_RANCH.out'.
 
@@ -650,7 +653,7 @@ pin
 
 
 ]
-<figs/experimental_design-1.pdf, id=13, 180.675pt x 180.675pt>
+<figs/experimental_design-1.pdf, id=60, 180.675pt x 180.675pt>
 File: figs/experimental_design-1.pdf Graphic file (type pdf)
 
 <use figs/experimental_design-1.pdf>
@@ -671,14 +674,14 @@ File: omlptm.fd
 LaTeX Font Info:    Font shape `OML/ptm/m/n' in size <10> not available
 (Font)              Font shape `OML/cmm/m/it' tried instead on input line 315.
 
-<figs/plate_diagram-1.pdf, id=35, 136.51pt x 144.54pt>
+<figs/plate_diagram-1.pdf, id=80, 136.51pt x 144.54pt>
 File: figs/plate_diagram-1.pdf Graphic file (type pdf)
 
 <use figs/plate_diagram-1.pdf>
 Package pdftex.def Info: figs/plate_diagram-1.pdf used on input line 356.
 (pdftex.def)             Requested size: 136.50966pt x 144.53963pt.
  [3 <./figs/plate_diagram-1.pdf>]
-<figs/experiment_res-1.pdf, id=59, 450.68375pt x 328.22626pt>
+<figs/experiment_res-1.pdf, id=102, 450.68375pt x 328.22626pt>
 File: figs/experiment_res-1.pdf Graphic file (type pdf)
 
 <use figs/experiment_res-1.pdf>
@@ -717,21 +720,18 @@ Package rerunfilecheck Warning: File `00_RANCH.out' has changed.
 (rerunfilecheck)                or use package `bookmark'.
 
 Package rerunfilecheck Info: Checksums for `00_RANCH.out':
-(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             Before: CF4C79B0D8109FC0598AF29854A20361;1315
 (rerunfilecheck)             After:  4158D3920EB1784A6D73515F4186B1BC;643.
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 838.
  ) 
 Here is how much of TeX's memory you used:
- 10603 strings out of 493014
- 155197 string characters out of 6133351
+ 10624 strings out of 493014
+ 155463 string characters out of 6133351
  265044 words of memory out of 5000000
- 13871 multiletter control sequences out of 15000+600000
+ 13886 multiletter control sequences out of 15000+600000
  36687 words of font info for 76 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 36i,12n,39p,437b,384s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 36i,12n,39p,439b,384s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2016/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/te
 xlive/2016/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texl
@@ -741,10 +741,10 @@ texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2016/texmf-dist/
 fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type
 1/urw/times/utmr8a.pfb></usr/local/texlive/2016/texmf-dist/fonts/type1/urw/time
 s/utmri8a.pfb>
-Output written on 00_RANCH.pdf (7 pages, 383030 bytes).
+Output written on 00_RANCH.pdf (7 pages, 383934 bytes).
 PDF statistics:
- 190 PDF objects out of 1000 (max. 8388607)
- 160 compressed objects within 2 object streams
+ 227 PDF objects out of 1000 (max. 8388607)
+ 197 compressed objects within 2 object streams
  82 named destinations out of 1000 (max. 500000)
- 16 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 112 words of extra memory for PDF output out of 10000 (max. 10000000)
 

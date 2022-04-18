@@ -40,7 +40,7 @@ library(here)
 library(lmerTest)
 library(lme4)
 library(patchwork)
-library(Metrics)
+#library(Metrics)
 
 library(png)
 library(grid)
@@ -94,6 +94,7 @@ b_res_summary <- b_res_print %>%
     trial_looking_time = mean(trial_looking_time), 
     log_trial_looking_time = mean(log_trial_looking_time)
   ) 
+
 
 ```
 
