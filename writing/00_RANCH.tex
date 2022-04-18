@@ -282,8 +282,8 @@ in the questions asked following each block: Curiosity, Memory, and
 Math. In the Curiosity condition, participants were asked to rate ``How
 curious are you about the creature?'' on a 5-point Likert scale. In the
 Memory condition, a forced-choice recognition question followed each
-block (``Have you seen this creature before?'' showing either a creature
-presented in the preceding block or a novel creature matched in
+block (``Have you seen this creature before?'', showing either a
+creature presented in the preceding block or a novel creature matched in
 complexity). In the Math condition, the participants were asked a simple
 arithmetic question (``What is 5 + 7?'') in a multiple-choice format.
 
@@ -335,7 +335,11 @@ complexity of the stimuli (simple vs.~complex). The model failed to
 converge, so we pruned the model following the pre-registered procedure.
 The final model included per-subject random intercepts. All predictors
 except for the three-way interaction were significant in the model (all
+<<<<<<< HEAD
+\emph{t} \textless{} .001), providing a quantitative confirmation that
+=======
 \emph{p} \textless{} .001), providing a quantitative confirmation that
+>>>>>>> dc7f522ad77af4ee3131c5a18521a47d1b1705dc
 our paradigm successfully captured the key looking time patterns:
 habituation (trial number), dishabituation (the deviant effect), and
 complexity (the stimulus complexity effect). We next tested whether we
@@ -479,7 +483,7 @@ We performed an iterative grid search in parameter space. We a priori
 constrained our parameter space on the prior beta distribution to have
 shape parameters \(\alpha_{\theta} > \beta_{\theta}\), which describe
 the prior beliefs as ``more likely to see the absence of a feature than
-the presence of a feature.'' We then searched for the priors over the
+the presence of a feature''. We then searched for the priors over the
 concept (\(\theta\)), the noise parameter that decides how likely a
 feature would be misperceived (\(\epsilon\)), and the constant EIG from
 the environment (\(EIG(env)\)). The prior over the noise parameter was
@@ -553,7 +557,7 @@ from fitting the EIG model to the behavioral data.
 
 The baseline models fit the data poorly (Table 1, row 2-3; Fig 3, row
 3-4), suggesting that both learning and noisy perception are critical
-for modeling the phenomena of interest.
+for modeling the phenomena of interest. \smallbreak
 
 \hypertarget{alternative-linking-hypotheses}{%
 \subsubsection{Alternative linking
@@ -575,8 +579,13 @@ in developmental psychology (Sim \& Xu, 2019). KL, formally described as
 \(\sum_{x \in X}{p(\theta = x|z) log \frac{p(\theta = x|z)}{p(\theta = x)}}\),
 measures how much the model changed to accommodate the most recent
 observation \(z\). The intuition behind using KL as a linking hypothesis
+<<<<<<< HEAD
+is that if an observation causes a large change, the next one might too,
+so continuing to sample is likely to be informative.
+=======
 is that, if one observation causes a large change, the next one might
 too, so continuing to sample is likely to be informative.
+>>>>>>> dc7f522ad77af4ee3131c5a18521a47d1b1705dc
 
 In our experiment, the performance of surprisal and KL matched that of
 EIG (Table 1, row 4-5, Fig 3, row 5-6). To calculate EIG, the model
@@ -622,8 +631,13 @@ hypotheses highlights the significance of learning contexts. Our results
 should not be interpreted as evidence showing that the three linking
 hypotheses are indistinguishable across all learning contexts. Previous
 work has shown that adopting surprisal as learning policy can lead to
+<<<<<<< HEAD
+undesirable behaviors in artificial agents (e.g.~``the white noise
+problem,'' Oudeyer et al., 2007). Moreover, the two alternative linking
+=======
 undesirable behaviors in artificial agents (e.g.~{``the white noise
 problem,''} Oudeyer et al., 2007). Moreover, the two alternative linking
+>>>>>>> dc7f522ad77af4ee3131c5a18521a47d1b1705dc
 hypotheses are backward-looking metrics that utilize heuristics about
 the past to make decisions. This characteristic could constrain their
 application to situations in which the environment is stable and the
