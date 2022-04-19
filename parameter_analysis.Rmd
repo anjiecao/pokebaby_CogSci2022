@@ -1,0 +1,254 @@
+---
+title: "parameter analysis"
+author: "anjie & gal"
+date: "4/18/2022"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(here)
+source(here("model/helper/simulation_results_processing.R"))
+
+```
+
+
+```{r}
+# loading data 
+all_d <- read_csv(here("experiment/01_merged_data/merged_data.csv"))
+d <- read_csv(here("experiment/02_processed_data/processed_rt_task_data.csv"))
+prolific <- read_csv(here("experiment/prolific.csv"))
+exclusion_d <- read_csv(here("experiment/p_level_exclusion.csv"))
+
+
+b_res_print <- d %>% 
+  mutate(sequence_scheme = case_when(
+    deviant_position == 2 ~ "BDBBBB", 
+    deviant_position == 4 ~ "BBBDBB", 
+    deviant_position == 6 ~ "BBBBBD", 
+    TRUE ~ "BBBBBB", 
+  ), 
+  sequence_scheme_print = case_when(
+    sequence_scheme == "BBBBBB" ~ "No Deviant", 
+    sequence_scheme == "BDBBBB" ~ "Deviant at 2nd Trial", 
+    sequence_scheme == "BBBDBB" ~ "Deviant at 4th Trial", 
+    sequence_scheme == "BBBBBD" ~ "Deviant at Last Trial"
+  ), 
+  log_trial_looking_time = log(trial_looking_time)) %>% 
+  separate(block_type, into = c("complexity", "similarity"), sep = "_") %>% 
+  select(subject, complexity, trial_number, 
+         sequence_scheme, sequence_scheme_print, trial_looking_time, log_trial_looking_time)
+
+# calculate smean.cl.b
+
+
+b_res_summary <- b_res_print %>% 
+  group_by(trial_number, sequence_scheme, sequence_scheme_print, complexity) %>%
+  summarise(
+    trial_looking_time = mean(trial_looking_time), 
+    log_trial_looking_time = mean(log_trial_looking_time)
+  ) 
+```
+
+# EIG
+
+```{r}
+raw_c_0 <- readRDS(here("model/sim_res/00_param_search_sim.RDS"))
+raw_c_1 <- readRDS(here("model/sim_res/01_param_search_sim.RDS"))
+raw_c_2 <- readRDS(here("model/sim_res/02_param_search_sim.RDS"))
+raw_c_3 <- readRDS(here("model/sim_res/03_param_search_sim.RDS"))
+
+raw_res <- summarise_tidy_sim_res(tidy_up_raw_simulation_results(bind_rows(raw_c_0, 
+                                                                           raw_c_1, 
+                                                                           raw_c_2, 
+                                                                           raw_c_3),im_type = "eig"))
+raw_res <- raw_res %>% 
+  left_join(b_res_summary, by = c("trial_number", "sequence_scheme", "sequence_scheme_print", "complexity"))
+```
+
+
+
+```{r}
+tdf <- calculate_scaled_correlation_for_sa(raw_res) %>% 
+  separate(params_info,into = c("ae", "ae_val", 
+                                 "be", "be_val", 
+                                 "ap", "ap_val", 
+                                 "bp", "bp_val", 
+                                 "np", "np_val", 
+                                 "wEIG", "wEIG_val"), 
+           sep = "_") %>% 
+  select(ae_val, be_val, ap_val, bp_val, np_val, wEIG_val, r_in_log, rmse_in_log) %>% 
+  rename(pearson_r = r_in_log, rmse = rmse_in_log)
+
+```
+
+```{r}
+tdf %>% 
+  ggplot(aes(x = wEIG_val, y = np_val, fill = pearson_r)) + 
+  geom_tile() + 
+  facet_wrap(~as.numeric(bp_val)) + 
+  theme_classic() + 
+  xlab("word EIG") + 
+  ylab("Noise parameter") + 
+  labs(title = "Pearson's r - faceted by Prior Beta (Prior alpha constant = 1)", 
+       subtitle = "EIG") + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+tdf %>% 
+  ggplot(aes(x = wEIG_val, y = np_val, fill = rmse)) + 
+  geom_tile() + 
+  facet_wrap(~as.numeric(bp_val)) + 
+  theme_classic() + 
+  xlab("word EIG") + 
+  ylab("Noise parameter") + 
+  labs(title = "RMSE - faceted by Prior Beta (Prior alpha constant = 1)", 
+       subtitle = "EIG") + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
+# Surprisal 
+
+```{r}
+raw_c_0 <- readRDS(here("model/sim_res/00_Surprisal_tidy_sim.RDS"))
+raw_c_1 <- readRDS(here("model/sim_res/01_Surprisal_tidy_sim.RDS"))
+raw_c_2 <- readRDS(here("model/sim_res/02_Surprisal_tidy_sim.RDS"))
+raw_c_3 <- readRDS(here("model/sim_res/03_Surprisal_tidy_sim.RDS"))
+
+raw_res <- summarise_tidy_sim_res(tidy_up_raw_simulation_results(bind_rows(raw_c_0, 
+                                                                           raw_c_1, 
+                                                                           raw_c_2, 
+                                                                           raw_c_3),im_type = "surprisal"))
+raw_res <- raw_res %>% 
+  left_join(b_res_summary, by = c("trial_number", "sequence_scheme", "sequence_scheme_print", "complexity"))
+```
+
+
+
+```{r}
+tdf <- calculate_scaled_correlation_for_sa(raw_res) %>% 
+  separate(params_info,into = c("ae", "ae_val", 
+                                 "be", "be_val", 
+                                 "ap", "ap_val", 
+                                 "bp", "bp_val", 
+                                 "np", "np_val", 
+                                 "wEIG", "wEIG_val"), 
+           sep = "_") %>% 
+  select(ae_val, be_val, ap_val, bp_val, np_val, wEIG_val, r_in_log, rmse_in_log) %>% 
+  rename(pearson_r = r_in_log, rmse = rmse_in_log)
+
+```
+
+```{r}
+tdf %>% 
+  ggplot(aes(x = wEIG_val, y = np_val, fill = pearson_r)) + 
+  geom_tile() + 
+  facet_wrap(~as.numeric(bp_val)) + 
+  theme_classic() + 
+  xlab("word EIG") + 
+  ylab("Noise parameter") + 
+  labs(title = "Pearson's r - faceted by Prior Beta (Prior alpha constant = 1)", 
+       subtitle = "Surprisal") + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+tdf %>% 
+  ggplot(aes(x = wEIG_val, y = np_val, fill = rmse)) + 
+  geom_tile() + 
+  facet_wrap(~as.numeric(bp_val)) + 
+  theme_classic() + 
+  xlab("word EIG") + 
+  ylab("Noise parameter") + 
+  labs(title = "RMSE - faceted by Prior Beta (Prior alpha constant = 1)", 
+       subtitle = "Surprisal") + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
+
+# KL 
+
+```{r}
+raw_c_0 <- readRDS(here("model/sim_res/00_KL_tidy_sim.RDS"))
+raw_c_1 <- readRDS(here("model/sim_res/01_KL_tidy_sim.RDS"))
+
+
+raw_res <- summarise_tidy_sim_res(tidy_up_raw_simulation_results(bind_rows(raw_c_0, 
+                                                                           raw_c_1),im_type = "KL"))
+raw_res <- raw_res %>% 
+  left_join(b_res_summary, by = c("trial_number", "sequence_scheme", "sequence_scheme_print", "complexity"))
+```
+
+
+
+```{r}
+tdf <- calculate_scaled_correlation_for_sa(raw_res) %>% 
+  separate(params_info,into = c("ae", "ae_val", 
+                                 "be", "be_val", 
+                                 "ap", "ap_val", 
+                                 "bp", "bp_val", 
+                                 "np", "np_val", 
+                                 "wEIG", "wEIG_val"), 
+           sep = "_") %>% 
+  select(ae_val, be_val, ap_val, bp_val, np_val, wEIG_val, r_in_log, rmse_in_log) %>% 
+  rename(pearson_r = r_in_log, rmse = rmse_in_log)
+
+```
+
+```{r}
+tdf %>% 
+  ggplot(aes(x = wEIG_val, y = np_val, fill = pearson_r)) + 
+  geom_tile() + 
+  facet_wrap(~as.numeric(bp_val)) + 
+  theme_classic() + 
+  xlab("word EIG") + 
+  ylab("Noise parameter") + 
+  labs(title = "Pearson's r - faceted by Prior Beta (Prior alpha constant = 1)", 
+       subtitle = "KL") + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+
+tdf %>% 
+  ggplot(aes(x = wEIG_val, y = np_val, fill = rmse)) + 
+  geom_tile() + 
+  facet_wrap(~as.numeric(bp_val)) + 
+  theme_classic() + 
+  xlab("word EIG") + 
+  ylab("Noise parameter") + 
+  labs(title = "RMSE - faceted by Prior Beta (Prior alpha constant = 1)", 
+       subtitle = "KL") + 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
+```
+
+
+
+
+
+```{r}
+c_res <- readRDS(here("model/report_res/scaled_continuous_model_res.RDS"))
+
+
+scaled_eig_res_sum <- summarise_scaled_tidy_sim_res(c_res %>% filter(im_type == "EIG"))
+scaled_kl_res_sum <- summarise_scaled_tidy_sim_res(c_res %>% filter(im_type == "KL"))
+scaled_s_res_sum <- summarise_scaled_tidy_sim_res(c_res %>% filter(im_type == "surprisal"))
+
+eig_sim_b_res <- scaled_eig_res_sum %>% 
+  left_join(b_res_summary, by = c("trial_number", "sequence_scheme", "sequence_scheme_print", "complexity")) 
+kl_sim_b_res <- scaled_kl_res_sum %>% 
+  left_join(b_res_summary, by = c("trial_number", "sequence_scheme", "sequence_scheme_print", "complexity"))
+s_sim_b_res <- scaled_s_res_sum %>% 
+  left_join(b_res_summary, by = c("trial_number", "sequence_scheme", "sequence_scheme_print", "complexity"))
+r_sim_b_res <- scaled_r_res_sum %>% 
+  left_join(b_res_summary, by = c("trial_number", "sequence_scheme", "sequence_scheme_print", "complexity"))
+nn_sim_b_res <- scaled_nn_res_sum %>% 
+  left_join(b_res_summary, by = c("trial_number", "sequence_scheme", "sequence_scheme_print", "complexity"))
+
+
+
+df_compare_eig <- calculate_scaled_correlation(eig_sim_b_res) %>% mutate(type = "RANCH (EIG)")
+df_compare_kl <- calculate_scaled_correlation(kl_sim_b_res) %>% mutate(type = "RANCH (KL-divergence)")
+df_compare_surpirsal <- calculate_scaled_correlation(s_sim_b_res) %>% mutate(type = "RANCH (Surprisal)")
+df_compare_random <- calculate_scaled_correlation(r_sim_b_res) %>% mutate(type = "Baseline: No Learning")
+df_compare_nn <- calculate_scaled_correlation(nn_sim_b_res) %>% mutate(type = "Baseline: No Noise")
+
+```
+
+
+```{r}
+eig_sim_b_res
+```
+
