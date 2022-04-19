@@ -227,6 +227,27 @@ calculate_scaled_correlation <- function(sim_b_df){
     arrange(-r_in_log)
 }
 
+
+calculate_scaled_correlation_for_sa <- function(sim_b_df){
+  d <- sim_b_df %>% 
+    ungroup() %>% 
+    nest_by(params_info) 
+  
+  
+  d$r_in_log <- unlist(map(d$data, function(x){
+    r_in_log <- cor(x$log_trial_sim_res, x$log_trial_looking_time, method = "pearson")
+  }))
+  
+  
+  d$rmse_in_log <- unlist(map(d$data, function(x){
+    rmse_log <- Metrics::rmse(x$log_trial_looking_time, x$log_trial_sim_res)
+  }))
+  
+  d %>% 
+    arrange(-r_in_log)
+}
+
+
 # ------------------ calculate correlation for the basic results  ------------------  #
 calculate_correlation_for_basic_model <- function(basic_sim_d_df, best_for){
   d <- basic_sim_d_df %>% 
