@@ -218,8 +218,9 @@ frames the learning task for our model.
 To reproduce the key looking time patterns from infant habituation
 experiments in adult participants, we chose a learning context in which
 participants learn about the stimuli as they look at visually presented
-exemplars for as long as they like, with no explicit task. This
-experimental setup resembles the classic infant
+exemplars for as long as they like, with no explicit task. The time
+participants spent exploring the exemplars served as the adult proxy for
+looking time. This experimental setup resembles the classic infant
 habituation-dishabituation paradigm, rather than the look-away paradigm
 where infants were assumed to learn about event probabilities (Kidd et
 al., 2012; Poli et al., 2020).
@@ -296,11 +297,11 @@ creatures they encountered on a 7-point Likert scale.
 
 We recruited 449 participants (Age \emph{M} = 30.49; \emph{SD} = 9.74)
 on Prolific. They were randomly assigned to one of the three conditions
-of the experiment (Curiosity: \emph{N} = ; Memory: \emph{N} = 137; Math:
-\emph{N} = 156). Participants were excluded if they showed irregular
-reaction times or their responses in the filler tasks indicated low
-engagement with the experiment. All exclusion criteria were
-pre-registered. The final sample included 380 participants.
+of the experiment (Curiosity: \emph{N} = 156; Memory: \emph{N} = 137;
+Math: \emph{N} = 156). Participants were excluded if they showed
+irregular reaction times or their responses in the filler tasks
+indicated low engagement with the experiment. All exclusion criteria
+were pre-registered. The final sample included 380 participants.
 
 \hypertarget{results}{%
 \subsection{Results}\label{results}}
@@ -335,11 +336,7 @@ complexity of the stimuli (simple vs.~complex). The model failed to
 converge, so we pruned the model following the pre-registered procedure.
 The final model included per-subject random intercepts. All predictors
 except for the three-way interaction were significant in the model (all
-<<<<<<< HEAD
-\emph{t} \textless{} .001), providing a quantitative confirmation that
-=======
 \emph{p} \textless{} .001), providing a quantitative confirmation that
->>>>>>> dc7f522ad77af4ee3131c5a18521a47d1b1705dc
 our paradigm successfully captured the key looking time patterns:
 habituation (trial number), dishabituation (the deviant effect), and
 complexity (the stimulus complexity effect). We next tested whether we
@@ -352,7 +349,10 @@ RANCH treats the learning problem that participants face in our
 experiment as a form of Bayesian concept learning (Goodman, Tenenbaum,
 Feldman, \& Griffiths, 2008; Tenenbaum, 1999). In this setting, multiple
 noisy samples inform the learner's hypothesis about a probabilistic
-concept represented by a set of binary features (Figure 2).
+concept represented by a set of binary features (Figure 2). Like our
+participants, the model needs to decide at every step whether to keep
+looking at the current stimulus or terminate the trial by ``looking
+away''.
 
 \begin{CodeChunk}
 \begin{figure}[H]
@@ -446,7 +446,7 @@ pseudocode:
     \While{$sample$ take another sample z}
     \State{update posterior $P(\theta|z)$}
     \State{compute EIG of next sample $z_{t+1}$}
-    \State{flip $coin$ with $p(lookaway) = \frac{EIG(z_{t+1})}{EIG(z_{t+1})+EIG(env)}$}
+    \State{flip $coin$ with $p(lookaway) = \frac{EIG(env)}{EIG(z_{t+1})+EIG(env)}$}
     \NoThen{}
     \If{$coin = T$}
     \State{$sample \gets F$}
@@ -530,7 +530,7 @@ RANCH (EIG) & 0.92 & 0.19 \\
   RANCH (KL-divergence) & 0.93 & 0.12 \\ 
    \hline
 \end{tabular}
-\caption{This table shows the correlations between the log-transformed model results and the log-transformed looking time data. RANCH model implemented with the three different linking hypotheses showed similar performance with slight numerical differences and outperomed the baseline models.} 
+\caption{This table shows the correlations between the log-transformed model results and the log-transformed looking time data. RANCH model implemented with the three different linking hypotheses showed similar performance with slight numerical differences and outperformed the baseline models.} 
 \end{table}
 
 \hypertarget{alternative-models}{%
@@ -557,7 +557,7 @@ from fitting the EIG model to the behavioral data.
 
 The baseline models fit the data poorly (Table 1, row 2-3; Fig 3, row
 3-4), suggesting that both learning and noisy perception are critical
-for modeling the phenomena of interest. \smallbreak
+for modeling the phenomena of interest.
 
 \hypertarget{alternative-linking-hypotheses}{%
 \subsubsection{Alternative linking
@@ -579,13 +579,10 @@ in developmental psychology (Sim \& Xu, 2019). KL, formally described as
 \(\sum_{x \in X}{p(\theta = x|z) log \frac{p(\theta = x|z)}{p(\theta = x)}}\),
 measures how much the model changed to accommodate the most recent
 observation \(z\). The intuition behind using KL as a linking hypothesis
-<<<<<<< HEAD
-is that if an observation causes a large change, the next one might too,
-so continuing to sample is likely to be informative.
-=======
 is that, if one observation causes a large change, the next one might
-too, so continuing to sample is likely to be informative.
->>>>>>> dc7f522ad77af4ee3131c5a18521a47d1b1705dc
+too, so continuing to sample is likely to be informative. We re-fit the
+free parameters (prior, noise and the environmental EIG) for these
+linking hypotheses to ensure a fair comparison.
 
 In our experiment, the performance of surprisal and KL matched that of
 EIG (Table 1, row 4-5, Fig 3, row 5-6). To calculate EIG, the model
@@ -631,13 +628,8 @@ hypotheses highlights the significance of learning contexts. Our results
 should not be interpreted as evidence showing that the three linking
 hypotheses are indistinguishable across all learning contexts. Previous
 work has shown that adopting surprisal as learning policy can lead to
-<<<<<<< HEAD
 undesirable behaviors in artificial agents (e.g.~``the white noise
 problem,'' Oudeyer et al., 2007). Moreover, the two alternative linking
-=======
-undesirable behaviors in artificial agents (e.g.~{``the white noise
-problem,''} Oudeyer et al., 2007). Moreover, the two alternative linking
->>>>>>> dc7f522ad77af4ee3131c5a18521a47d1b1705dc
 hypotheses are backward-looking metrics that utilize heuristics about
 the past to make decisions. This characteristic could constrain their
 application to situations in which the environment is stable and the
@@ -658,7 +650,7 @@ stimulus representations generated from a perceptual model. Second,
 RANCH assumes that the EIG from the environment is a constant throughout
 the experiment, but one can argue that environmental EIG might increase
 as the experiment progresses (e.g.~the longer you have not attended to
-the things in your surroundings, the more they may have changed in the
+the things in your surrounding, the more they may have changed in the
 meantime). While implementing more sophisticated assumptions could
 potentially explain additional variance in the data, our current work
 suggests that even a simple rational learner that takes noisy samples
@@ -666,7 +658,7 @@ from a set of independent binary features is capable of explaining key
 phenomena.
 
 Our ultimate goal is to provide a rational learner model that can
-account for information-seeking behaviors reflected in infants' looking
+account for information seeking behaviors reflected in infants' looking
 time. Here we have shown that a simple model of learning from sampling
 can reproduce habituation, dishabituation, and complexity effects.
 Moving forward, we aim to capture and explain more contentious phenomena
@@ -686,7 +678,7 @@ decide what to look at, and when to stop looking.
 \noindent
 
 \hypertarget{refs}{}
-\begin{CSLReferences}
+\begin{CSLReferences}{1}{0}
 \leavevmode\vadjust pre{\hypertarget{ref-aslin2007s}{}}%
 Aslin, R. N. (1991). Development of processing speed in childhood and
 adolescence. \emph{Advances in Child Development and Behavior},
