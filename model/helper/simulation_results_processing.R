@@ -209,6 +209,13 @@ calculate_correlation <- function(sim_b_df){
 # ------------------ calculate correlation between behavioral and simulation results after scaling for the best parameter ------------------  #
 
 calculate_scaled_correlation <- function(sim_b_df){
+  
+  rmse_interval <- function(rmse, deg_free, p_lower = 0.025, p_upper = 0.975){
+    tibble(.pred_lower = sqrt(deg_free / qchisq(p_upper, df = deg_free)) * rmse,
+           .pred_upper = sqrt(deg_free / qchisq(p_lower, df = deg_free)) * rmse)
+  }
+  
+  
   d <- sim_b_df %>% 
     ungroup() %>% 
     nest_by(params_info) 
@@ -218,9 +225,22 @@ calculate_scaled_correlation <- function(sim_b_df){
     r_in_log <- cor(x$mean_scaled_log_sample, x$log_trial_looking_time, method = "pearson")
   }))
   
+  d$r_in_log_ci <- unlist(map(d$data, function(x){
+    r_conf <- confintr::ci_cor(x$mean_scaled_log_sample, x$log_trial_looking_time, method = "pearson", type = "bootstrap")["interval"][[1]]
+    r_conf_print <- paste0("[", round(r_conf[1],2), ", ", round(r_conf[2],2), "]")
+    return(r_conf_print)
+  }))
  
   d$rmse_in_log <- unlist(map(d$data, function(x){
     rmse_log <- Metrics::rmse(x$log_trial_looking_time, x$mean_scaled_log_sample)
+  }))
+  
+  d$rmse_in_log_ci <- unlist(map(d$data, function(x){
+    rmse_log <- Metrics::rmse(x$log_trial_looking_time, x$mean_scaled_log_sample)
+    rmse_log_interval <- rmse_interval(rmse_log, nrow(x))
+    rmse_conf_print <- paste0("[", round(rmse_log_interval$.pred_lower,2), ", ", 
+                              round(rmse_log_interval$.pred_upper,2), "]")
+    return (rmse_conf_print)
   }))
   
   d %>% 

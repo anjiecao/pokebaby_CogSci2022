@@ -36,7 +36,7 @@
 \usepackage{apacite}
 
 % KM added 1/4/18 to allow control of blind submission
-
+\cogscifinalcopy
 
 \usepackage{color}
 
@@ -70,7 +70,9 @@ samples}
 \usepackage{makecell}
 \usepackage{xcolor}
 
-\author{{\large \bf Morton Ann Gernsbacher (MAG@Macc.Wisc.Edu)} \\ Department of Psychology, 1202 W. Johnson Street \\ Madison, WI 53706 USA \AND {\large \bf Sharon J.~Derry (SDJ@Macc.Wisc.Edu)} \\ Department of Educational Psychology, 1025 W. Johnson Street \\ Madison, WI 53706 USA}
+\author{Anjie Cao$^1$  (anjiecao@stanford.edu), \bf{Gal Raz$^2$ (galraz@mit.edu)},\\ \bf{Rebecca Saxe$^2$ (saxe@mit.edu)},
+ and \bf{Michael C. Frank$^1$ (mcfrank@stanford.edu)} \\
+$^1$Department of Psychology, Stanford University, $^2$Department of Brain and Cognitive Sciences, MIT \\ }
 
 \newlength{\cslhangindent}
 \setlength{\cslhangindent}{1.5em}
@@ -283,8 +285,8 @@ in the questions asked following each block: Curiosity, Memory, and
 Math. In the Curiosity condition, participants were asked to rate ``How
 curious are you about the creature?'' on a 5-point Likert scale. In the
 Memory condition, a forced-choice recognition question followed each
-block (``Have you seen this creature before?'', showing either a
-creature presented in the preceding block or a novel creature matched in
+block (``Have you seen this creature before?'' showing either a creature
+presented in the preceding block or a novel creature matched in
 complexity). In the Math condition, the participants were asked a simple
 arithmetic question (``What is 5 + 7?'') in a multiple-choice format.
 
@@ -297,11 +299,11 @@ creatures they encountered on a 7-point Likert scale.
 
 We recruited 449 participants (Age \emph{M} = 30.49; \emph{SD} = 9.74)
 on Prolific. They were randomly assigned to one of the three conditions
-of the experiment (Curiosity: \emph{N} = 156; Memory: \emph{N} = 137;
-Math: \emph{N} = 156). Participants were excluded if they showed
-irregular reaction times or their responses in the filler tasks
-indicated low engagement with the experiment. All exclusion criteria
-were pre-registered. The final sample included 380 participants.
+of the experiment. Participants were excluded if they showed irregular
+reaction times or their responses in the filler tasks indicated low
+engagement with the experiment. All exclusion criteria were
+pre-registered. The final sample included 380 participants (Curiosity:
+\emph{N} = 143; Memory: \emph{N} = 98; Math: \emph{N} = 139).
 
 \hypertarget{results}{%
 \subsection{Results}\label{results}}
@@ -352,7 +354,7 @@ noisy samples inform the learner's hypothesis about a probabilistic
 concept represented by a set of binary features (Figure 2). Like our
 participants, the model needs to decide at every step whether to keep
 looking at the current stimulus or terminate the trial by ``looking
-away''.
+away.''
 
 \begin{CodeChunk}
 \begin{figure}[H]
@@ -483,7 +485,7 @@ We performed an iterative grid search in parameter space. We a priori
 constrained our parameter space on the prior beta distribution to have
 shape parameters \(\alpha_{\theta} > \beta_{\theta}\), which describe
 the prior beliefs as ``more likely to see the absence of a feature than
-the presence of a feature''. We then searched for the priors over the
+the presence of a feature.'' We then searched for the priors over the
 concept (\(\theta\)), the noise parameter that decides how likely a
 feature would be misperceived (\(\epsilon\)), and the constant EIG from
 the environment (\(EIG(env)\)). The prior over the noise parameter was
@@ -506,7 +508,7 @@ these specific parameter values is left for future work.
 
 }
 
-\caption[All models’ results were adjusted to match behavioral data’s scale and intercepts for easier comparisons]{All models’ results were adjusted to match behavioral data’s scale and intercepts for easier comparisons. All results were log-transformed. Red lines indicate results for complex stimuli, and blue lines indicate results for simple stimuli.}\label{fig:experiment_res}
+\caption[The first row shows behavioral data]{The first row shows behavioral data. All models’ results were adjusted to match behavioral data’s scale and intercepts for easier comparisons. All results were log-transformed. Red lines indicate results for complex stimuli, and blue lines indicate results for simple stimuli.}\label{fig:experiment_res}
 \end{figure*}
 \end{CodeChunk}
 
@@ -519,18 +521,20 @@ behavioral data.
 
 \begin{table}[ht]
 \centering
+\begingroup\fontsize{8pt}{9pt}\selectfont
 \begin{tabular}{lll}
   \hline
 Model Type (Linking Hypothesis) & Pearson's r & RMSE \\ 
   \hline
-RANCH (EIG) & 0.92 & 0.19 \\ 
-  Baseline: No Learning & 0.21 & 0.27 \\ 
-  Baseline: No Noise & 0.50 & 0.25 \\ 
-  RANCH (Surprisal) & 0.92 & 0.13 \\ 
-  RANCH (KL-divergence) & 0.93 & 0.12 \\ 
+RANCH (EIG) & 0.92 [0.84, 0.96] & 0.19 [0.16, 0.24] \\ 
+  Baseline: No Learning & 0.21 [-0.08, 0.47] & 0.27 [0.23, 0.34] \\ 
+  Baseline: No Noise & 0.5 [0.34, 0.64] & 0.25 [0.21, 0.31] \\ 
+  RANCH (Surprisal) & 0.92 [0.86, 0.95] & 0.13 [0.11, 0.16] \\ 
+  RANCH (KL-divergence) & 0.93 [0.88, 0.96] & 0.12 [0.1, 0.15] \\ 
    \hline
 \end{tabular}
-\caption{This table shows the correlations between the log-transformed model results and the log-transformed looking time data. RANCH model implemented with the three different linking hypotheses showed similar performance with slight numerical differences and outperformed the baseline models.} 
+\endgroup
+\caption{This table shows the correlations between the log-transformed model results and the log-transformed looking time data. The values in square brackets are 95\% confidence intervals. RANCH model implemented with the three different linking hypotheses showed similar performance with slight numerical differences and outperformed the baseline models.} 
 \end{table}
 
 \hypertarget{alternative-models}{%
@@ -628,8 +632,8 @@ hypotheses highlights the significance of learning contexts. Our results
 should not be interpreted as evidence showing that the three linking
 hypotheses are indistinguishable across all learning contexts. Previous
 work has shown that adopting surprisal as learning policy can lead to
-undesirable behaviors in artificial agents (e.g.~``the white noise
-problem,'' Oudeyer et al., 2007). Moreover, the two alternative linking
+undesirable behaviors in artificial agents (e.g.~{``the white noise
+problem,''} Oudeyer et al., 2007). Moreover, the two alternative linking
 hypotheses are backward-looking metrics that utilize heuristics about
 the past to make decisions. This characteristic could constrain their
 application to situations in which the environment is stable and the
@@ -650,7 +654,7 @@ stimulus representations generated from a perceptual model. Second,
 RANCH assumes that the EIG from the environment is a constant throughout
 the experiment, but one can argue that environmental EIG might increase
 as the experiment progresses (e.g.~the longer you have not attended to
-the things in your surrounding, the more they may have changed in the
+the things in your surroundings, the more they may have changed in the
 meantime). While implementing more sophisticated assumptions could
 potentially explain additional variance in the data, our current work
 suggests that even a simple rational learner that takes noisy samples
@@ -658,7 +662,7 @@ from a set of independent binary features is capable of explaining key
 phenomena.
 
 Our ultimate goal is to provide a rational learner model that can
-account for information seeking behaviors reflected in infants' looking
+account for information-seeking behaviors reflected in infants' looking
 time. Here we have shown that a simple model of learning from sampling
 can reproduce habituation, dishabituation, and complexity effects.
 Moving forward, we aim to capture and explain more contentious phenomena
@@ -678,7 +682,7 @@ decide what to look at, and when to stop looking.
 \noindent
 
 \hypertarget{refs}{}
-\begin{CSLReferences}{1}{0}
+\begin{CSLReferences}
 \leavevmode\vadjust pre{\hypertarget{ref-aslin2007s}{}}%
 Aslin, R. N. (1991). Development of processing speed in childhood and
 adolescence. \emph{Advances in Child Development and Behavior},
