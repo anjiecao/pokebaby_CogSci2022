@@ -89,7 +89,7 @@ We performed an iterative grid search in parameter space. We a priori constraine
 ## Results 
 
 
-```{r experiment_res, echo = FALSE, fig.env = "figure*", fig.pos = "t!", fig.width=6.6, fig.height=5, fig.align = "center", set.cap.width=T, num.cols.cap=2, fig.cap = "All models’ results were adjusted to match behavioral data’s scale and intercepts for easier comparisons. All results were log-transformed. Red lines indicate results for complex stimuli, and blue lines indicate results for simple stimuli."}
+```{r experiment_res, echo = FALSE, fig.env = "figure*", fig.pos = "t!", fig.width=6.6, fig.height=5, fig.align = "center", set.cap.width=T, num.cols.cap=2, fig.cap = "The first row shows behavioral data. All models’ results were adjusted to match behavioral data’s scale and intercepts for easier comparisons. All results were log-transformed. Red lines indicate results for complex stimuli, and blue lines indicate results for simple stimuli."}
 
 viz_df <- bind_rows(nn_res, r_res, c_res) %>% 
   mutate(res_type = im_type, 
@@ -127,7 +127,7 @@ behavioral_plot <- viz_df %>%
   langcog::scale_color_solarized(name = "Trial Complexity",labels = c("Complex", "Simple")) + 
   theme(strip.background = element_blank(), 
         strip.text.y = element_text(size = 6),
-        strip.text.x = element_blank(),
+        #strip.text.x = element_blank(),
         axis.title.x = element_blank(), 
         axis.title.y = element_text(size = 8),
         axis.line.x = element_blank(), 
@@ -191,20 +191,23 @@ df_compare_nn <- calculate_scaled_correlation(nn_sim_b_res) %>% mutate(type = "B
 
 tb_df <- bind_rows(df_compare_eig, df_compare_random, df_compare_nn, df_compare_surpirsal, df_compare_kl) %>% 
   ungroup() %>% 
-  mutate(r_in_log = round(r_in_log, 2), 
-         rmse_in_log = round(rmse_in_log, 2)) %>% 
-  mutate(`Pearson's r` = r_in_log, 
-         "RMSE" = rmse_in_log, 
+  mutate(r_in_log_print = paste0(round(r_in_log, 2), " ", r_in_log_ci),
+         rmse_in_log_print = paste0(round(rmse_in_log, 2), " ", rmse_in_log_ci)) %>% 
+  mutate(`Pearson's r` = r_in_log_print, 
+         "RMSE" = rmse_in_log_print, 
          `Model Type (Linking Hypothesis)` = type) %>% 
-  select( `Model Type (Linking Hypothesis)`, `Pearson's r`, RMSE) %>% 
+  select( `Model Type (Linking Hypothesis)`, `Pearson's r`, 
+          RMSE) %>% 
   as.data.frame()
 
 rownames(tb_df) <- NULL
 
-table <- xtable::xtable(as.matrix(tb_df), digits=c(2), 
-                       caption = "This table shows the correlations between the log-transformed model results and the log-transformed looking time data. RANCH model implemented with the three different linking hypotheses showed similar performance with slight numerical differences and outperformed the baseline models.")
+ table <- xtable::xtable(as.matrix(tb_df),  
+                        caption = "This table shows the correlations between the log-transformed model results and the log-transformed looking time data. The values in square brackets are 95\\% confidence intervals. RANCH model implemented with the three different linking hypotheses showed similar performance with slight numerical differences and outperformed the baseline models.")
+ 
+ print.xtable(table, include.rownames = FALSE, comment = FALSE,
+              size="\\fontsize{8pt}{9pt}\\selectfont")
 
-print.xtable(table, include.rownames = FALSE, comment = FALSE)
 ```
 
 
