@@ -93,6 +93,12 @@ all_conditions <- all_d %>%
   group_by(stimulus_type) %>% 
   summarise(n = n())
 
+## conditions after exclusion 
+all_conditions_filtered <- d %>% 
+  distinct(subject, task_type) %>% 
+  group_by(task_type) %>% 
+  summarise(n = n())
+
 ## participants excluded for irregular reaction time 
 exclude_n <- length(unique(exclusion_d$sbj))
 
@@ -105,8 +111,7 @@ sample_n <- d %>%
 ```
 
 
-
-We recruited `r total_participants` participants (Age *M* = `r age_mean`; *SD* = `r age_sd`) on Prolific. They were randomly assigned to one of the three conditions of the experiment (Curiosity: *N* = `r filter(all_conditions, stimulus_type == "curiousity")$n`; Memory: *N* = `r filter(all_conditions, stimulus_type == "memory_test")$n`; Math: *N* = `r filter(all_conditions, stimulus_type == "math_question")$n`). Participants were excluded if they showed irregular reaction times or their responses in the filler tasks indicated low engagement with the experiment. All exclusion criteria were pre-registered. The final sample included `r sum(sample_n$n)` participants.
+We recruited `r total_participants` participants (Age *M* = `r age_mean`; *SD* = `r age_sd`) on Prolific. They were randomly assigned to one of the three conditions of the experiment. Participants were excluded if they showed irregular reaction times or their responses in the filler tasks indicated low engagement with the experiment. All exclusion criteria were pre-registered. The final sample included `r sum(sample_n$n)` participants (Curiosity: *N* = `r filter(all_conditions_filtered, task_type == "curiosity")$n`; Memory: *N* = `r filter(all_conditions_filtered, task_type == "memory")$n`; Math: *N* = `r filter(all_conditions_filtered, task_type == "math")$n`).
 
 
 
