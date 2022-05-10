@@ -151,7 +151,7 @@ summary(model_1)
 ```
 
 
-The sample size, methods, and main analyses were all pre-registered and are available at https://aspredicted.org/3CR_VDR. Data and analysis scripts are available at https://tinyurl.com/RANCH-2022. 
+The sample size, methods, and main analyses were all pre-registered and are available at https://aspredicted.org/3CR_VDR. Data and analysis scripts are available at https://github.com/anjiecao/pokebaby_CogSci2022
 
 We first checked whether the basic complexity manipulations were successful. Complex animated creatures were rated as more perceptually complex (*M* = `r filter(complexity_summary, complexity_type == "complex")$mean` ; *SD* = `r filter(complexity_summary, complexity_type == "complex")$sd`) than the simple animated creatures (*M* = `r filter(complexity_summary, complexity_type == "simple")$mean`; *SD* = `r filter(complexity_summary, complexity_type == "simple")$mean`; *p* < 0.001). 
 
