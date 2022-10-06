@@ -1,0 +1,242 @@
+---
+title: "presentation_plot"
+author: "anjie"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+
+```{r, libraries}
+library(tidyverse)
+library(here)
+library(lmerTest)
+library(lme4)
+library(patchwork)
+#library(Metrics)
+
+library(png)
+library(grid)
+library(ggplot2)
+library(xtable)
+library(bookdown)
+
+library(knitr)
+library(kableExtra)
+
+
+source(here("model/helper/simulation_results_processing.R"))
+
+all_d <- read_csv(here("experiment/01_merged_data/merged_data.csv"))
+d <- read_csv(here("experiment/02_processed_data/processed_rt_task_data.csv"))
+d_complexity <- read_csv(here("experiment/02_processed_data/processed_complexity_data.csv"))
+
+prolific <- read_csv(here("experiment/prolific.csv"))
+exclusion_d <- read_csv(here("experiment/p_level_exclusion.csv"))
+
+
+b_res <- read_csv(here("experiment/02_processed_data/processed_rt_task_data.csv"))
+
+
+nn_res <- readRDS(here("model/report_res/scaled_no_noise_res.RDS")) 
+r_res <- readRDS(here("model/report_res/scaled_random_model.RDS"))
+c_res <- readRDS(here("model/report_res/scaled_continuous_model_res.RDS"))
+
+b_res_print <- b_res %>% 
+  mutate(sequence_scheme = case_when(
+    deviant_position == 2 ~ "BDBBBB", 
+    deviant_position == 4 ~ "BBBDBB", 
+    deviant_position == 6 ~ "BBBBBD", 
+    TRUE ~ "BBBBBB", 
+  ), 
+  sequence_scheme_print = case_when(
+    sequence_scheme == "BBBBBB" ~ "No Deviant", 
+    sequence_scheme == "BDBBBB" ~ "Deviant at 2nd Trial", 
+    sequence_scheme == "BBBDBB" ~ "Deviant at 4th Trial", 
+    sequence_scheme == "BBBBBD" ~ "Deviant at Last Trial"
+  ), 
+  log_trial_looking_time = log(trial_looking_time)) %>% 
+  separate(block_type, into = c("complexity", "similarity"), sep = "_") %>% 
+  select(subject, complexity, trial_number, 
+         sequence_scheme, sequence_scheme_print, trial_looking_time, log_trial_looking_time)
+
+
+b_res_summary <- b_res_print %>% 
+  group_by(trial_number, sequence_scheme, sequence_scheme_print, complexity) %>%
+  summarise(
+    trial_looking_time = mean(trial_looking_time), 
+    log_trial_looking_time = mean(log_trial_looking_time)
+  ) 
+
+
+```
+
+```{r}
+viz_df <- bind_rows(nn_res, r_res, c_res) %>% 
+  mutate(res_type = im_type, 
+        res_val = scaled_log_sample_n) %>%
+  select(res_type, complexity, trial_number, sequence_scheme_print, res_val) %>% 
+  bind_rows(
+    b_res_print %>% mutate(res_type = "behavioral", res_val = log_trial_looking_time) %>% 
+      select(res_type, complexity, trial_number, sequence_scheme_print, res_val)
+  ) %>% 
+  mutate(res_type_print = case_when(
+    res_type == "surprisal" ~ "Surprisal",
+    res_type == "EIG_nn" ~ "No Noise", 
+    res_type == "random" ~ "No Learning", 
+    res_type == "EIG" ~ "EIG", 
+    res_type == "KL" ~ "KL", 
+    res_type == "behavioral" ~ "Behavioral"
+  ))
+
+library(patchwork)
+
+viz_df$res_type_print <- factor(viz_df$res_type_print, levels = c("Behavioral", "EIG", "No Learning", "No Noise",  "Surprisal", "KL"))
+viz_df$sequence_scheme_print <- factor(viz_df$sequence_scheme_print, 
+                                       levels = c("No Deviant",  "Deviant at 2nd Trial", 
+                                                  "Deviant at 4th Trial", "Deviant at Last Trial"))
+
+behavioral_plot <- viz_df %>% 
+  filter(res_type_print == "Behavioral") %>% 
+   ggplot(aes(x = trial_number, y = res_val, color = complexity)) +
+  stat_summary(fun.data = "mean_cl_boot", position = position_dodge(width = .2),  fatten = 0) + 
+   stat_summary(fun.data = "mean_cl_boot",
+                geom = "line", position = position_dodge(width = .2)) + ylab('Looking time \n (log msec)') +
+  facet_grid(res_type_print~sequence_scheme_print) +
+  scale_x_continuous(breaks = seq(1, 6, 1)) + scale_y_continuous(breaks = c(7.5, 8.0, 8.5)) + 
+  theme_classic() +
+  langcog::scale_color_solarized(name = "Trial Complexity",labels = c("Complex", "Simple")) + 
+  theme(strip.background = element_blank(), 
+        strip.text.y = element_text(size = 6),
+        #strip.text.x = element_blank(),
+        axis.title.x = element_blank(), 
+        axis.title.y = element_text(size = 8),
+        axis.line.x = element_blank(), 
+        axis.ticks.x = element_blank(), 
+        axis.text.x = element_blank(),
+        axis.text.y = element_text(size = 6),
+        legend.position = "none", 
+        panel.border = element_rect(color = "black", fill = NA) 
+        )
+
+model_plot <- viz_df %>% 
+  filter(res_type_print != "Behavioral") %>% 
+  ggplot(aes(x = trial_number, y = res_val, color = complexity)) +
+  stat_summary(fun.data = "mean_cl_boot", position = position_dodge(width = .2),  fatten = 0) + 
+   stat_summary(fun.data = "mean_cl_boot",
+                geom = "line", position = position_dodge(width = .2)) + ylab('Model samples (scaled)') +
+  facet_grid(res_type_print~sequence_scheme_print) +
+  scale_x_continuous(breaks = seq(1, 6, 1)) + 
+  theme_classic() +
+  langcog::scale_color_solarized(name = "Trial Complexity",labels = c("Complex", "Simple")) + 
+  xlab("Trial Number") + 
+  theme(strip.background = element_blank(), 
+        strip.text.y = element_text(size = 6),
+        strip.text.x = element_blank(),
+        axis.title.x = element_blank(), 
+        axis.title.y = element_text(size = 8),
+        axis.text.y = element_text(size = 6),
+        legend.position = "bottom")
+
+behavioral_plot + model_plot + plot_layout(heights = c(1, 5)) 
+```
+
+## behavioral talk plots 
+
+```{r}
+viz_df %>% 
+  filter(res_type_print == "Behavioral") %>% 
+  rename(`Trial Number` = trial_number) %>% 
+   ggplot(aes(x = `Trial Number`, y = res_val, color = complexity)) +
+  stat_summary(fun.data = "mean_cl_boot", position = position_dodge(width = .2),  fatten = 0) + 
+   stat_summary(fun.data = "mean_cl_boot",
+                geom = "line", position = position_dodge(width = .2)) + ylab('Looking time \n (log msec)') +
+  facet_wrap(~sequence_scheme_print, nrow = 2) +
+  scale_x_continuous(breaks = seq(1, 6, 1)) + scale_y_continuous(breaks = c(7.5, 8.0, 8.5)) + 
+  theme_classic() +
+  langcog::scale_color_solarized(name = "Trial Complexity",labels = c("Complex", "Simple")) + 
+  theme(strip.background = element_blank(), 
+        strip.text.y = element_text(size = 6),
+        #strip.text.x = element_blank(),
+        axis.title.x = element_text(size = 8),
+        axis.title.y = element_text(size = 8),
+        #axis.line.x = element_blank(), 
+        axis.text.x = element_text(size = 6),
+        axis.text.y = element_text(size = 6),
+        legend.position = "right", 
+        panel.border = element_rect(color = "black", fill = NA) 
+        )
+
+```
+# behavioral vs normal model 
+
+```{r}
+viz_df <- bind_rows(nn_res, r_res, c_res) %>% 
+  mutate(res_type = im_type, 
+        res_val = scaled_log_sample_n) %>%
+  select(res_type, complexity, trial_number, sequence_scheme_print, res_val) %>% 
+  bind_rows(
+    b_res_print %>% mutate(res_type = "behavioral", res_val = log_trial_looking_time) %>% 
+      select(res_type, complexity, trial_number, sequence_scheme_print, res_val)
+  ) %>% 
+  mutate(res_type_print = case_when(
+    res_type == "surprisal" ~ "Surprisal",
+    res_type == "EIG_nn" ~ "No Noise", 
+    res_type == "random" ~ "No Learning", 
+    res_type == "EIG" ~ "EIG", 
+    res_type == "KL" ~ "KL", 
+    res_type == "behavioral" ~ "Behavioral"
+  ))
+
+library(patchwork)
+
+viz_df$res_type_print <- factor(viz_df$res_type_print, levels = c("Behavioral", "EIG", "No Learning", "No Noise",  "Surprisal", "KL"))
+viz_df$sequence_scheme_print <- factor(viz_df$sequence_scheme_print, 
+                                       levels = c("No Deviant",  "Deviant at 2nd Trial", 
+                                                  "Deviant at 4th Trial", "Deviant at Last Trial"))
+
+behavioral_plot <- viz_df %>% 
+  filter(res_type_print == "Behavioral") %>% 
+   ggplot(aes(x = trial_number, y = res_val, color = complexity)) +
+  stat_summary(fun.data = "mean_cl_boot", position = position_dodge(width = .2),  fatten = 0) + 
+   stat_summary(fun.data = "mean_cl_boot",
+                geom = "line", position = position_dodge(width = .2)) + ylab('Looking time \n (log msec)') +
+  facet_grid(res_type_print~sequence_scheme_print) +
+  scale_x_continuous(breaks = seq(1, 6, 1)) + scale_y_continuous(breaks = c(7.5, 8.0, 8.5)) + 
+  theme_classic() +
+  langcog::scale_color_solarized(name = "Trial Complexity",labels = c("Complex", "Simple")) + 
+  theme(strip.background = element_blank(), 
+        strip.text.y = element_text(size = 12),
+        strip.text.x = element_text(size = 12),
+        axis.title.x = element_blank(), 
+        axis.title.y = element_text(size = 12),
+        axis.line.x = element_blank(), 
+        axis.ticks.x = element_blank(), 
+        axis.text.x = element_blank(),
+        axis.text.y = element_text(size = ),
+        legend.position = "top", 
+        panel.border = element_rect(color = "black", fill = NA) 
+        )
+
+model_plot <- viz_df %>% 
+  filter(res_type_print != "Behavioral") %>% 
+  filter(res_type_print %in% c("No Learning", "No Noise")) %>% 
+  ggplot(aes(x = trial_number, y = res_val, color = complexity)) +
+  stat_summary(fun.data = "mean_cl_boot", position = position_dodge(width = .2),  fatten = 0) + 
+   stat_summary(fun.data = "mean_cl_boot",
+                geom = "line", position = position_dodge(width = .2)) + ylab('Model samples (scaled)') +
+  facet_grid(res_type_print~sequence_scheme_print) +
+  scale_x_continuous(breaks = seq(1, 6, 1)) + 
+  theme_classic() +
+  langcog::scale_color_solarized(name = "Trial Complexity",labels = c("Complex", "Simple")) + 
+  xlab("Trial Number") + 
+  theme(strip.background = element_blank(), 
+        strip.text.y = element_text(size = 12),
+        strip.text.x = element_blank(),
+        axis.title.x = element_blank(), 
+        axis.title.y = element_text(size = 12),
+        axis.text.y = element_text(size = 12),
+        legend.position = "none")
+
+behavioral_plot + model_plot + plot_layout(heights = c(1, 4)) 
+```
+

@@ -1,0 +1,161 @@
+---
+title             : "Habituation reflects optimal exploration over noisy perceptual samples"
+shorttitle        : "Habituation as optimal exploration"
+
+author: 
+  - name          : "Anjie Cao"
+    affiliation   : "1"
+    corresponding : yes    # Define only one corresponding author
+    address       : "450 Jane Stanford Way, Stanford, CA 94305"
+    email         : "anjiecao@stanford.edu"
+
+  - name          : "Gal Raz"
+    affiliation   : "2"
+    
+  - name          : "Rebecca Saxe"
+    affiliation   : "2"
+    
+  - name          : "Michael C. Frank"
+    affiliation   : "1"
+    
+    
+
+affiliation:
+  - id            : "1"
+    institution   : "Department of Psychology, Stanford University"
+  - id            : "2"
+    institution   : "Department of Brain and Cognitive Sciences, MIT"
+
+keywords          : "decision making; learning; bayesian modeling; cognitive development "
+
+authornote: |
+ 
+
+abstract: |
+    From birth, humans constantly make decisions about what to look at and for how long. Yet the mechanism behind such decision-making remains poorly understood. Here we present the rational action, noisy choice for habituation (RANCH) model. RANCH is a rational learning model that takes noisy perceptual samples from stimuli and makes sampling decisions based on Expected Information Gain (EIG). The model captures key patterns of looking time documented in developmental research: habituation and dishabituation. We evaluated the model with adult looking time collected from a paradigm analogous to the infant habituation paradigm. We compared RANCH with baseline models (no learning model, no perceptual noise model) and models with alternative linking hypotheses (Surprisal, KL divergence). We showed that 1) learning and perceptual noise are critical assumptions of the model, and 2) Surprisal and KL are good proxies for EIG under the current learning context. 
+
+  
+wordcount         : "3931"
+
+bibliography      : "r-references.bib"
+
+floatsintext      : yes
+figsintext        : yes
+linenumbers       : no
+draft             : no
+mask              : no
+
+figurelist        : no
+tablelist         : no
+footnotelist      : no
+
+classoption       : "man"
+output            : papaja::apa6_pdf
+latex_engine      : xelatex
+header-includes   :
+    - \usepackage{algorithm}% http://ctan.org/pkg/algorithms
+    - \usepackage{algpseudocode}% http://ctan.org/pkg/algorithmicx
+    - \usepackage{float}
+
+
+---
+
+```{r setup, include = FALSE}
+library("papaja")
+r_refs("r-references.bib")
+```
+
+```{r, libraries}
+library(tidyverse)
+library(here)
+library(lmerTest)
+library(lme4)
+library(patchwork)
+#library(Metrics)
+
+library(png)
+library(grid)
+library(ggplot2)
+library(xtable)
+library(bookdown)
+
+library(knitr)
+library(kableExtra)
+
+
+source(here("model/helper/simulation_results_processing.R"))
+
+all_d <- read_csv(here("experiment/01_merged_data/merged_data.csv"))
+d <- read_csv(here("experiment/02_processed_data/processed_rt_task_data.csv"))
+d_complexity <- read_csv(here("experiment/02_processed_data/processed_complexity_data.csv"))
+
+prolific <- read_csv(here("experiment/prolific.csv"))
+exclusion_d <- read_csv(here("experiment/p_level_exclusion.csv"))
+
+
+b_res <- read_csv(here("experiment/02_processed_data/processed_rt_task_data.csv"))
+
+
+nn_res <- readRDS(here("model/report_res/scaled_no_noise_res.RDS")) 
+r_res <- readRDS(here("model/report_res/scaled_random_model.RDS"))
+c_res <- readRDS(here("model/report_res/scaled_continuous_model_res.RDS"))
+
+b_res_print <- b_res %>% 
+  mutate(sequence_scheme = case_when(
+    deviant_position == 2 ~ "BDBBBB", 
+    deviant_position == 4 ~ "BBBDBB", 
+    deviant_position == 6 ~ "BBBBBD", 
+    TRUE ~ "BBBBBB", 
+  ), 
+  sequence_scheme_print = case_when(
+    sequence_scheme == "BBBBBB" ~ "No Deviant", 
+    sequence_scheme == "BDBBBB" ~ "Deviant at 2nd Trial", 
+    sequence_scheme == "BBBDBB" ~ "Deviant at 4th Trial", 
+    sequence_scheme == "BBBBBD" ~ "Deviant at Last Trial"
+  ), 
+  log_trial_looking_time = log(trial_looking_time)) %>% 
+  separate(block_type, into = c("complexity", "similarity"), sep = "_") %>% 
+  select(subject, complexity, trial_number, 
+         sequence_scheme, sequence_scheme_print, trial_looking_time, log_trial_looking_time)
+
+
+b_res_summary <- b_res_print %>% 
+  group_by(trial_number, sequence_scheme, sequence_scheme_print, complexity) %>%
+  summarise(
+    trial_looking_time = mean(trial_looking_time), 
+    log_trial_looking_time = mean(log_trial_looking_time)
+  ) 
+
+
+```
+
+
+# Introduction 
+
+```{r child = "01_introduction.Rmd"}
+```
+
+# Experiment  
+
+```{r child = "02_experiment.Rmd"}
+```
+
+# Model
+
+```{r child = "03_model.Rmd"}
+```
+
+# Alternative Models
+
+```{r child = "04_alternative_models.Rmd"}
+```
+
+# General discussion 
+
+```{r child = "05_general_discussion.Rmd"}
+```
+
+# References
+
+::: {#refs custom-style="Bibliography"}
+:::
