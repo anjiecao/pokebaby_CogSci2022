@@ -1,0 +1,181 @@
+
+
+To reproduce the key looking time patterns from infant habituation experiments in adult participants, we chose a learning context in which participants learn about the stimuli as they look at visually presented exemplars for as long as they like, with no explicit task. The time participants spent exploring the exemplars served as the adult proxy for looking time. This experimental setup resembles the classic infant habituation-dishabituation paradigm, rather than the look-away paradigm where infants were assumed to learn about event probabilities [@kidd2012goldilocks; @poli2020infants]. 
+
+Our initial data come from adults for two reasons. First, adult data are suitable for establishing quantitative links between models and human behaviors, since infants’ looking time data tend to have small sample sizes and are therefore limited in their quantitative details [@frank2017collaborative]. Second, adult data allow us to test the hypothesis that similar rational choice processes underlie infant and adult behavior under similar learning contexts.
+
+
+```{r include = FALSE}
+# loading data 
+all_d <- read_csv(here("experiment/01_merged_data/merged_data.csv"))
+d <- read_csv(here("experiment/02_processed_data/processed_rt_task_data.csv"))
+prolific <- read_csv(here("experiment/prolific.csv"))
+exclusion_d <- read_csv(here("experiment/p_level_exclusion.csv"))
+
+
+b_res_print <- d %>% 
+  mutate(sequence_scheme = case_when(
+    deviant_position == 2 ~ "BDBBBB", 
+    deviant_position == 4 ~ "BBBDBB", 
+    deviant_position == 6 ~ "BBBBBD", 
+    TRUE ~ "BBBBBB", 
+  ), 
+  sequence_scheme_print = case_when(
+    sequence_scheme == "BBBBBB" ~ "No Deviant", 
+    sequence_scheme == "BDBBBB" ~ "Deviant at 2nd Trial", 
+    sequence_scheme == "BBBDBB" ~ "Deviant at 4th Trial", 
+    sequence_scheme == "BBBBBD" ~ "Deviant at Last Trial"
+  ), 
+  log_trial_looking_time = log(trial_looking_time)) %>% 
+  separate(block_type, into = c("complexity", "similarity"), sep = "_") %>% 
+  select(subject, complexity, trial_number, 
+         sequence_scheme, sequence_scheme_print, trial_looking_time, log_trial_looking_time)
+
+# calculate smean.cl.b
+
+
+b_res_summary <- b_res_print %>% 
+  group_by(trial_number, sequence_scheme, sequence_scheme_print, complexity) %>%
+  summarise(
+    trial_looking_time = mean(trial_looking_time), 
+    log_trial_looking_time = mean(log_trial_looking_time)
+  ) 
+
+```
+
+
+## Methods 
+
+### Stimuli 
+
+
+<!-- ```{r experimental_design, echo = FALSE, fig.env = "figure", fig.pos = "h", fig.align='center', fig.width=2.5, fig.height=2.5, set.cap.width=T, num.cols.cap=1, fig.cap = "Experimental design and examples of simple and complex stimuli. In each block, a deviant could appear on the second, fourth (as depicted here) or sixth trial or not at all. Stimuli within a block were either all simple or all complex."} -->
+<!-- img <- png::readPNG("figs/experimental_design.png") -->
+<!-- grid::grid.raster(img) -->
+<!-- ``` -->
+
+
+<!-- \begin{figure} -->
+
+<!-- {\centering \includegraphics{pokebaby_main_files/figure-latex/experimental_design-1}  -->
+
+<!-- } -->
+
+<!-- \caption{ }(\#fig:experimental_design) -->
+<!-- \end{figure} -->
+
+
+<!-- \includegraphics{pokebaby_main_files/figure-latex/experimental_design-1.pdf} -->
+
+
+
+We created the animated creatures using Spore (a game developed by Maxis in 2008). There were forty creatures in total, half of which had low perceptual complexity and half of which had high perceptual complexity (see Fig. 1 for examples). We used the "animated avatar" function in Spore to capture the creatures in motion.
+
+```{r fig.width=2.5, fig.height=2.5,out.width = "\\textwidth", fig.align='center', fig.cap = "Experimental design and examples of simple and complex stimuli. In each block, a deviant could appear on the second, fourth (as depicted here) or sixth trial or not at all. Stimuli within a block were either all simple or all complex."}
+
+ 
+img <- png::readPNG("figs/experimental_design.png")
+grid::grid.raster(img)
+```
+
+
+
+### Procedure 
+
+The experiment was a web-based, self-paced visual presentation task. Participants were instructed to look at a sequence of animated creatures at their own pace and answer some questions throughout. On each trial, an animated creature showed up on the screen. Participants could press the down arrow to go to the next trial whenever they wanted to, after a minimum viewing time of 500 ms. 
+
+Each block consisted of six trials. Unbeknownst to the participants, each trial within the block was either a background trial or a deviant trial. One creature was assigned to be the ‘background’ for each block, and was presented five or six times. If the block contained a deviant trial, then a new, unique, creature was presented on that trial. The deviant trial could appear at either the second, the fourth, or the sixth trial in the block, or not at all. The creatures presented in the deviant trials and background trials were matched for complexity. Each participant saw eight blocks in total, four with simple creatures and four with complex creatures, in random order across participants.
+
+To test whether behavior was related to task demands, participants were randomly assigned to one of three attention check conditions, differing in the questions asked following each block: Curiosity, Memory, and Math. In the Curiosity condition, participants were asked to rate "How curious are you about the creature?" on a 5-point Likert scale. In the Memory condition, a forced-choice recognition question followed each block ("Have you seen this creature before?", showing either a creature presented in the preceding block or a novel creature matched in complexity). In the Math condition, the participants were asked a simple arithmetic question ("What is 5 + 7?") in a multiple-choice format. 
+
+To check if our complexity manipulation was successful, at the end of the eight blocks, participants were asked to rate the complexity of creatures they encountered on a 7-point Likert scale. 
+
+### Participants
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+## total participants 
+total_participants <- length(unique(all_d$subject))
+
+## age 
+all_age <- all_d %>% select(subject, responses) %>% 
+  filter(grepl("age", responses)) %>% 
+  mutate(responses = map(responses, ~ jsonlite::fromJSON(.))) %>% 
+  unnest(cols = responses) %>% unnest( cols = responses) %>% 
+  mutate(age = as.numeric(gsub("\\D+","",responses))) %>% 
+  filter(!is.na(age), age > 18, age < 100) %>% 
+  pull(age)
+age_mean <- round(mean(all_age), 2)
+age_sd <- round(sd(all_age), 2)
+
+## conditions before exclusion 
+all_conditions <- all_d %>% 
+  filter(stimulus_type %in% c("curiousity", "memory_test", "math_question")) %>% 
+  distinct(subject, stimulus_type) %>% 
+  group_by(stimulus_type) %>% 
+  summarise(n = n())
+
+## conditions after exclusion 
+all_conditions_filtered <- d %>% 
+  distinct(subject, task_type) %>% 
+  group_by(task_type) %>% 
+  summarise(n = n())
+
+## participants excluded for irregular reaction time 
+exclude_n <- length(unique(exclusion_d$sbj))
+
+## final included participants 
+sample_n <- d %>% 
+  distinct(subject, task_type) %>% 
+  group_by(task_type) %>% 
+  summarise(n = n())
+
+```
+
+
+We recruited `r total_participants` participants (Age *M* = `r age_mean`; *SD* = `r age_sd`) on Prolific. They were randomly assigned to one of the three conditions of the experiment. Participants were excluded if they showed irregular reaction times (e.g. three absolute deviations away from the median in the log-transformed space) or their responses in the filler tasks indicated low engagement with the experiment. All exclusion criteria were pre-registered. The final sample included `r sum(sample_n$n)` participants (Curiosity: *N* = `r filter(all_conditions_filtered, task_type == "curiosity")$n`; Memory: *N* = `r filter(all_conditions_filtered, task_type == "memory")$n`; Math: *N* = `r filter(all_conditions_filtered, task_type == "math")$n`).
+
+
+
+## Results 
+
+```{r include=FALSE}
+#preregistration: log(looking time) ~ I((exp(1)**(-trial_number))) * item_type * trial_complexity + (trial_number * item_type * trial_complexity|subject)
+
+# didn't converge 
+#model_0 <- lme4::lmer(log(trial_looking_time) ~ I(exp(1)**(-trial_number)) * trial_type * block_type + (trial_number * trial_type * block_type | subject),data = d)
+
+model_1 <- lmerTest::lmer(log(trial_looking_time) ~ I(exp(1)**(-trial_number)) * trial_type * block_type + (1 | subject), data = d)
+summary(model_1)
+
+```
+
+
+```{r include=FALSE}
+complexity_summary <- d_complexity %>% 
+  mutate(complexity_type = case_when(
+    grepl("complex", stimulus) ~ "complex", 
+    grepl("simple", stimulus) ~ "simple"
+  )) %>% 
+  group_by(complexity_type) %>% 
+  summarise(
+    mean = round(mean(rating),2), 
+    sd = round(sd(rating),2)
+  )
+
+model_1 <- lm(rating ~ complexity_type, data = d_complexity %>% 
+  mutate(complexity_type = case_when(
+    grepl("complex", stimulus) ~ "complex", 
+    grepl("simple", stimulus) ~ "simple"
+  )) )
+summary(model_1)
+
+```
+
+
+The sample size, methods, and main analyses were all pre-registered and are available at https://aspredicted.org/3CR_VDR. Data and analysis scripts are available at https://github.com/anjiecao/pokebaby_CogSci2022
+
+We first checked whether the basic complexity manipulations were successful. Complex animated creatures were rated as more perceptually complex (*M* = `r filter(complexity_summary, complexity_type == "complex")$mean` ; *SD* = `r filter(complexity_summary, complexity_type == "complex")$sd`) than the simple animated creatures (*M* = `r filter(complexity_summary, complexity_type == "simple")$mean`; *SD* = `r filter(complexity_summary, complexity_type == "simple")$mean`; *p* < 0.001). 
+
+Next, we tested whether the task (Curiosity, Memory, or Math) affected reaction times in self-paced viewing (our measure of interest). There were no task effects so we averaged all results across the three conditions. 
+
+We were interested in whether our paradigm successfully captured the characteristic looking time patterns observed in infant literature: habituation (the decrease in looking time for a stimulus with repeated presentations), dishabituation (the increase in looking time to a new stimulus after habituated to one stimulus), and complexity effects (longer looking time for perceptually more complex stimuli). The visualization of our results suggests that we reproduce the phenomena qualitatively (Fig. 3, row 1). To evaluate the phenomena quantitatively, we ran a linear mixed effects model with maximal random effect structure. The predictors included in the model were a three-way interaction term between the trial number (modeled as an exponential decay; Kail, 1991), the type of trial (background vs. deviant) and the complexity of the stimuli (simple vs. complex). The model failed to converge, so we pruned the model following the pre-registered procedure. The final model included per-subject random intercepts. All predictors except for the three-way interaction were significant in the model (all *p* < .001), providing a quantitative confirmation that our paradigm successfully captured the key looking time patterns: habituation (trial number), dishabituation (the deviant effect), and complexity (the stimulus complexity effect). We next tested whether we could capture these behavioral results using the RANCH model.

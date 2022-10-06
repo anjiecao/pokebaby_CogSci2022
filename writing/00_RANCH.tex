@@ -285,8 +285,8 @@ in the questions asked following each block: Curiosity, Memory, and
 Math. In the Curiosity condition, participants were asked to rate ``How
 curious are you about the creature?'' on a 5-point Likert scale. In the
 Memory condition, a forced-choice recognition question followed each
-block (``Have you seen this creature before?'' showing either a creature
-presented in the preceding block or a novel creature matched in
+block (``Have you seen this creature before?'', showing either a
+creature presented in the preceding block or a novel creature matched in
 complexity). In the Math condition, the participants were asked a simple
 arithmetic question (``What is 5 + 7?'') in a multiple-choice format.
 
@@ -355,7 +355,7 @@ noisy samples inform the learner's hypothesis about a probabilistic
 concept represented by a set of binary features (Figure 2). Like our
 participants, the model needs to decide at every step whether to keep
 looking at the current stimulus or terminate the trial by ``looking
-away.''
+away''.
 
 \begin{CodeChunk}
 \begin{figure}[H]
@@ -486,7 +486,7 @@ We performed an iterative grid search in parameter space. We a priori
 constrained our parameter space on the prior beta distribution to have
 shape parameters \(\alpha_{\theta} > \beta_{\theta}\), which describe
 the prior beliefs as ``more likely to see the absence of a feature than
-the presence of a feature.'' We then searched for the priors over the
+the presence of a feature''. We then searched for the priors over the
 concept (\(\theta\)), the noise parameter that decides how likely a
 feature would be misperceived (\(\epsilon\)), and the constant EIG from
 the environment (\(EIG(env)\)). The prior over the noise parameter was
@@ -529,8 +529,8 @@ Model Type (Linking Hypothesis) & Pearson's r & RMSE \\
   \hline
 RANCH (EIG) & 0.92 [0.84, 0.96] & 0.19 [0.16, 0.24] \\ 
   Baseline: No Learning & 0.21 [-0.09, 0.46] & 0.27 [0.23, 0.34] \\ 
-  Baseline: No Noise & 0.5 [0.36, 0.65] & 0.25 [0.21, 0.31] \\ 
-  RANCH (Surprisal) & 0.92 [0.85, 0.95] & 0.13 [0.11, 0.16] \\ 
+  Baseline: No Noise & 0.5 [0.35, 0.64] & 0.25 [0.21, 0.31] \\ 
+  RANCH (Surprisal) & 0.92 [0.86, 0.95] & 0.13 [0.11, 0.16] \\ 
   RANCH (KL-divergence) & 0.93 [0.88, 0.96] & 0.12 [0.1, 0.15] \\ 
    \hline
 \end{tabular}
@@ -633,8 +633,8 @@ hypotheses highlights the significance of learning contexts. Our results
 should not be interpreted as evidence showing that the three linking
 hypotheses are indistinguishable across all learning contexts. Previous
 work has shown that adopting surprisal as learning policy can lead to
-undesirable behaviors in artificial agents (e.g.~{``the white noise
-problem,''} Oudeyer et al., 2007). Moreover, the two alternative linking
+undesirable behaviors in artificial agents (e.g.~``the white noise
+problem,'' Oudeyer et al., 2007). Moreover, the two alternative linking
 hypotheses are backward-looking metrics that utilize heuristics about
 the past to make decisions. This characteristic could constrain their
 application to situations in which the environment is stable and the
@@ -683,7 +683,7 @@ decide what to look at, and when to stop looking.
 \noindent
 
 \hypertarget{refs}{}
-\begin{CSLReferences}
+\begin{CSLReferences}{1}{0}
 \leavevmode\vadjust pre{\hypertarget{ref-aslin2007s}{}}%
 Aslin, R. N. (1991). Development of processing speed in childhood and
 adolescence. \emph{Advances in Child Development and Behavior},
@@ -733,7 +733,7 @@ Fantz, R. L. (1963). Pattern vision in newborn infants. \emph{Science},
 
 \leavevmode\vadjust pre{\hypertarget{ref-frank2017collaborative}{}}%
 Frank, M. C., Bergelson, E., Bergmann, C., Cristia, A., Floccia, C.,
-Gervain, J., \ldots{} others. (2017). A collaborative approach to infant
+Gervain, J., et al.others. (2017). A collaborative approach to infant
 research: Promoting reproducibility, best practices, and
 theory-building. \emph{Infancy}, \emph{22}(4), 421--435.
 
@@ -758,9 +758,9 @@ interpretation too costly? \emph{Infant Behavior and Development},
 
 \leavevmode\vadjust pre{\hypertarget{ref-hills2015exploration}{}}%
 Hills, T. T., Todd, P. M., Lazer, D., Redish, A. D., Couzin, I. D.,
-Group, C. S. R.others. (2015). Exploration versus exploitation in space,
-mind, and society. \emph{Trends in Cognitive Sciences}, \emph{19}(1),
-46--54.
+Group, C. S. R., et al. (2015). Exploration versus exploitation in
+space, mind, and society. \emph{Trends in Cognitive Sciences},
+\emph{19}(1), 46--54.
 
 \leavevmode\vadjust pre{\hypertarget{ref-hunter1988multifactor}{}}%
 Hunter, M. A., \& Ames, E. W. (1988). A multifactor model of infant
@@ -838,7 +838,7 @@ Tenenbaum, J. B. (1999). Bayesian modeling of human concept learning.
 
 \leavevmode\vadjust pre{\hypertarget{ref-vogelstein2022prospective}{}}%
 Vogelstein, J. T., Verstynen, T., Kording, K. P., Isik, L., Krakauer, J.
-W., Etienne-Cummings, R., \ldots{} others. (2022). Prospective learning:
+W., Etienne-Cummings, R., et al.others. (2022). Prospective learning:
 Back to the future. \emph{arXiv Preprint arXiv:2201.07372}.
 
 \end{CSLReferences}

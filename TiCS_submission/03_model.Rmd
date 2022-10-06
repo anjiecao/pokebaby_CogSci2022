@@ -1,0 +1,242 @@
+RANCH treats the learning problem that participants face in our experiment as a form of Bayesian concept learning [@goodman2008rational;@tenenbaum1999bayesian]. In this setting, multiple noisy samples inform the learner’s hypothesis about a probabilistic concept represented by a set of binary features (Figure 2). Like our participants, the model needs to decide at every step whether to keep looking at the current stimulus or terminate the trial by "looking away".
+
+```{r echo = FALSE, fig.env = "figure", fig.pos = "H", fig.align='center', fig.width=2, fig.height=2, set.cap.width=T, num.cols.cap=1, fig.cap = "Graphical representation of RANCH. Circles indicate random variables. The square indicates fixed model parameters."}
+img <- png::readPNG("figs/plate_diagram.png")
+grid::grid.raster(img)
+```
+
+
+The formulation of the learner as taking noisy samples from a stimulus allows us to do two things. First, we can explicitly model the learner's decision about when to stop sampling by asking the model to decide, after every sample, whether it wants to continue sampling from the same stimulus or not. This aspect of RANCH contrasts with previous models, which correlate information-theoretic measures to looking data overall [@kidd2012goldilocks; @poli2020infants] but do not provide a mechanism for how these measures could control moment-to-moment sampling decisions. Second, a consequence of making a decision at every time step is that we can study the behavior of another information-theoretic measure: the model’s expected information gain (EIG). EIG is commonly used in rational analyses of information-seeking behavior to assess whether information-seeking is optimal with respect to the learning task [@markant2012does; @oaksford1994rational]. 
+
+## Model definition 
+
+In our setting, the goal is to learn a concept $\theta$, which is a set of probabilities over independent binary features $\theta_{1,2,..,n}$, where $n$ is the number of features. $\theta$ in turn generates exemplars $y$: instantiations of $\bar{\theta}$, where each feature $y_{1,2,..,n}$ is present or absent. The weights on each feature $\theta_i$ are sampled from a Beta prior, and individual exemplars $y_i$ are distributed as a binomial with parameter $\theta_i$, forming a conjugate Beta-Bernoulli distribution. Since the features are independent, this relationship holds for the entire concept $\theta$. 
+
+To model the timecourse of attention, RANCH does not observe exemplars directly. Instead, it can observe repeated noisy samples $\bar{z}$ from each exemplar. For any sample $z$ from an exemplar $y$ there is a small probability $\epsilon$ that the observation is flipped and the feature is seen to be present when it was actually absent or vice versa. $\epsilon$ is assumed to be unknown but to have a Beta prior; in practice, we integrate over all possible values of $\epsilon$. Therefore, by making noisy observations $\bar{z}$, RANCH obtains information about the true identity of the exemplar $y$, and by extension, about the concept $\bar{\theta}$. By Bayes’ rule:
+
+\begin{eqnarray}
+P(\theta|\bar{z}) &= p(\bar{z}|y) p(y|\theta) p(\theta) / p(\bar{z})
+\end{eqnarray}
+
+To compute approximate posterior probability distributions during inference, we used a discrete grid approximation with a step size of .001 over both $\theta$ and $\epsilon$.
+
+Upon observing a sample, RANCH then decides whether to keep sampling or not. We chose EIG from the next sample as the main linking hypothesis between the learned posterior and sampling choice.
+
+RANCH computes EIG by iterating through each possible next observation and weighing the information gain from each observation by its posterior predictive probability $p(z|\theta)$. We defined information gain as the KL between the hypothetical posterior after observing a future sample $z_{t+1}$ and the current posterior [@baldi2010bits]:
+
+\begin{eqnarray}
+EIG(z_{t+1}) = \sum_{z_{t+1} \in [0,1]} p(z_{t+1}|\theta_t) * D_{KL}(\theta_{t+1} || p(\theta_t))
+\end{eqnarray}
+
+Finally, to get actual sampling behavior from the model, it has to convert EIG into a binary decision about whether to continue looking at the current sample, or to advance to the next trial. The model does so via a Luce choice between the EIG from the next sample and a constant “environmental EIG” that is assumed to be the amount of information to be gained via looking away from the stimulus.
+
+\begin{eqnarray}
+p(look away) = \frac{EIG(env)}{EIG(z_{t+1})+EIG(env)}
+\end{eqnarray}
+
+The basic structure of the model can be described in the following pseudocode:
+
+\begin{algorithm}
+  \caption*{RANCH model}\label{msn}
+  \begin{algorithmic}
+  \For{each exemplar y}
+    \State{$sample \gets T$}
+    \While{$sample$ take another sample z}
+    \State{update posterior $P(\theta|z)$}
+    \State{compute EIG of next sample $z_{t+1}$}
+    \State{flip $coin$ with $p(lookaway) = \frac{EIG(env)}{EIG(z_{t+1})+EIG(env)}$}
+    \If{$coin = T$}
+    \State{$sample \gets F$}
+    \EndIf
+    \EndWhile
+  \EndFor
+\end{algorithmic}
+  \end{algorithm}
+
+
+<!-- \begin{algorithm} -->
+<!--   \caption*{RANCH model}\label{msn} -->
+<!--   \begin{algorithmic} -->
+<!--   \NoDo{} -->
+<!--   \For{each exemplar y} -->
+<!--     \State{$sample \gets T$} -->
+<!--     \While{$sample$ take another sample z} -->
+<!--     \State{update posterior $P(\theta|z)$} -->
+<!--     \State{compute EIG of next sample $z_{t+1}$} -->
+<!--     \State{flip $coin$ with $p(lookaway) = \frac{EIG(env)}{EIG(z_{t+1})+EIG(env)}$} -->
+<!--     \NoThen{} -->
+<!--     \If{$coin = T$} -->
+<!--     \State{$sample \gets F$} -->
+<!--     \EndIf -->
+<!--     \EndWhile -->
+<!--   \EndFor -->
+<!-- \end{algorithmic} -->
+<!--   \end{algorithm} -->
+
+
+## Simulations
+
+To model the behavioral experiment, we first represented the stimuli as binary-valued vectors indicating the presence (1) or absence (0) of each feature. All stimulus vectors were chosen to be length 6 to provide sufficient representational flexibility. Complex stimuli were represented as having three 1s and simple stimuli were represented as having one 1, with the rest of the features set to 0. Individual stimuli were then assembled into sequences to reflect the stimuli sequences in the behavioral experiment. For a particular sequence, we constructed the deviant stimulus based on the background stimulus to make sure that they were always maximally different and had the same number of features present. 
+
+Since the model makes stochastic choices about how many samples to take from each stimulus, behavior varies substantially across runs. Thus, we conducted 500 runs for each stimuli sequence and parameter value to obtain a reasonably precise estimate of the model’s behavior. 
+
+
+## Parameter estimation
+
+
+```{r getparams, include=FALSE}
+
+c_model_params <- c_res %>% 
+  distinct(im_type, params_info) %>% 
+  separate(params_info, into = c("ae", "ae_val", 
+                                 "be", "be_val", 
+                                 "ap", "ap_val", 
+                                 "bp", "bp_val", 
+                                 "np", "np_val", 
+                                 "wEIG", "wEIG_val"), 
+           sep = "_")
+```
+
+
+We performed an iterative grid search in parameter space. We a priori constrained our parameter space on the prior beta distribution to have shape parameters $\alpha_{\theta} > \beta_{\theta}$, which describe the prior beliefs as “more likely to see the absence of a feature than the presence of a feature”. We then searched for the priors over the concept ($\theta$), the noise parameter that decides how likely a feature would be misperceived ($\epsilon$), and the constant EIG from the environment ($EIG(env)$). The prior over the noise parameter was fixed for all searches ($\alpha_{\epsilon}$ = 1;$\beta_{\epsilon}$ = 10). We selected the parameters that achieved the highest correlation with the behavioral data averaged across participants and blocks ($\alpha_{\theta}$ = `r filter(c_model_params, im_type == "EIG")$ap_val`, $\beta_{\theta}$ = `r filter(c_model_params, im_type == "EIG")$bp_val`, $\epsilon$ = `r filter(c_model_params, im_type == "EIG")$np_val`, $EIG(env)$ = `r filter(c_model_params, im_type == "EIG")$wEIG_val`). No parameter regimes showed qualitatively different patterns, though the magnitude of dishabituation was strongly dependent on the priors over $\theta$; a test of the generality of these specific parameter values is left for future work. 
+
+
+
+
+
+
+## Results 
+
+```{r echo = FALSE, fig.width=6, fig.height=5, fig.align = "center",  out.width = "\\textwidth", fig.cap = "The first row shows behavioral data. All models’ results were adjusted to match behavioral data’s scale and intercepts for easier comparisons. All results were log-transformed. Red lines indicate results for complex stimuli, and blue lines indicate results for simple stimuli."}
+
+viz_df <- bind_rows(nn_res, r_res, c_res) %>%
+  mutate(res_type = im_type,
+        res_val = scaled_log_sample_n) %>%
+  select(res_type, complexity, trial_number, sequence_scheme_print, res_val) %>%
+  bind_rows(
+    b_res_print %>% mutate(res_type = "behavioral", res_val = log_trial_looking_time) %>%
+      select(res_type, complexity, trial_number, sequence_scheme_print, res_val)
+  ) %>%
+  mutate(res_type_print = case_when(
+    res_type == "surprisal" ~ "Surprisal",
+    res_type == "EIG_nn" ~ "No Noise",
+    res_type == "random" ~ "No Learning",
+    res_type == "EIG" ~ "EIG",
+    res_type == "KL" ~ "KL",
+    res_type == "behavioral" ~ "Behavioral"
+  ))
+
+library(patchwork)
+
+viz_df$res_type_print <- factor(viz_df$res_type_print, levels = c("Behavioral", "EIG", "No Learning", "No Noise",  "Surprisal", "KL"))
+viz_df$sequence_scheme_print <- factor(viz_df$sequence_scheme_print,
+                                       levels = c("No Deviant",  "Deviant at 2nd Trial",
+                                                  "Deviant at 4th Trial", "Deviant at Last Trial"))
+
+behavioral_plot <- viz_df %>%
+  filter(res_type_print == "Behavioral") %>%
+   ggplot(aes(x = trial_number, y = res_val, color = complexity)) +
+  stat_summary(fun.data = "mean_cl_boot", position = position_dodge(width = .2),  fatten = 0) +
+   stat_summary(fun.data = "mean_cl_boot",
+                geom = "line", position = position_dodge(width = .2)) + ylab('Looking time \n (log msec)') +
+  facet_grid(res_type_print~sequence_scheme_print) +
+  scale_x_continuous(breaks = seq(1, 6, 1)) + scale_y_continuous(breaks = c(7.5, 8.0, 8.5)) +
+  theme_classic() +
+  langcog::scale_color_solarized(name = "Trial Complexity",labels = c("Complex", "Simple")) +
+  theme(strip.background = element_blank(),
+        strip.text.y = element_text(size = 6),
+        #strip.text.x = element_blank(),
+        axis.title.x = element_blank(),
+        axis.title.y = element_text(size = 8),
+        axis.line.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.text.y = element_text(size = 6),
+        legend.position = "none",
+        panel.border = element_rect(color = "black", fill = NA)
+        )
+
+model_plot <- viz_df %>%
+  filter(res_type_print != "Behavioral") %>%
+  ggplot(aes(x = trial_number, y = res_val, color = complexity)) +
+  stat_summary(fun.data = "mean_cl_boot", position = position_dodge(width = .2),  fatten = 0) +
+   stat_summary(fun.data = "mean_cl_boot",
+                geom = "line", position = position_dodge(width = .2)) + ylab('Model samples (scaled)') +
+  facet_grid(res_type_print~sequence_scheme_print) +
+  scale_x_continuous(breaks = seq(1, 6, 1)) +
+  theme_classic() +
+  langcog::scale_color_solarized(name = "Trial Complexity",labels = c("Complex", "Simple")) +
+  xlab("Trial Number") +
+  theme(strip.background = element_blank(),
+        strip.text.y = element_text(size = 6),
+        strip.text.x = element_blank(),
+        axis.title.x = element_blank(),
+        axis.title.y = element_text(size = 8),
+        axis.text.y = element_text(size = 6),
+        legend.position = "bottom")
+
+behavioral_plot + model_plot + plot_layout(heights = c(1, 5))
+```
+
+
+
+RANCH exhibited the main phenomena of interest, showing habituation, dishabituation, and complexity effects (Fig. 3, row 2). We also quantitatively explored the model by fitting the model results to the behavioral data (See Table 1, row 1). Overall RANCH achieved a good fit, though it did show a slightly more gradual habituation process than the behavioral data.
+
+
+
+
+```{r, message=FALSE}
+
+scaled_eig_res_sum <- summarise_scaled_tidy_sim_res(c_res %>% filter(im_type == "EIG"))
+scaled_kl_res_sum <- summarise_scaled_tidy_sim_res(c_res %>% filter(im_type == "KL"))
+scaled_s_res_sum <- summarise_scaled_tidy_sim_res(c_res %>% filter(im_type == "surprisal"))
+scaled_r_res_sum <- summarise_scaled_tidy_sim_res(r_res)
+scaled_nn_res_sum <- summarise_scaled_tidy_sim_res(nn_res)
+
+eig_sim_b_res <- scaled_eig_res_sum %>% 
+  left_join(b_res_summary, by = c("trial_number", "sequence_scheme", "sequence_scheme_print", "complexity")) 
+kl_sim_b_res <- scaled_kl_res_sum %>% 
+  left_join(b_res_summary, by = c("trial_number", "sequence_scheme", "sequence_scheme_print", "complexity"))
+s_sim_b_res <- scaled_s_res_sum %>% 
+  left_join(b_res_summary, by = c("trial_number", "sequence_scheme", "sequence_scheme_print", "complexity"))
+r_sim_b_res <- scaled_r_res_sum %>% 
+  left_join(b_res_summary, by = c("trial_number", "sequence_scheme", "sequence_scheme_print", "complexity"))
+nn_sim_b_res <- scaled_nn_res_sum %>% 
+  left_join(b_res_summary, by = c("trial_number", "sequence_scheme", "sequence_scheme_print", "complexity"))
+
+
+
+df_compare_eig <- calculate_scaled_correlation(eig_sim_b_res) %>% mutate(type = "RANCH (EIG)")
+df_compare_kl <- calculate_scaled_correlation(kl_sim_b_res) %>% mutate(type = "RANCH (KL-divergence)")
+df_compare_surpirsal <- calculate_scaled_correlation(s_sim_b_res) %>% mutate(type = "RANCH (Surprisal)")
+df_compare_random <- calculate_scaled_correlation(r_sim_b_res) %>% mutate(type = "Baseline: No Learning")
+df_compare_nn <- calculate_scaled_correlation(nn_sim_b_res) %>% mutate(type = "Baseline: No Noise")
+
+tb_df <- bind_rows(df_compare_eig, df_compare_random, df_compare_nn, df_compare_surpirsal, df_compare_kl) %>% 
+  ungroup() %>% 
+  mutate(r_in_log_print = paste0(round(r_in_log, 2), " ", r_in_log_ci),
+         rmse_in_log_print = paste0(round(rmse_in_log, 2), " ", rmse_in_log_ci)) %>% 
+  mutate(`Pearson's r` = r_in_log_print, 
+         "RMSE" = rmse_in_log_print, 
+         `Model Type (Linking Hypothesis)` = type) %>% 
+  select( `Model Type (Linking Hypothesis)`, `Pearson's r`, 
+          RMSE) %>% 
+  as.data.frame()
+
+rownames(tb_df) <- NULL
+# this is for cogsci format 
+#  table <- xtable::xtable(as.matrix(tb_df),  
+#                         caption = "This table shows the correlations between the log-transformed model results and the log-transformed looking time data. The values in square brackets are 95\\% confidence intervals. RANCH model implemented with the three different linking hypotheses showed similar performance with slight numerical differences and outperformed the baseline models.")
+#  
+#  print(table, include.rownames = FALSE, comment = FALSE,
+#               size="\\fontsize{8pt}{9pt}\\selectfont")
+
+
+
+apa_table(
+  tb_df
+  , caption = "Model fits"
+  , note = "This table shows the correlations between the log-transformed model results and the log-transformed looking time data. The values in square brackets are 95% confidence intervals. RANCH model implemented with the three different linking hypotheses showed similar performance with slight numerical differences and outperformed the baseline models."
+  , escape = TRUE
+)
+```
